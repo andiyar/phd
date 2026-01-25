@@ -1,0 +1,2909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DREAMS Trial - Journal Analysis Dashboard</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            /* Core palette */
+            --bg-deep: #0f0f17;
+            --bg-card: #1a1a2e;
+            --bg-elevated: #252540;
+            --text-primary: #faf8f5;
+            --text-secondary: #a0a0b0;
+            --text-muted: #6a6a7a;
+
+            /* Journal colors */
+            --jpsm: #3d8b8b;
+            --jpsm-light: #5ab5b5;
+            --pallmed: #a65d6f;
+            --pallmed-light: #d07a8f;
+            --bmj: #5a6a8a;
+            --bmj-light: #7a8aaa;
+            --ajhpm: #7a5a8a;
+            --ajhpm-light: #9a7aaa;
+            --jpm: #5a7a6a;
+            --jpm-light: #7a9a8a;
+            --bmcpall: #8a6a5a;
+            --bmcpall-light: #aa8a7a;
+
+            /* Accent */
+            --gold: #d4a574;
+            --gold-light: #e8c9a8;
+            --success: #6abf8a;
+            --warning: #e8a84a;
+            --danger: #d45a5a;
+
+            /* Typography */
+            --font-display: 'Cormorant Garamond', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+
+            /* Spacing */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+
+            /* Borders */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-deep) 100%);
+            padding: var(--space-3xl) var(--space-xl);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(61, 139, 139, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(166, 93, 111, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(212, 165, 116, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--space-sm);
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .subtitle {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+        }
+
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-xl);
+            flex-wrap: wrap;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .header-meta span {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        /* ===== NAVIGATION ===== */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 15, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: var(--space-md) var(--space-xl);
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: var(--space-sm) var(--space-lg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-xl);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .nav-btn.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--bg-deep);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-2xl) var(--space-xl);
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            margin-bottom: var(--space-3xl);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-md);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .section-header .badge {
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            background: rgba(212, 165, 116, 0.15);
+            color: var(--gold);
+        }
+
+        /* ===== JOURNAL CARDS ===== */
+        .journal-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .journal-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .journal-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .journal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .journal-card.jpsm::before { background: var(--jpsm); }
+        .journal-card.pallmed::before { background: var(--pallmed); }
+        .journal-card.bmj::before { background: var(--bmj); }
+        .journal-card.ajhpm::before { background: var(--ajhpm); }
+
+        .journal-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-lg);
+            min-height: 5.5rem;
+        }
+
+        .journal-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--space-xs);
+        }
+
+        .journal-card.jpsm h3 { color: var(--jpsm-light); }
+        .journal-card.pallmed h3 { color: var(--pallmed-light); }
+        .journal-card.bmj h3 { color: var(--bmj-light); }
+        .journal-card.ajhpm h3 { color: var(--ajhpm-light); }
+
+        .journal-card .abbrev {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .journal-card .if-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+
+        .journal-card .scope {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        .journal-card .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+            padding: var(--space-md);
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-md);
+        }
+
+        .journal-card .stat {
+            text-align: center;
+        }
+
+        .journal-card .stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .journal-card .stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        .journal-card .links {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        .journal-card .link {
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .journal-card .link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        /* ===== DECISION MATRIX ===== */
+        .decision-matrix {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .matrix-table th,
+        .matrix-table td {
+            padding: var(--space-md) var(--space-lg);
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .matrix-table th {
+            font-family: var(--font-display);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .matrix-table th.jpsm { color: var(--jpsm-light); }
+        .matrix-table th.pallmed { color: var(--pallmed-light); }
+        .matrix-table th.bmj { color: var(--bmj-light); }
+        .matrix-table th.ajhpm { color: var(--ajhpm-light); }
+        .matrix-table th.rec { color: var(--gold); }
+
+        .matrix-table td {
+            font-size: 0.875rem;
+        }
+
+        .matrix-table td:first-child {
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .matrix-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .matrix-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .cell-best {
+            background: rgba(106, 191, 138, 0.15);
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .cell-good {
+            background: rgba(232, 168, 74, 0.1);
+            color: var(--warning);
+        }
+
+        .cell-ok {
+            color: var(--text-secondary);
+        }
+
+        .cell-poor {
+            color: var(--danger);
+        }
+
+        .cell-published {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .status-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+        }
+
+        .status-published {
+            background: rgba(106, 191, 138, 0.2);
+            color: var(--success);
+        }
+
+        .status-rework {
+            background: rgba(232, 168, 74, 0.2);
+            color: var(--warning);
+        }
+
+        .status-pending {
+            background: rgba(160, 160, 176, 0.2);
+            color: var(--text-secondary);
+        }
+
+        .rec-cell {
+            background: rgba(212, 165, 116, 0.1);
+            font-weight: 600;
+            color: var(--gold);
+        }
+
+        /* ===== CHARTS GRID ===== */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .chart-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .chart-card h4 {
+            font-family: var(--font-display);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: var(--space-lg);
+            color: var(--text-primary);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        .chart-container.tall {
+            height: 400px;
+        }
+
+        /* ===== METHODOLOGY BREAKDOWN ===== */
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-lg);
+        }
+
+        @media (max-width: 1200px) {
+            .methodology-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .methodology-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .methodology-card h4 {
+            font-family: var(--font-display);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: var(--space-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .methodology-card.jpsm h4 { color: var(--jpsm-light); }
+        .methodology-card.pallmed h4 { color: var(--pallmed-light); }
+        .methodology-card.bmj h4 { color: var(--bmj-light); }
+        .methodology-card.ajhpm h4 { color: var(--ajhpm-light); }
+
+        .methodology-list {
+            list-style: none;
+        }
+
+        .methodology-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .methodology-item:last-child {
+            border-bottom: none;
+        }
+
+        .methodology-item .name {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .methodology-item .value {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .methodology-item.highlight .name,
+        .methodology-item.highlight .value {
+            color: var(--gold);
+        }
+
+        .methodology-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin-top: var(--space-xs);
+            overflow: hidden;
+        }
+
+        .methodology-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.6s ease;
+        }
+
+        .methodology-card.jpsm .methodology-bar-fill { background: var(--jpsm); }
+        .methodology-card.pallmed .methodology-bar-fill { background: var(--pallmed); }
+        .methodology-card.bmj .methodology-bar-fill { background: var(--bmj); }
+        .methodology-card.ajhpm .methodology-bar-fill { background: var(--ajhpm); }
+
+        /* ===== TRENDS SECTION ===== */
+        .trends-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--space-lg);
+        }
+
+        @media (max-width: 1000px) {
+            .trends-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .trend-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .trend-card h4 {
+            font-family: var(--font-display);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: var(--space-lg);
+            color: var(--text-primary);
+        }
+
+        .trend-items {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .trend-year {
+            padding: var(--space-md);
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-md);
+        }
+
+        .trend-year h5 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: var(--space-sm);
+        }
+
+        .trend-year ul {
+            list-style: none;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .trend-year li {
+            padding: var(--space-xs) 0;
+            padding-left: var(--space-md);
+            position: relative;
+        }
+
+        .trend-year li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--text-muted);
+        }
+
+        /* ===== YOUR PAPERS SECTION ===== */
+        .papers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .paper-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .paper-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gold);
+        }
+
+        .paper-card.published::before {
+            background: var(--success);
+        }
+
+        .paper-card.rework::before {
+            background: var(--warning);
+        }
+
+        .paper-number {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.05);
+            position: absolute;
+            top: var(--space-md);
+            right: var(--space-lg);
+        }
+
+        .paper-card h4 {
+            font-family: var(--font-display);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: var(--space-xs);
+            color: var(--text-primary);
+        }
+
+        .paper-card .methodology {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: var(--space-md);
+        }
+
+        .paper-card .status {
+            margin-bottom: var(--space-lg);
+        }
+
+        .paper-card .target {
+            padding: var(--space-md);
+            background: rgba(212, 165, 116, 0.1);
+            border-radius: var(--radius-md);
+            border-left: 3px solid var(--gold);
+        }
+
+        .paper-card .target-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: var(--space-xs);
+        }
+
+        .paper-card .target-journal {
+            font-weight: 600;
+            color: var(--gold);
+        }
+
+        .paper-card .rationale {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: var(--space-sm);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: var(--space-2xl);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        /* ===== UTILITIES ===== */
+        .hidden {
+            display: none !important;
+        }
+
+        .view-section {
+            display: none;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .journal-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .matrix-table {
+                font-size: 0.75rem;
+            }
+
+            .matrix-table th,
+            .matrix-table td {
+                padding: var(--space-sm);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1>Journal Analysis Dashboard</h1>
+            <p class="subtitle">DREAMS Clinical Trial PhD Thesis — Publication Strategy</p>
+            <div class="header-meta">
+                <span>📊 ~2,557 articles analyzed</span>
+                <span>📅 January 2024 – February 2026</span>
+                <span>📚 6 journals × 100% coverage</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <button class="nav-btn active" data-view="overview">Overview</button>
+            <button class="nav-btn" data-view="comparison">Methodology Comparison</button>
+            <button class="nav-btn" data-view="trends">Trends</button>
+            <button class="nav-btn" data-view="papers">Your Papers</button>
+            <button class="nav-btn" data-view="jpsm">JPSM</button>
+            <button class="nav-btn" data-view="pallmed">Palliative Medicine</button>
+            <button class="nav-btn" data-view="bmj">BMJ Supp Pall</button>
+            <button class="nav-btn" data-view="jpm">JPM</button>
+            <button class="nav-btn" data-view="bmcpall">BMC Pall</button>
+            <button class="nav-btn" data-view="ajhpm">AJHPM</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main">
+
+        <!-- ===== OVERVIEW VIEW ===== -->
+        <div class="view-section active" id="view-overview">
+
+            <!-- Decision Matrix -->
+            <section class="section">
+                <div class="section-header">
+                    <h2>Decision Matrix – Submission Cascade</h2>
+                    <span class="badge">All 6 Journals</span>
+                </div>
+
+                <div class="decision-matrix">
+                    <table class="matrix-table">
+                        <thead>
+                            <tr>
+                                <th>Paper</th>
+                                <th style="background: var(--jpsm); color: white;">JPSM</th>
+                                <th style="background: var(--pallmed); color: white;">PallMed</th>
+                                <th style="background: var(--bmj); color: white;">BMJ</th>
+                                <th style="background: var(--jpm); color: white;">JPM</th>
+                                <th style="background: var(--bmcpall); color: white;">BMC</th>
+                                <th style="background: var(--ajhpm); color: white;">AJHPM</th>
+                                <th class="rec">Cascade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Paper 1</strong><br>
+                                    <small style="color: var(--text-secondary)">DREAMS Trial Protocol</small><br>
+                                    <small style="color: var(--text-muted); font-size: 0.7rem">Study Protocol</small>
+                                </td>
+                                <td class="cell-poor">~0%</td>
+                                <td class="cell-poor">~0%</td>
+                                <td class="cell-poor">~0%</td>
+                                <td class="cell-poor">~0%</td>
+                                <td class="cell-ok">1.8%</td>
+                                <td class="cell-poor">~0%</td>
+                                <td class="rec-cell">
+                                    <span class="status-badge status-published">PUBLISHED</span><br>
+                                    <small>JMIR Res Protoc Sep 2024</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Paper 2</strong><br>
+                                    <small style="color: var(--text-secondary)">Dexmedetomidine vs Midazolam</small><br>
+                                    <small style="color: var(--text-muted); font-size: 0.7rem">Randomised Controlled Trial</small>
+                                </td>
+                                <td class="cell-best">✓ 8.1%</td>
+                                <td class="cell-poor">✗ 3.9%<br><small style="font-size:0.65rem;color:var(--text-muted)">rejected</small></td>
+                                <td class="cell-good">7.7%</td>
+                                <td class="cell-ok">3.3%</td>
+                                <td class="cell-poor">0.3%</td>
+                                <td class="cell-poor">2.5%</td>
+                                <td class="rec-cell">
+                                    <span class="status-badge status-published">PUBLISHED</span><br>
+                                    <small>JPSM Nov 2025</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Paper 3</strong><br>
+                                    <small style="color: var(--text-secondary)">Variation in Breakthrough Use</small><br>
+                                    <small style="color: var(--text-muted); font-size: 0.7rem">Secondary Analysis</small>
+                                </td>
+                                <td class="cell-poor">✗ 5.2%<br><small style="font-size:0.65rem;color:var(--text-muted)">rejected</small></td>
+                                <td class="cell-ok">3.1%</td>
+                                <td class="cell-best">6.2%</td>
+                                <td class="cell-ok">~3%</td>
+                                <td class="cell-ok">~3%</td>
+                                <td class="cell-ok">3.3%</td>
+                                <td class="rec-cell">
+                                    <span class="status-badge status-rework">REWORKING</span><br>
+                                    <small>1st: BMJ → 2nd: JPM → 3rd: BMC</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Paper 4</strong><br>
+                                    <small style="color: var(--text-secondary)">Perceived Quality of Dying</small><br>
+                                    <small style="color: var(--text-muted); font-size: 0.7rem">Qualitative Analysis</small>
+                                </td>
+                                <td class="cell-ok">9.3%</td>
+                                <td class="cell-best">46.1%</td>
+                                <td class="cell-ok">8.2%</td>
+                                <td class="cell-ok">16.7%</td>
+                                <td class="cell-good">28.7%</td>
+                                <td class="cell-ok">12.5%</td>
+                                <td class="rec-cell">
+                                    <span class="status-badge status-pending">IN PROGRESS</span><br>
+                                    <small>1st: PallMed → 2nd: BMC → 3rd: JPM</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Paper 5</strong><br>
+                                    <small style="color: var(--text-secondary)">Consciousness & Sedation in PC</small><br>
+                                    <small style="color: var(--text-muted); font-size: 0.7rem">Systematic Literature Review</small>
+                                </td>
+                                <td class="cell-good">10.7%</td>
+                                <td class="cell-ok">6.5%</td>
+                                <td class="cell-best">15.9%</td>
+                                <td class="cell-poor">2.8%</td>
+                                <td class="cell-good">8.9%</td>
+                                <td class="cell-poor">3.4%</td>
+                                <td class="rec-cell">
+                                    <span class="status-badge status-pending">NOT STARTED</span><br>
+                                    <small>1st: BMJ → 2nd: BMC → 3rd: PallMed</small>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="margin-top: var(--space-lg); padding: var(--space-md); background: var(--bg-elevated); border-radius: var(--radius-md); border-left: 3px solid var(--accent);">
+                    <h4 style="margin-bottom: var(--space-sm); color: var(--accent);">Reading the Matrix – What the Percentages Mean</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.6;">
+                        Each cell shows the <strong>publication rate</strong> for that methodology at that journal (based on 100% ToC analysis).<br><br>
+                        <strong>Paper 1 row (Protocol):</strong> Percentages = proportion of study protocols. Most palliative journals don't publish protocols → JMIR Res Protoc (100% protocols).<br>
+                        <strong>Paper 2 row (RCT):</strong> Percentages = proportion of RCTs published by each journal. JPSM at 8.1% = highest RCT rate.<br>
+                        <strong>Paper 3 row (Secondary Analysis):</strong> Percentages = proportion of secondary/sub-analyses. BMJ at 6.2% = highest SA rate.<br>
+                        <strong>Paper 4 row (Qualitative):</strong> Percentages = proportion of qualitative studies. PallMed at 46.1% = dominant qualitative focus.<br>
+                        <strong>Paper 5 row (SLR):</strong> Percentages = proportion of systematic reviews. BMJ at 15.9% = highest SR rate.<br><br>
+                        <span style="color: var(--success);">✓ Green highlight</span> = best fit journal for that methodology.
+                        <span style="color: var(--warning);">Yellow</span> = viable option.
+                        <span style="color: var(--error);">✗ Red/muted</span> = poor fit or rejected (with actual rate shown).
+                    </p>
+                </div>
+            </section>
+
+            <!-- Journal Cards - Tier 1 -->
+            <section class="section">
+                <div class="section-header">
+                    <h2>Tier 1 – Primary Targets</h2>
+                    <span class="badge">1st Line for DREAMS</span>
+                </div>
+
+                <div class="journal-cards">
+                    <!-- JPSM -->
+                    <div class="journal-card jpsm">
+                        <div class="journal-card-header">
+                            <div>
+                                <h3>Journal of Pain and Symptom Management</h3>
+                                <span class="abbrev">JPSM • Elsevier</span>
+                            </div>
+                            <span class="if-badge">IF: 3.5</span>
+                        </div>
+                        <p class="scope">Broad scope covering pain, symptom management, and palliative care research. Strong quantitative focus with highest RCT rate.</p>
+                        <div class="stats">
+                            <div class="stat">
+                                <div class="stat-value">10.7%</div>
+                                <div class="stat-label">SLR</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">8.1%</div>
+                                <div class="stat-label">RCT</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">5.2%</div>
+                                <div class="stat-label">Sec. Analysis</div>
+                            </div>
+                        </div>
+                        <div class="links">
+                            <a href="https://www.sciencedirect.com/journal/journal-of-pain-and-symptom-management" target="_blank" class="link">Journal Home</a>
+                            <a href="https://www.sciencedirect.com/journal/journal-of-pain-and-symptom-management/publish/guide-for-authors" target="_blank" class="link">Author Guidelines</a>
+                            <a href="https://www.editorialmanager.com/jpsm/" target="_blank" class="link">Submit</a>
+                        </div>
+                    </div>
+
+                    <!-- Palliative Medicine -->
+                    <div class="journal-card pallmed">
+                        <div class="journal-card-header">
+                            <div>
+                                <h3>Palliative Medicine</h3>
+                                <span class="abbrev">PallMed • SAGE / EAPC</span>
+                            </div>
+                            <span class="if-badge">IF: 3.9</span>
+                        </div>
+                        <p class="scope">Official journal of EAPC. Qualitative-dominant. Published RTARG guidelines for thematic analysis.</p>
+                        <div class="stats">
+                            <div class="stat">
+                                <div class="stat-value">46.1%</div>
+                                <div class="stat-label">Qualitative</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">6.5%</div>
+                                <div class="stat-label">SLR</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">3.9%</div>
+                                <div class="stat-label">RCT</div>
+                            </div>
+                        </div>
+                        <div class="links">
+                            <a href="https://journals.sagepub.com/home/pmj" target="_blank" class="link">Journal Home</a>
+                            <a href="https://journals.sagepub.com/author-instructions/PMJ" target="_blank" class="link">Author Guidelines</a>
+                            <a href="https://mc.manuscriptcentral.com/palliative-medicine" target="_blank" class="link">Submit</a>
+                        </div>
+                    </div>
+
+                    <!-- BMJ -->
+                    <div class="journal-card bmj">
+                        <div class="journal-card-header">
+                            <div>
+                                <h3>BMJ Supportive & Palliative Care</h3>
+                                <span class="abbrev">BMJ Supp Pall • BMJ Publishing</span>
+                            </div>
+                            <span class="if-badge">IF: 1.9</span>
+                        </div>
+                        <p class="scope">Clinically-focused with unique sections (How I Do It, State of Science). Highest SLR and secondary analysis rates.</p>
+                        <div class="stats">
+                            <div class="stat">
+                                <div class="stat-value">15.9%</div>
+                                <div class="stat-label">SLR</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">7.7%</div>
+                                <div class="stat-label">RCT</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">6.2%</div>
+                                <div class="stat-label">Sec. Analysis</div>
+                            </div>
+                        </div>
+                        <div class="links">
+                            <a href="https://spcare.bmj.com/" target="_blank" class="link">Journal Home</a>
+                            <a href="https://spcare.bmj.com/pages/authors/" target="_blank" class="link">Author Guidelines</a>
+                            <a href="https://mc.manuscriptcentral.com/bmjspcare" target="_blank" class="link">Submit</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tier 2 Journals -->
+            <section class="section">
+                <div class="section-header">
+                    <h2>Tier 2 – Strong Alternatives</h2>
+                    <span class="badge">Backup Targets</span>
+                </div>
+
+                <div class="journal-cards">
+                    <!-- JPM -->
+                    <div class="journal-card" style="border-color: var(--jpm);">
+                        <div class="journal-card-header">
+                            <div>
+                                <h3>Journal of Palliative Medicine</h3>
+                                <span class="abbrev">JPM • Mary Ann Liebert</span>
+                            </div>
+                            <span class="if-badge">IF: 2.1</span>
+                        </div>
+                        <p class="scope">US clinical focus with unique Fast Facts series. Multiple dexmedetomidine articles published. Strong sedation/delirium coverage.</p>
+                        <div class="stats">
+                            <div class="stat">
+                                <div class="stat-value">16.7%</div>
+                                <div class="stat-label">Qualitative</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">3.3%</div>
+                                <div class="stat-label">RCT</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">2.8%</div>
+                                <div class="stat-label">SLR</div>
+                            </div>
+                        </div>
+                        <div class="links">
+                            <a href="https://www.liebertpub.com/journal/jpm" target="_blank" class="link">Journal Home</a>
+                            <a href="https://www.liebertpub.com/jpm" target="_blank" class="link">Author Guidelines</a>
+                            <a href="https://mc.manuscriptcentral.com/palliative" target="_blank" class="link">Submit</a>
+                        </div>
+                    </div>
+
+                    <!-- BMC Palliative Care -->
+                    <div class="journal-card" style="border-color: var(--bmcpall);">
+                        <div class="journal-card-header">
+                            <div>
+                                <h3>BMC Palliative Care</h3>
+                                <span class="abbrev">BMC Pall • Springer Nature (Open Access)</span>
+                            </div>
+                            <span class="if-badge">IF: 3.0</span>
+                        </div>
+                        <p class="scope">Open access with fast publication. Named Palliative Sedation collection. Best LMIC representation.</p>
+                        <div class="stats">
+                            <div class="stat">
+                                <div class="stat-value">28.7%</div>
+                                <div class="stat-label">Qualitative</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">8.9%</div>
+                                <div class="stat-label">SLR</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">0.3%</div>
+                                <div class="stat-label">RCT</div>
+                            </div>
+                        </div>
+                        <div class="links">
+                            <a href="https://bmcpalliatcare.biomedcentral.com/" target="_blank" class="link">Journal Home</a>
+                            <a href="https://bmcpalliatcare.biomedcentral.com/submission-guidelines" target="_blank" class="link">Author Guidelines</a>
+                            <a href="https://idp-personal-authenticator.springernature.com/gateway?response_type=code&redirect_uri=https%3A%2F%2Fidp.springernature.com%2Fauthed%2Fpersonal&state=f7a2253b-0ea1-4f4d-adba-a85f928d81e4&context_code=12904&target_redirect_uri=https%3A%2F%2Fsubmission.springernature.com%2Fnew-submission%2F12904%2F3&context_type=submission" target="_blank" class="link">Submit</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tier 3 Journals -->
+            <section class="section">
+                <div class="section-header">
+                    <h2>Tier 3 – Backup Options</h2>
+                    <span class="badge">Specialized</span>
+                </div>
+
+                <div class="journal-cards">
+                    <!-- AJHPM -->
+                    <div class="journal-card ajhpm">
+                        <div class="journal-card-header">
+                            <div>
+                                <h3>American Journal of Hospice & Palliative Medicine</h3>
+                                <span class="abbrev">AJHPM • SAGE Publications</span>
+                            </div>
+                            <span class="if-badge">IF: 1.4</span>
+                        </div>
+                        <p class="scope">US hospice/Medicare focused. Strong education/training emphasis. <strong>Not suited for DREAMS papers</strong> – low sedation content.</p>
+                        <div class="stats">
+                            <div class="stat">
+                                <div class="stat-value">12.5%</div>
+                                <div class="stat-label">Qualitative</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">3.4%</div>
+                                <div class="stat-label">SLR</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">2.5%</div>
+                                <div class="stat-label">RCT</div>
+                            </div>
+                        </div>
+                        <div class="links">
+                            <a href="https://journals.sagepub.com/home/ajh" target="_blank" class="link">Journal Home</a>
+                            <a href="https://journals.sagepub.com/author-instructions/AJH" target="_blank" class="link">Author Guidelines</a>
+                            <a href="https://mc.manuscriptcentral.com/ajhpm" target="_blank" class="link">Submit</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Overview Charts -->
+            <section class="section">
+                <div class="section-header">
+                    <h2>At a Glance</h2>
+                    <span class="badge">Key Metrics</span>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h4>Methodology Profile by Journal</h4>
+                        <div class="chart-container">
+                            <canvas id="radarChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <h4>Article Type Distribution</h4>
+                        <div class="chart-container">
+                            <canvas id="articleTypeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ===== COMPARISON VIEW ===== -->
+        <div class="view-section" id="view-comparison">
+            <section class="section">
+                <div class="section-header">
+                    <h2>Methodology Breakdown</h2>
+                    <span class="badge">Side by Side</span>
+                </div>
+
+                <div class="methodology-grid">
+                    <!-- JPSM -->
+                    <div class="methodology-card jpsm">
+                        <h4>
+                            <span style="display: inline-block; width: 12px; height: 12px; background: var(--jpsm); border-radius: 50%;"></span>
+                            JPSM
+                        </h4>
+                        <ul class="methodology-list">
+                            <li class="methodology-item">
+                                <span class="name">Cross-sectional</span>
+                                <span class="value">24.7%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 24.7%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Retrospective cohort</span>
+                                <span class="value">20.9%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 20.9%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Prospective cohort</span>
+                                <span class="value">13.1%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 13.1%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Qualitative</span>
+                                <span class="value">9.3%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 9.3%"></div></div>
+                            </li>
+                            <li class="methodology-item highlight">
+                                <span class="name">RCTs</span>
+                                <span class="value">8.1%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 8.1%; background: var(--gold)"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Mixed methods</span>
+                                <span class="value">6.4%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 6.4%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Secondary analysis</span>
+                                <span class="value">5.2%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 5.2%"></div></div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- PallMed -->
+                    <div class="methodology-card pallmed">
+                        <h4>
+                            <span style="display: inline-block; width: 12px; height: 12px; background: var(--pallmed); border-radius: 50%;"></span>
+                            Palliative Medicine
+                        </h4>
+                        <ul class="methodology-list">
+                            <li class="methodology-item highlight">
+                                <span class="name">Qualitative</span>
+                                <span class="value">46.1%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 46.1%; background: var(--gold)"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Cross-sectional</span>
+                                <span class="value">14.1%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 14.1%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Retrospective cohort</span>
+                                <span class="value">10.9%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 10.9%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Delphi/consensus</span>
+                                <span class="value">7.8%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 7.8%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Prospective cohort</span>
+                                <span class="value">6.3%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 6.3%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Mixed methods</span>
+                                <span class="value">4.7%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 4.7%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">RCTs</span>
+                                <span class="value">3.9%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 3.9%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Secondary analysis</span>
+                                <span class="value">3.1%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 3.1%"></div></div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- BMJ -->
+                    <div class="methodology-card bmj">
+                        <h4>
+                            <span style="display: inline-block; width: 12px; height: 12px; background: var(--bmj); border-radius: 50%;"></span>
+                            BMJ Supp Pall
+                        </h4>
+                        <ul class="methodology-list">
+                            <li class="methodology-item">
+                                <span class="name">Prospective cohort</span>
+                                <span class="value">21.5%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 21.5%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Retrospective cohort</span>
+                                <span class="value">19.2%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 19.2%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Cross-sectional</span>
+                                <span class="value">16.9%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 16.9%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Validation/prognostic</span>
+                                <span class="value">9.2%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 9.2%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Qualitative</span>
+                                <span class="value">9.2%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 9.2%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">RCTs</span>
+                                <span class="value">7.7%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 7.7%"></div></div>
+                            </li>
+                            <li class="methodology-item highlight">
+                                <span class="name">Secondary analysis</span>
+                                <span class="value">6.2%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 6.2%; background: var(--gold)"></div></div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- AJHPM -->
+                    <div class="methodology-card ajhpm">
+                        <h4>
+                            <span style="display: inline-block; width: 12px; height: 12px; background: var(--ajhpm); border-radius: 50%;"></span>
+                            AJHPM
+                        </h4>
+                        <ul class="methodology-list">
+                            <li class="methodology-item highlight">
+                                <span class="name">Cross-sectional</span>
+                                <span class="value">25.0%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 25.0%; background: var(--gold)"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Retrospective cohort</span>
+                                <span class="value">18.8%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 18.8%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Qualitative</span>
+                                <span class="value">12.5%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 12.5%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Prospective cohort</span>
+                                <span class="value">10.4%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 10.4%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Education/curriculum</span>
+                                <span class="value">8.3%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 8.3%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Secondary analysis</span>
+                                <span class="value">3.3%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 3.3%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">RCTs</span>
+                                <span class="value">2.5%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 2.5%"></div></div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- JPM -->
+                    <div class="methodology-card" style="border-color: var(--jpm);">
+                        <h4>
+                            <span style="display: inline-block; width: 12px; height: 12px; background: var(--jpm); border-radius: 50%;"></span>
+                            JPM
+                        </h4>
+                        <ul class="methodology-list">
+                            <li class="methodology-item">
+                                <span class="name">Cross-sectional</span>
+                                <span class="value">18.5%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 18.5%"></div></div>
+                            </li>
+                            <li class="methodology-item highlight">
+                                <span class="name">Qualitative</span>
+                                <span class="value">16.7%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 16.7%; background: var(--gold)"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Retrospective cohort</span>
+                                <span class="value">14.3%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 14.3%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Prospective cohort</span>
+                                <span class="value">9.2%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 9.2%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Mixed methods</span>
+                                <span class="value">5.5%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 5.5%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">RCTs</span>
+                                <span class="value">3.3%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 3.3%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Secondary analysis</span>
+                                <span class="value">~3%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 3%"></div></div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- BMC Palliative Care -->
+                    <div class="methodology-card" style="border-color: var(--bmcpall);">
+                        <h4>
+                            <span style="display: inline-block; width: 12px; height: 12px; background: var(--bmcpall); border-radius: 50%;"></span>
+                            BMC Pall Care
+                        </h4>
+                        <ul class="methodology-list">
+                            <li class="methodology-item highlight">
+                                <span class="name">Qualitative</span>
+                                <span class="value">28.7%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 28.7%; background: var(--gold)"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Cross-sectional</span>
+                                <span class="value">18.6%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 18.6%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Retrospective cohort</span>
+                                <span class="value">11.2%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 11.2%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Scoping review</span>
+                                <span class="value">8.9%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 8.9%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Mixed methods</span>
+                                <span class="value">7.4%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 7.4%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">Prospective cohort</span>
+                                <span class="value">6.5%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 6.5%"></div></div>
+                            </li>
+                            <li class="methodology-item">
+                                <span class="name">RCTs</span>
+                                <span class="value">0.3%</span>
+                            </li>
+                            <li class="methodology-item">
+                                <div class="methodology-bar"><div class="methodology-bar-fill" style="width: 0.3%"></div></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Comparison Chart -->
+            <section class="section">
+                <div class="section-header">
+                    <h2>Head-to-Head Comparison</h2>
+                    <span class="badge">Key Methodologies</span>
+                </div>
+
+                <div class="chart-card">
+                    <h4>Methodology Rates Across Journals</h4>
+                    <div class="chart-container tall">
+                        <canvas id="comparisonBarChart"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ===== TRENDS VIEW ===== -->
+        <div class="view-section" id="view-trends">
+            <section class="section">
+                <div class="section-header">
+                    <h2>Publication Trends</h2>
+                    <span class="badge">2024 – 2026</span>
+                </div>
+
+                <div class="trends-grid">
+                    <div class="chart-card">
+                        <h4>Emerging Topics Across Journals</h4>
+                        <div class="chart-container tall">
+                            <canvas id="trendsChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="trend-card">
+                        <h4>Key Shifts by Year</h4>
+                        <div class="trend-items">
+                            <div class="trend-year">
+                                <h5>2024</h5>
+                                <ul>
+                                    <li>COVID-19 aftermath studies prominent</li>
+                                    <li>Telehealth/virtual care research</li>
+                                    <li>EAPC palliative sedation framework</li>
+                                    <li>VR interventions emerging</li>
+                                </ul>
+                            </div>
+                            <div class="trend-year">
+                                <h5>2025</h5>
+                                <ul>
+                                    <li>AI/LLM methodology papers emerging</li>
+                                    <li>Assisted dying legislation debates (UK)</li>
+                                    <li>Implementation science growing</li>
+                                    <li>Global/LMIC perspectives increasing</li>
+                                    <li>Pharmacogenomics in PC</li>
+                                </ul>
+                            </div>
+                            <div class="trend-year">
+                                <h5>2026 (Jan-Feb)</h5>
+                                <ul>
+                                    <li>Psychedelics in PC emerging</li>
+                                    <li>Quality improvement focus</li>
+                                    <li>Continued AI/digital health</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-header">
+                    <h2>Journal-Specific Themes</h2>
+                </div>
+
+                <div class="journal-cards">
+                    <div class="journal-card jpsm">
+                        <h3>JPSM Themes</h3>
+                        <p class="scope">
+                            <strong>2024:</strong> COVID aftermath, telehealth prominent<br>
+                            <strong>2025:</strong> AI/LLM papers, pediatric PC, international perspectives<br>
+                            <strong>2026:</strong> Quality improvement, global PC development
+                        </p>
+                    </div>
+                    <div class="journal-card pallmed">
+                        <h3>PallMed Themes</h3>
+                        <p class="scope">
+                            <strong>2024:</strong> EAPC sedation framework, ACP dominant<br>
+                            <strong>2025:</strong> Implementation science, sedation quality research<br>
+                            <strong>2026:</strong> Psychedelics emerging, global/LMIC focus
+                        </p>
+                    </div>
+                    <div class="journal-card bmj">
+                        <h3>BMJ Themes</h3>
+                        <p class="scope">
+                            <strong>2024:</strong> VR interventions, cannabis research, heart failure<br>
+                            <strong>2025:</strong> UK assisted dying bill debates, integrative oncology<br>
+                            <strong>2026:</strong> Physical activity/rehabilitation focus
+                        </p>
+                    </div>
+                    <div class="journal-card ajhpm">
+                        <h3>AJHPM Themes</h3>
+                        <p class="scope">
+                            <strong>2024:</strong> ACP, health disparities, COVID aftermath, education<br>
+                            <strong>2025:</strong> MAiD debates, cultural considerations, mental health integration<br>
+                            <strong>2026:</strong> Health equity, LGBTQ+, American Muslim hospice perceptions
+                        </p>
+                    </div>
+                    <div class="journal-card jpm">
+                        <h3>JPM Themes</h3>
+                        <p class="scope">
+                            <strong>2024:</strong> Sedation/pharmacology (dexmedetomidine!), alpha-2 agonists, palliative sedation terminology<br>
+                            <strong>2025:</strong> AI/technology, delirium motor subtypes, mental health integration<br>
+                            <strong>Strong DREAMS fit:</strong> Dexmedetomidine focus (SR + original articles)
+                        </p>
+                    </div>
+                    <div class="journal-card bmcpall">
+                        <h3>BMC Pall Care Themes</h3>
+                        <p class="scope">
+                            <strong>2025:</strong> Global health equity (LMIC 15%), palliative sedation collection, cultural considerations<br>
+                            <strong>Collections:</strong> 6 palliative sedation articles, delirium screening/prediction<br>
+                            <strong>Features:</strong> Open access, fast turnaround, scoping reviews prominent
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ===== PAPERS VIEW ===== -->
+        <div class="view-section" id="view-papers">
+            <section class="section">
+                <div class="section-header">
+                    <h2>Your Papers</h2>
+                    <span class="badge">DREAMS Trial PhD</span>
+                </div>
+
+                <div class="papers-grid">
+                    <!-- Paper 2 -->
+                    <div class="paper-card published">
+                        <span class="paper-number">2</span>
+                        <h4>DREAMS Primary RCT</h4>
+                        <p class="methodology">Randomized Controlled Trial</p>
+                        <div class="status">
+                            <span class="status-badge status-published">PUBLISHED</span>
+                        </div>
+                        <div class="target">
+                            <div class="target-label">Published at</div>
+                            <div class="target-journal">JPSM • Vol 70 No. 5, Nov 2025</div>
+                            <p class="rationale">Highest RCT rate (8.1%). Correct placement confirmed by analysis.</p>
+                        </div>
+                    </div>
+
+                    <!-- Paper 3 -->
+                    <div class="paper-card rework">
+                        <span class="paper-number">3</span>
+                        <h4>PRN/Breakthrough Analysis</h4>
+                        <p class="methodology">Secondary Analysis of RCT</p>
+                        <div class="status">
+                            <span class="status-badge status-rework">BEING REWORKED</span>
+                        </div>
+                        <div class="target">
+                            <div class="target-label">Recommended target</div>
+                            <div class="target-journal">BMJ Supportive & Palliative Care</div>
+                            <p class="rationale">Highest secondary analysis rate (6.2%). Clinical focus aligns. Different editorial team from JPSM rejection.</p>
+                        </div>
+                    </div>
+
+                    <!-- Paper 4 -->
+                    <div class="paper-card">
+                        <span class="paper-number">4</span>
+                        <h4>Qualitative EHR Analysis</h4>
+                        <p class="methodology">Thematic Analysis of Clinical Notes</p>
+                        <div class="status">
+                            <span class="status-badge status-pending">IN PROGRESS</span>
+                        </div>
+                        <div class="target">
+                            <div class="target-label">Recommended target</div>
+                            <div class="target-journal">Palliative Medicine</div>
+                            <p class="rationale">Dominant qualitative focus (46.1%). Published RTARG guidelines. Frame as standalone study, not secondary analysis.</p>
+                        </div>
+                    </div>
+
+                    <!-- Paper 5 -->
+                    <div class="paper-card">
+                        <span class="paper-number">5</span>
+                        <h4>Systematic Literature Review</h4>
+                        <p class="methodology">SLR (Capstone)</p>
+                        <div class="status">
+                            <span class="status-badge status-pending">NOT STARTED</span>
+                        </div>
+                        <div class="target">
+                            <div class="target-label">Recommended target</div>
+                            <div class="target-journal">BMJ Supportive & Palliative Care</div>
+                            <p class="rationale">Highest SR rate (15.9%). "State of the Science" section ideal for capstone. 45.5% of reviews include meta-analysis.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Action Items -->
+            <section class="section">
+                <div class="section-header">
+                    <h2>Action Items</h2>
+                </div>
+
+                <div class="chart-card">
+                    <h4>Submission Strategy</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-lg);">
+                        <div style="padding: var(--space-lg); background: rgba(232, 168, 74, 0.1); border-radius: var(--radius-md); border-left: 3px solid var(--warning);">
+                            <strong style="color: var(--warning);">Paper 3 — After Rework</strong>
+                            <ul style="margin-top: var(--space-sm); font-size: 0.875rem; color: var(--text-secondary); padding-left: var(--space-lg);">
+                                <li>Address JPSM rejection concerns</li>
+                                <li>Clarify pre-planned vs post-hoc</li>
+                                <li>Strengthen statistical justification</li>
+                                <li>Emphasize clinical utility</li>
+                                <li>Submit to BMJ Supp Pall Care</li>
+                            </ul>
+                        </div>
+                        <div style="padding: var(--space-lg); background: rgba(166, 93, 111, 0.1); border-radius: var(--radius-md); border-left: 3px solid var(--pallmed);">
+                            <strong style="color: var(--pallmed-light);">Paper 4 — In Progress</strong>
+                            <ul style="margin-top: var(--space-sm); font-size: 0.875rem; color: var(--text-secondary); padding-left: var(--space-lg);">
+                                <li>Cite RTARG guidelines (Jun 2024)</li>
+                                <li>Frame as standalone qualitative study</li>
+                                <li>Focus on family/staff perceptions</li>
+                                <li>Use evocative title style</li>
+                                <li>Submit to Palliative Medicine</li>
+                            </ul>
+                        </div>
+                        <div style="padding: var(--space-lg); background: rgba(90, 106, 138, 0.1); border-radius: var(--radius-md); border-left: 3px solid var(--bmj);">
+                            <strong style="color: var(--bmj-light);">Paper 5 — Planning</strong>
+                            <ul style="margin-top: var(--space-sm); font-size: 0.875rem; color: var(--text-secondary); padding-left: var(--space-lg);">
+                                <li>Register PROSPERO protocol early</li>
+                                <li>Follow PRISMA guidelines</li>
+                                <li>Include meta-analysis if possible</li>
+                                <li>Consider "State of Science" format</li>
+                                <li>Submit to BMJ Supp Pall Care</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ===== INDIVIDUAL JOURNAL VIEWS ===== -->
+        <div class="view-section" id="view-jpsm">
+            <section class="section">
+                <div class="section-header">
+                    <h2>JPSM Deep Dive</h2>
+                    <span class="badge">26 Issues Analyzed</span>
+                </div>
+
+                <div class="journal-card jpsm" style="max-width: 600px;">
+                    <div class="journal-card-header">
+                        <div>
+                            <h3>Journal of Pain and Symptom Management</h3>
+                            <span class="abbrev">JPSM • Elsevier • IF: 3.5</span>
+                        </div>
+                    </div>
+                    <p class="scope">Broad scope covering pain, symptom management, and palliative care. Strong quantitative focus. Your Paper 2 (DREAMS RCT) was published here.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-value">~609</div>
+                            <div class="stat-label">Articles</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">56.4%</div>
+                            <div class="stat-label">Original Articles</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">10.7%</div>
+                            <div class="stat-label">Reviews</div>
+                        </div>
+                    </div>
+                    <div class="links">
+                        <a href="https://www.sciencedirect.com/journal/journal-of-pain-and-symptom-management" target="_blank" class="link">Journal Home</a>
+                        <a href="https://www.sciencedirect.com/journal/journal-of-pain-and-symptom-management/publish/guide-for-authors" target="_blank" class="link">Author Guidelines</a>
+                        <a href="https://www.editorialmanager.com/jpsm/" target="_blank" class="link">Submit</a>
+                    </div>
+                </div>
+
+                <div class="charts-grid" style="margin-top: var(--space-xl);">
+                    <div class="chart-card">
+                        <h4>Article Type Distribution</h4>
+                        <div class="chart-container">
+                            <canvas id="jpsmArticleChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h4>Research Methodology</h4>
+                        <div class="chart-container">
+                            <canvas id="jpsmMethodChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="view-section" id="view-pallmed">
+            <section class="section">
+                <div class="section-header">
+                    <h2>Palliative Medicine Deep Dive</h2>
+                    <span class="badge">21 Issues Analyzed</span>
+                </div>
+
+                <div class="journal-card pallmed" style="max-width: 600px;">
+                    <div class="journal-card-header">
+                        <div>
+                            <h3>Palliative Medicine</h3>
+                            <span class="abbrev">PallMed • SAGE / EAPC • IF: 3.9</span>
+                        </div>
+                    </div>
+                    <p class="scope">Official journal of EAPC. Qualitative-dominant publication profile. Published RTARG guidelines for thematic analysis. Recommended for Paper 4.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-value">~230</div>
+                            <div class="stat-label">Articles</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">46.1%</div>
+                            <div class="stat-label">Qualitative</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">25.2%</div>
+                            <div class="stat-label">Reviews</div>
+                        </div>
+                    </div>
+                    <div class="links">
+                        <a href="https://journals.sagepub.com/home/pmj" target="_blank" class="link">Journal Home</a>
+                        <a href="https://journals.sagepub.com/author-instructions/PMJ" target="_blank" class="link">Author Guidelines</a>
+                        <a href="https://mc.manuscriptcentral.com/palliative-medicine" target="_blank" class="link">Submit</a>
+                    </div>
+                </div>
+
+                <div class="charts-grid" style="margin-top: var(--space-xl);">
+                    <div class="chart-card">
+                        <h4>Article Type Distribution</h4>
+                        <div class="chart-container">
+                            <canvas id="pallmedArticleChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h4>Research Methodology</h4>
+                        <div class="chart-container">
+                            <canvas id="pallmedMethodChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="view-section" id="view-bmj">
+            <section class="section">
+                <div class="section-header">
+                    <h2>BMJ Supp Pall Deep Dive</h2>
+                    <span class="badge">12 Issues Analyzed</span>
+                </div>
+
+                <div class="journal-card bmj" style="max-width: 600px;">
+                    <div class="journal-card-header">
+                        <div>
+                            <h3>BMJ Supportive & Palliative Care</h3>
+                            <span class="abbrev">BMJ Supp Pall • BMJ Publishing • IF: 1.9</span>
+                        </div>
+                    </div>
+                    <p class="scope">Clinically-focused with unique sections. Highest systematic review rate. Strong assisted dying and integrative oncology coverage. Recommended for Papers 3 and 5.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-value">~485</div>
+                            <div class="stat-label">Articles</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">15.9%</div>
+                            <div class="stat-label">Systematic Reviews</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">6.2%</div>
+                            <div class="stat-label">Secondary Analysis</div>
+                        </div>
+                    </div>
+                    <div class="links">
+                        <a href="https://spcare.bmj.com/" target="_blank" class="link">Journal Home</a>
+                        <a href="https://spcare.bmj.com/pages/authors/" target="_blank" class="link">Author Guidelines</a>
+                        <a href="https://mc.manuscriptcentral.com/bmjspcare" target="_blank" class="link">Submit</a>
+                    </div>
+                </div>
+
+                <div class="charts-grid" style="margin-top: var(--space-xl);">
+                    <div class="chart-card">
+                        <h4>Article Type Distribution</h4>
+                        <div class="chart-container">
+                            <canvas id="bmjArticleChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h4>Research Methodology</h4>
+                        <div class="chart-container">
+                            <canvas id="bmjMethodChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-card" style="margin-top: var(--space-xl);">
+                    <h4>Unique Sections at BMJ</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-md);">
+                        <div style="padding: var(--space-md); background: rgba(90, 106, 138, 0.1); border-radius: var(--radius-md);">
+                            <strong style="color: var(--bmj-light);">How I Do It</strong>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: var(--space-xs);">Practical clinical guidance</p>
+                        </div>
+                        <div style="padding: var(--space-md); background: rgba(90, 106, 138, 0.1); border-radius: var(--radius-md);">
+                            <strong style="color: var(--bmj-light);">State of the Science</strong>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: var(--space-xs);">Expert synthesis papers — ideal for SLR capstone</p>
+                        </div>
+                        <div style="padding: var(--space-md); background: rgba(90, 106, 138, 0.1); border-radius: var(--radius-md);">
+                            <strong style="color: var(--bmj-light);">Features</strong>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: var(--space-xs);">Extended clinical/policy discussions</p>
+                        </div>
+                        <div style="padding: var(--space-md); background: rgba(90, 106, 138, 0.1); border-radius: var(--radius-md);">
+                            <strong style="color: var(--bmj-light);">Clinical Audit</strong>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: var(--space-xs);">QI/audit papers</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ===== AJHPM VIEW ===== -->
+        <div class="view-section" id="view-ajhpm">
+            <section class="section">
+                <div class="section-header">
+                    <h2>AJHPM Deep Dive</h2>
+                    <span class="badge">26 Issues Analyzed</span>
+                </div>
+
+                <div class="journal-card ajhpm" style="max-width: 600px;">
+                    <div class="journal-card-header">
+                        <div>
+                            <h3>American Journal of Hospice & Palliative Medicine</h3>
+                            <span class="abbrev">AJHPM • SAGE Publications • IF: 1.4</span>
+                        </div>
+                    </div>
+                    <p class="scope">US hospice-focused, practice-oriented journal. Strong education/training emphasis. High cross-sectional survey rate. Limited sedation/agitation content. NOT recommended for DREAMS papers.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-value">~350</div>
+                            <div class="stat-label">Articles</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">68.6%</div>
+                            <div class="stat-label">Original Articles</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">15.7%</div>
+                            <div class="stat-label">Reviews</div>
+                        </div>
+                    </div>
+                    <div class="links">
+                        <a href="https://journals.sagepub.com/home/ajh" target="_blank" class="link">Journal Home</a>
+                        <a href="https://journals.sagepub.com/author-instructions/AJH" target="_blank" class="link">Author Guidelines</a>
+                        <a href="https://mc.manuscriptcentral.com/ajhpm" target="_blank" class="link">Submit</a>
+                    </div>
+                </div>
+
+                <div class="charts-grid" style="margin-top: var(--space-xl);">
+                    <div class="chart-card">
+                        <h4>Article Type Distribution</h4>
+                        <div class="chart-container">
+                            <canvas id="ajhpmArticleChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h4>Research Methodology</h4>
+                        <div class="chart-container">
+                            <canvas id="ajhpmMethodChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-card" style="margin-top: var(--space-xl);">
+                    <h4>Unique Characteristics of AJHPM</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-md);">
+                        <div style="padding: var(--space-md); background: rgba(122, 90, 138, 0.1); border-radius: var(--radius-md);">
+                            <strong style="color: var(--ajhpm-light);">US Hospice Focus</strong>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: var(--space-xs);">Medicare hospice, Certificate of Need policies</p>
+                        </div>
+                        <div style="padding: var(--space-md); background: rgba(122, 90, 138, 0.1); border-radius: var(--radius-md);">
+                            <strong style="color: var(--ajhpm-light);">Education Emphasis</strong>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: var(--space-xs);">8.3% curriculum/training evaluation studies</p>
+                        </div>
+                        <div style="padding: var(--space-md); background: rgba(122, 90, 138, 0.1); border-radius: var(--radius-md);">
+                            <strong style="color: var(--ajhpm-light);">Health Disparities</strong>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: var(--space-xs);">Racial, ethnic, LGBTQ+, religious minority focus</p>
+                        </div>
+                        <div style="padding: var(--space-md); background: rgba(122, 90, 138, 0.1); border-radius: var(--radius-md);">
+                            <strong style="color: var(--ajhpm-light);">COVID-19 Section</strong>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: var(--space-xs);">Maintained dedicated pandemic section (5.7%)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-card" style="margin-top: var(--space-xl);">
+                    <h4>Why NOT Recommended for DREAMS Papers</h4>
+                    <div style="padding: var(--space-lg); background: rgba(212, 90, 90, 0.1); border-radius: var(--radius-md); border-left: 3px solid var(--danger);">
+                        <ul style="margin: 0; padding-left: var(--space-lg); font-size: 0.875rem; color: var(--text-secondary);">
+                            <li style="margin-bottom: var(--space-sm);">Very low RCT rate (2.5%) — lowest among all analyzed journals</li>
+                            <li style="margin-bottom: var(--space-sm);">Low secondary analysis rate (3.3%) — worse than BMJ Supp Pall (6.2%)</li>
+                            <li style="margin-bottom: var(--space-sm);">Limited sedation/agitation content — core DREAMS topics rarely covered</li>
+                            <li style="margin-bottom: var(--space-sm);">Strong US hospice system focus — DREAMS is Australian trial</li>
+                            <li>Education/training emphasis doesn't match DREAMS clinical research</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ===== JPM VIEW ===== -->
+        <div class="view-section" id="view-jpm">
+            <section class="section">
+                <div class="section-header">
+                    <h2>Journal of Palliative Medicine Deep Dive</h2>
+                    <span class="badge">Tier 2 – Strong Alternative</span>
+                </div>
+
+                <div class="chart-card">
+                    <div class="journal-card-header">
+                        <div>
+                            <h3>Journal of Palliative Medicine</h3>
+                            <span class="abbrev">JPM • Mary Ann Liebert • IF: 2.1</span>
+                        </div>
+                    </div>
+                    <p style="margin: var(--space-md) 0; color: var(--text-secondary);">
+                        US clinical focus with unique <strong>Fast Facts and Concepts series</strong> (#470-#511).
+                        Strong dexmedetomidine/sedation coverage with multiple relevant articles.
+                        Moderate qualitative content (16.7%) and unique "Personal Reflection" section.
+                    </p>
+
+                    <div class="stats" style="margin-bottom: var(--space-lg);">
+                        <div class="stat">
+                            <div class="stat-value">545</div>
+                            <div class="stat-label">Articles</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">23</div>
+                            <div class="stat-label">Issues</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">16.7%</div>
+                            <div class="stat-label">Qualitative</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">3.3%</div>
+                            <div class="stat-label">RCT Rate</div>
+                        </div>
+                    </div>
+
+                    <h4>DREAMS-Relevant Articles Published</h4>
+                    <ul style="margin: var(--space-md) 0; padding-left: var(--space-lg); font-size: 0.875rem; color: var(--text-secondary);">
+                        <li>Dexmedetomidine in Palliative Care: A Versatile New Weapon (Systematic Review)</li>
+                        <li>Descriptive Analysis of Dexmedetomidine's Utility at End of Life</li>
+                        <li>Alpha-2 Receptor Agonists in Palliative Care (Fast Facts #482)</li>
+                        <li>Utilizing Dexmedetomidine for Opioid-Resistant Pain and Anxiety (Case Report)</li>
+                        <li>Delirium Motor Subtypes (Prospective Cohort)</li>
+                    </ul>
+
+                    <h4>Unique Sections</h4>
+                    <div style="display: grid; gap: var(--space-md); margin-top: var(--space-md);">
+                        <div style="padding: var(--space-md); background: rgba(90, 122, 106, 0.1); border-radius: var(--radius-md);">
+                            <strong style="color: var(--jpm-light);">Fast Facts and Concepts</strong>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: var(--space-xs);">Numbered educational series (#470-#511) – unique to JPM</p>
+                        </div>
+                        <div style="padding: var(--space-md); background: rgba(90, 122, 106, 0.1); border-radius: var(--radius-md);">
+                            <strong style="color: var(--jpm-light);">Personal Reflection</strong>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: var(--space-xs);">Narrative/experiential pieces (8.1% of content)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid" style="margin-top: var(--space-xl);">
+                    <div class="chart-card">
+                        <h4>Article Type Distribution</h4>
+                        <div class="chart-container">
+                            <canvas id="jpmArticleChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h4>Research Methodology</h4>
+                        <div class="chart-container">
+                            <canvas id="jpmMethodChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ===== BMC PALL VIEW ===== -->
+        <div class="view-section" id="view-bmcpall">
+            <section class="section">
+                <div class="section-header">
+                    <h2>BMC Palliative Care Deep Dive</h2>
+                    <span class="badge">Tier 2 – Open Access</span>
+                </div>
+
+                <div class="chart-card">
+                    <div class="journal-card-header">
+                        <div>
+                            <h3>BMC Palliative Care</h3>
+                            <span class="abbrev">BMC Pall • Springer Nature (Open Access) • IF: 3.0</span>
+                        </div>
+                    </div>
+                    <p style="margin: var(--space-md) 0; color: var(--text-secondary);">
+                        <strong>Open access</strong> journal with fast continuous publication. Strong qualitative (28.7%)
+                        and scoping review content. Named <strong>Palliative Sedation collection</strong> with 6+
+                        directly relevant articles. Best LMIC representation of all 6 journals.
+                    </p>
+
+                    <div class="stats" style="margin-bottom: var(--space-lg);">
+                        <div class="stat">
+                            <div class="stat-value">338</div>
+                            <div class="stat-label">Articles</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" style="color: var(--success);">OA</div>
+                            <div class="stat-label">Open Access</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">28.7%</div>
+                            <div class="stat-label">Qualitative</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">17.5%</div>
+                            <div class="stat-label">Reviews</div>
+                        </div>
+                    </div>
+
+                    <h4>Palliative Sedation Collection</h4>
+                    <ul style="margin: var(--space-md) 0; padding-left: var(--space-lg); font-size: 0.875rem; color: var(--text-secondary);">
+                        <li>Variability of sedation practices in French palliative care units</li>
+                        <li>Is this sedation? – Group Delphi to define cut-off doses</li>
+                        <li>Palliative sedation rate for noncancer terminally ill patients</li>
+                        <li>Frequency and predictors of palliative sedation in cancer patients</li>
+                        <li>Christian perspectives on palliative sedation</li>
+                    </ul>
+
+                    <h4>Key Strengths</h4>
+                    <div style="display: grid; gap: var(--space-md); margin-top: var(--space-md);">
+                        <div style="padding: var(--space-md); background: rgba(138, 106, 90, 0.1); border-radius: var(--radius-md);">
+                            <strong style="color: var(--bmcpall-light);">Open Access</strong>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: var(--space-xs);">Freely available globally, no subscription barriers. Fast publication.</p>
+                        </div>
+                        <div style="padding: var(--space-md); background: rgba(138, 106, 90, 0.1); border-radius: var(--radius-md);">
+                            <strong style="color: var(--bmcpall-light);">Global Health Focus</strong>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: var(--space-xs);">China 8.9%, India 2.1%, Africa 2.4% – strongest LMIC representation</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: var(--space-xl); padding: var(--space-md); background: rgba(212, 165, 116, 0.1); border-radius: var(--radius-md); border-left: 3px solid var(--gold);">
+                        <strong style="color: var(--gold);">Article Processing Charge</strong>
+                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: var(--space-xs);">~£1,990 / $2,490 USD. Check UOW library for Read & Publish agreements with Springer Nature.</p>
+                    </div>
+                </div>
+
+                <div class="charts-grid" style="margin-top: var(--space-xl);">
+                    <div class="chart-card">
+                        <h4>Article Type Distribution</h4>
+                        <div class="chart-container">
+                            <canvas id="bmcpallArticleChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h4>Research Methodology</h4>
+                        <div class="chart-container">
+                            <canvas id="bmcpallMethodChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>DREAMS Clinical Trial PhD Thesis — Journal Analysis Dashboard</p>
+        <p>Analysis Date: 25 January 2026 • Generated from 100% ToC analysis • 6 journals (~2,557 articles)</p>
+        <p><a href="#">Benjamin Thomas</a> • University of Wollongong</p>
+    </footer>
+
+    <script>
+        // ===== NAVIGATION =====
+        const navBtns = document.querySelectorAll('.nav-btn');
+        const viewSections = document.querySelectorAll('.view-section');
+
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                navBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Show corresponding section
+                const viewId = 'view-' + btn.dataset.view;
+                viewSections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === viewId) {
+                        section.classList.add('active');
+                    }
+                });
+
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // ===== CHART DEFAULTS =====
+        Chart.defaults.color = '#a0a0b0';
+        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.05)';
+        Chart.defaults.font.family = "'DM Sans', sans-serif";
+
+        // Colors
+        const colors = {
+            jpsm: '#3d8b8b',
+            jpsmLight: 'rgba(61, 139, 139, 0.2)',
+            pallmed: '#a65d6f',
+            pallmedLight: 'rgba(166, 93, 111, 0.2)',
+            bmj: '#5a6a8a',
+            bmjLight: 'rgba(90, 106, 138, 0.2)',
+            ajhpm: '#7a5a8a',
+            ajhpmLight: 'rgba(122, 90, 138, 0.2)',
+            jpm: '#5a7a6a',
+            jpmLight: 'rgba(90, 122, 106, 0.2)',
+            bmcpall: '#8a6a5a',
+            bmcpallLight: 'rgba(138, 106, 90, 0.2)',
+            gold: '#d4a574',
+            goldLight: 'rgba(212, 165, 116, 0.2)'
+        };
+
+        // ===== RADAR CHART (Overview) =====
+        const radarCtx = document.getElementById('radarChart').getContext('2d');
+        new Chart(radarCtx, {
+            type: 'radar',
+            data: {
+                labels: ['RCTs', 'Qualitative', 'Cross-sectional', 'Retrospective', 'Prospective', 'Secondary Analysis', 'Reviews'],
+                datasets: [
+                    {
+                        label: 'JPSM',
+                        data: [8.1, 9.3, 24.7, 20.9, 13.1, 5.2, 10.7],
+                        borderColor: colors.jpsm,
+                        backgroundColor: colors.jpsmLight,
+                        pointBackgroundColor: colors.jpsm
+                    },
+                    {
+                        label: 'PallMed',
+                        data: [3.9, 46.1, 14.1, 10.9, 6.3, 3.1, 25.2],
+                        borderColor: colors.pallmed,
+                        backgroundColor: colors.pallmedLight,
+                        pointBackgroundColor: colors.pallmed
+                    },
+                    {
+                        label: 'BMJ Supp',
+                        data: [7.7, 9.2, 16.9, 19.2, 21.5, 6.2, 15.9],
+                        borderColor: colors.bmj,
+                        backgroundColor: colors.bmjLight,
+                        pointBackgroundColor: colors.bmj
+                    },
+                    {
+                        label: 'AJHPM',
+                        data: [2.5, 12.5, 25.0, 18.8, 10.4, 3.3, 15.7],
+                        borderColor: colors.ajhpm,
+                        backgroundColor: colors.ajhpmLight,
+                        pointBackgroundColor: colors.ajhpm
+                    },
+                    {
+                        label: 'JPM',
+                        data: [3.3, 16.7, 18.5, 21.7, 10.5, 3.0, 6.1],
+                        borderColor: colors.jpm,
+                        backgroundColor: colors.jpmLight,
+                        pointBackgroundColor: colors.jpm
+                    },
+                    {
+                        label: 'BMC Pall',
+                        data: [0.3, 28.7, 18.6, 10.4, 0, 3.0, 17.5],
+                        borderColor: colors.bmcpall,
+                        backgroundColor: colors.bmcpallLight,
+                        pointBackgroundColor: colors.bmcpall
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 20 }
+                    }
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 50,
+                        ticks: {
+                            stepSize: 10,
+                            backdropColor: 'transparent'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        angleLines: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // ===== ARTICLE TYPE CHART (Overview) =====
+        const articleTypeCtx = document.getElementById('articleTypeChart').getContext('2d');
+        new Chart(articleTypeCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Original Research', 'Reviews', 'Letters', 'Short Reports', 'Other'],
+                datasets: [
+                    {
+                        label: 'JPSM',
+                        data: [56.4, 10.7, 6.7, 5.1, 21.1],
+                        backgroundColor: colors.jpsm
+                    },
+                    {
+                        label: 'PallMed',
+                        data: [55.7, 25.2, 0.9, 4.3, 13.9],
+                        backgroundColor: colors.pallmed
+                    },
+                    {
+                        label: 'BMJ Supp',
+                        data: [26.8, 23.1, 14.4, 13.4, 22.3],
+                        backgroundColor: colors.bmj
+                    },
+                    {
+                        label: 'AJHPM',
+                        data: [68.6, 15.7, 1.4, 0.9, 13.4],
+                        backgroundColor: colors.ajhpm
+                    },
+                    {
+                        label: 'JPM',
+                        data: [50.6, 6.1, 8.3, 15.6, 19.4],
+                        backgroundColor: colors.jpm
+                    },
+                    {
+                        label: 'BMC Pall',
+                        data: [60.0, 17.5, 0, 0, 22.5],
+                        backgroundColor: colors.bmcpall
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 20 }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 70,
+                        ticks: {
+                            callback: value => value + '%'
+                        }
+                    }
+                }
+            }
+        });
+
+        // ===== COMPARISON BAR CHART =====
+        const comparisonCtx = document.getElementById('comparisonBarChart').getContext('2d');
+        new Chart(comparisonCtx, {
+            type: 'bar',
+            data: {
+                labels: ['RCTs', 'Qualitative', 'Secondary Analysis', 'Systematic Reviews', 'Cross-sectional', 'Retrospective Cohort'],
+                datasets: [
+                    {
+                        label: 'JPSM',
+                        data: [8.1, 9.3, 5.2, 10.7, 24.7, 20.9],
+                        backgroundColor: colors.jpsm,
+                        borderColor: colors.jpsm,
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'PallMed',
+                        data: [3.9, 46.1, 3.1, 25.2, 14.1, 10.9],
+                        backgroundColor: colors.pallmed,
+                        borderColor: colors.pallmed,
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'BMJ Supp',
+                        data: [7.7, 9.2, 6.2, 15.9, 16.9, 19.2],
+                        backgroundColor: colors.bmj,
+                        borderColor: colors.bmj,
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'AJHPM',
+                        data: [2.5, 12.5, 3.3, 3.4, 25.0, 18.8],
+                        backgroundColor: colors.ajhpm,
+                        borderColor: colors.ajhpm,
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'JPM',
+                        data: [3.3, 16.7, 3.0, 2.8, 18.5, 21.7],
+                        backgroundColor: colors.jpm,
+                        borderColor: colors.jpm,
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'BMC Pall',
+                        data: [0.3, 28.7, 3.0, 8.9, 18.6, 10.4],
+                        backgroundColor: colors.bmcpall,
+                        borderColor: colors.bmcpall,
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 20 }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 50,
+                        ticks: {
+                            callback: value => value + '%'
+                        }
+                    }
+                }
+            }
+        });
+
+        // ===== TRENDS CHART =====
+        const trendsCtx = document.getElementById('trendsChart').getContext('2d');
+        new Chart(trendsCtx, {
+            type: 'line',
+            data: {
+                labels: ['2024 Q1', '2024 Q2', '2024 Q3', '2024 Q4', '2025 Q1', '2025 Q2', '2025 Q3', '2025 Q4', '2026 Q1'],
+                datasets: [
+                    {
+                        label: 'AI/Digital Health',
+                        data: [1, 2, 2, 3, 5, 7, 9, 12, 14],
+                        borderColor: colors.gold,
+                        backgroundColor: colors.goldLight,
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Assisted Dying/Sedation',
+                        data: [4, 5, 5, 6, 8, 10, 12, 11, 10],
+                        borderColor: colors.pallmed,
+                        backgroundColor: 'transparent',
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Global/LMIC Perspectives',
+                        data: [3, 4, 5, 6, 7, 9, 10, 12, 13],
+                        borderColor: colors.bmj,
+                        backgroundColor: 'transparent',
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 20 }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Relative Publication Volume'
+                        }
+                    }
+                }
+            }
+        });
+
+        // ===== JPSM CHARTS =====
+        const jpsmArticleCtx = document.getElementById('jpsmArticleChart').getContext('2d');
+        new Chart(jpsmArticleCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Original Articles', 'Review Articles', 'Letters', 'Brief Reports', 'Special Articles', 'Other'],
+                datasets: [{
+                    data: [56.4, 10.7, 6.7, 5.1, 6.6, 14.5],
+                    backgroundColor: [
+                        colors.jpsm,
+                        '#4a9e9e',
+                        '#5ab5b5',
+                        '#6fc8c8',
+                        '#8dd8d8',
+                        '#aae8e8'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        const jpsmMethodCtx = document.getElementById('jpsmMethodChart').getContext('2d');
+        new Chart(jpsmMethodCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Cross-sectional', 'Retrospective', 'Prospective', 'Qualitative', 'RCT', 'Mixed Methods', 'Secondary'],
+                datasets: [{
+                    label: 'Percentage',
+                    data: [24.7, 20.9, 13.1, 9.3, 8.1, 6.4, 5.2],
+                    backgroundColor: colors.jpsm
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { callback: v => v + '%' }
+                    }
+                }
+            }
+        });
+
+        // ===== PALLMED CHARTS =====
+        const pallmedArticleCtx = document.getElementById('pallmedArticleChart').getContext('2d');
+        new Chart(pallmedArticleCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Original Articles', 'Review Articles', 'Editorials', 'Short Reports', 'Methods', 'Other'],
+                datasets: [{
+                    data: [55.7, 25.2, 6.5, 4.3, 3.9, 4.4],
+                    backgroundColor: [
+                        colors.pallmed,
+                        '#b86d7f',
+                        '#c97d8f',
+                        '#da8d9f',
+                        '#eb9daf',
+                        '#fcadbf'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        const pallmedMethodCtx = document.getElementById('pallmedMethodChart').getContext('2d');
+        new Chart(pallmedMethodCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Qualitative', 'Cross-sectional', 'Retrospective', 'Delphi', 'Prospective', 'Mixed', 'RCT', 'Secondary'],
+                datasets: [{
+                    label: 'Percentage',
+                    data: [46.1, 14.1, 10.9, 7.8, 6.3, 4.7, 3.9, 3.1],
+                    backgroundColor: colors.pallmed
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 50,
+                        ticks: { callback: v => v + '%' }
+                    }
+                }
+            }
+        });
+
+        // ===== BMJ CHARTS =====
+        const bmjArticleCtx = document.getElementById('bmjArticleChart').getContext('2d');
+        new Chart(bmjArticleCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Original Research', 'Systematic Reviews', 'Letters', 'Short Reports', 'Other Reviews', 'Case Reports', 'Other'],
+                datasets: [{
+                    data: [26.8, 15.9, 14.4, 13.4, 7.2, 6.6, 15.7],
+                    backgroundColor: [
+                        colors.bmj,
+                        '#6a7a9a',
+                        '#7a8aaa',
+                        '#8a9aba',
+                        '#9aaaca',
+                        '#aabada',
+                        '#bacaea'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        const bmjMethodCtx = document.getElementById('bmjMethodChart').getContext('2d');
+        new Chart(bmjMethodCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Prospective', 'Retrospective', 'Cross-sectional', 'Validation', 'Qualitative', 'RCT', 'Secondary', 'Mixed'],
+                datasets: [{
+                    label: 'Percentage',
+                    data: [21.5, 19.2, 16.9, 9.2, 9.2, 7.7, 6.2, 6.2],
+                    backgroundColor: colors.bmj
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { callback: v => v + '%' }
+                    }
+                }
+            }
+        });
+
+        // ===== AJHPM CHARTS =====
+        const ajhpmArticleCtx = document.getElementById('ajhpmArticleChart').getContext('2d');
+        new Chart(ajhpmArticleCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Original Articles', 'Review Articles', 'COVID-19 Section', 'Commentaries', 'Case Reports', 'Letters', 'Other'],
+                datasets: [{
+                    data: [68.6, 15.7, 5.7, 4.3, 2.3, 1.4, 2.0],
+                    backgroundColor: [
+                        colors.ajhpm,
+                        '#8a6a9a',
+                        '#9a7aaa',
+                        '#aa8aba',
+                        '#ba9aca',
+                        '#caaada',
+                        '#dabaea'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        const ajhpmMethodCtx = document.getElementById('ajhpmMethodChart').getContext('2d');
+        new Chart(ajhpmMethodCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Cross-sectional', 'Retrospective', 'Qualitative', 'Prospective', 'Education', 'Pilot/Feasibility', 'Secondary', 'RCT'],
+                datasets: [{
+                    label: 'Percentage',
+                    data: [25.0, 18.8, 12.5, 10.4, 8.3, 6.3, 3.3, 2.5],
+                    backgroundColor: colors.ajhpm
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { callback: v => v + '%' }
+                    }
+                }
+            }
+        });
+
+        // ===== JPM CHARTS =====
+        const jpmArticleCtx = document.getElementById('jpmArticleChart').getContext('2d');
+        new Chart(jpmArticleCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Original Articles', 'Fast Facts', 'Personal Reflections', 'Review Articles', 'Case Reports', 'Letters/Commentaries', 'Other'],
+                datasets: [{
+                    data: [52.3, 8.4, 8.1, 7.5, 6.2, 5.1, 12.4],
+                    backgroundColor: [
+                        colors.jpm,
+                        '#6a8a7a',
+                        '#7a9a8a',
+                        '#8aaa9a',
+                        '#9abaaa',
+                        '#aacaba',
+                        '#badaca'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        const jpmMethodCtx = document.getElementById('jpmMethodChart').getContext('2d');
+        new Chart(jpmMethodCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Retrospective', 'Cross-sectional', 'Qualitative', 'Prospective', 'Pilot/Feasibility', 'Scoping Review', 'RCT', 'Secondary'],
+                datasets: [{
+                    label: 'Percentage',
+                    data: [21.7, 18.5, 16.7, 12.5, 5.3, 4.2, 3.3, 3.0],
+                    backgroundColor: colors.jpm
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { callback: v => v + '%' }
+                    }
+                }
+            }
+        });
+
+        // ===== BMC PALL CARE CHARTS =====
+        const bmcpallArticleCtx = document.getElementById('bmcpallArticleChart').getContext('2d');
+        new Chart(bmcpallArticleCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Research Articles', 'Systematic Reviews', 'Scoping Reviews', 'Study Protocols', 'Mixed Methods', 'Case Reports', 'Other'],
+                datasets: [{
+                    data: [65.4, 8.9, 8.6, 1.8, 3.0, 1.8, 10.5],
+                    backgroundColor: [
+                        colors.bmcpall,
+                        '#9a7a6a',
+                        '#aa8a7a',
+                        '#ba9a8a',
+                        '#caaa9a',
+                        '#dabaaa',
+                        '#eacaba'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        const bmcpallMethodCtx = document.getElementById('bmcpallMethodChart').getContext('2d');
+        new Chart(bmcpallMethodCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Qualitative', 'Cross-sectional', 'Retrospective', 'Systematic Review', 'Scoping Review', 'Prospective', 'Mixed Methods', 'RCT'],
+                datasets: [{
+                    label: 'Percentage',
+                    data: [28.7, 18.6, 10.4, 8.9, 8.6, 7.4, 3.0, 0.3],
+                    backgroundColor: colors.bmcpall
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { callback: v => v + '%' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

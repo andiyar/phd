@@ -1,0 +1,7 @@
+# Ignore everything
+*
+
+# Except the dashboard
+!.gitignore
+!Journal TOC/
+!Journal TOC/DREAMS_Journal_Analysis_Dashboard.html
