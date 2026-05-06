@@ -1,0 +1,1671 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DREAMS — Coded Quotes</title>
+<style>
+  /* ---------- Design tokens ---------- */
+  :root {
+    --paper:        #FAF7F2;
+    --paper-2:      #F4EFE6;
+    --ink:          #1C1D22;
+    --ink-2:        #4A4B53;
+    --ink-3:        #8A8B91;
+    --line:         #E6E1D6;
+    --line-2:       #D6D0C2;
+    --accent:       #2E3033;
+    --highlight:    #FFE9A8;
+
+    /* Domain palette — warm, considered, accessible */
+    --d-comm:       #B07B2E;  --d-comm-bg:    #F4E9D2;  --d-comm-soft:  #FBF4E2;
+    --d-symp:       #B14A3F;  --d-symp-bg:    #F2D8D2;  --d-symp-soft:  #FAE7E2;
+    --d-fam:        #4F7A4E;  --d-fam-bg:     #DEE9D9;  --d-fam-soft:   #ECF2E7;
+    --d-pcc:        #6B5391;  --d-pcc-bg:     #E1D9EB;  --d-pcc-soft:   #EFE9F4;
+    --d-out:        #6E6F77;  --d-out-bg:     #DEDED9;  --d-out-soft:   #ECECE7;
+
+    /* Arm palette */
+    --arm-dxm:      #2F5D8B;  --arm-dxm-bg:   #DAE5EE;
+    --arm-mdz:      #8B5A2F;  --arm-mdz-bg:   #EFE3D5;
+
+    --shadow-sm:    0 1px 2px rgba(28,29,34,.04), 0 1px 1px rgba(28,29,34,.03);
+    --shadow:       0 4px 14px rgba(28,29,34,.06), 0 2px 4px rgba(28,29,34,.04);
+    --shadow-lg:    0 18px 40px rgba(28,29,34,.10), 0 4px 10px rgba(28,29,34,.05);
+
+    --radius-sm:    6px;
+    --radius:       10px;
+    --radius-lg:    16px;
+
+    --ui:           -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
+    --serif:        "Iowan Old Style", "Palatino", "Charter", "Georgia", "Times New Roman", serif;
+    --mono:         ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper:      #16171B;
+      --paper-2:    #1E1F24;
+      --ink:        #ECEAE3;
+      --ink-2:      #B5B4AE;
+      --ink-3:      #76777E;
+      --line:       #2A2B30;
+      --line-2:     #353740;
+      --accent:     #ECEAE3;
+      --highlight:  #6B5414;
+
+      --d-comm:     #E1B868;  --d-comm-bg:    #3D3220;  --d-comm-soft:  #2A2418;
+      --d-symp:     #E58B7E;  --d-symp-bg:    #402523;  --d-symp-soft:  #2C1B1A;
+      --d-fam:      #99C18F;  --d-fam-bg:     #243321;  --d-fam-soft:   #1B2519;
+      --d-pcc:      #B4A3DC;  --d-pcc-bg:     #2D2940;  --d-pcc-soft:   #211E2E;
+      --d-out:      #B4B5BB;  --d-out-bg:     #2C2D32;  --d-out-soft:   #212126;
+
+      --arm-dxm:    #8AB4D9;  --arm-dxm-bg:   #1F2D3B;
+      --arm-mdz:    #D2A57A;  --arm-mdz-bg:   #34281C;
+    }
+  }
+
+  /* ---------- Reset / base ---------- */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--ui);
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  input, select, textarea { font: inherit; color: inherit; }
+  ::selection { background: var(--highlight); color: var(--ink); }
+
+  /* ---------- App layout ---------- */
+  .app {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "header header"
+      "side    main";
+    min-height: 100vh;
+  }
+
+  /* ---------- Header ---------- */
+  header {
+    grid-area: header;
+    position: sticky; top: 0; z-index: 30;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: saturate(1.2) blur(14px);
+    -webkit-backdrop-filter: saturate(1.2) blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .header-inner {
+    display: flex; align-items: center; gap: 18px;
+    padding: 14px 28px;
+  }
+  .brand {
+    display: flex; align-items: baseline; gap: 10px;
+    user-select: none;
+  }
+  .brand .mark {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 22px;
+    letter-spacing: .01em;
+    color: var(--ink);
+  }
+  .brand .mark::first-letter { color: var(--d-symp); }
+  .brand .sub {
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .search {
+    flex: 1;
+    max-width: 620px;
+    position: relative;
+  }
+  .search input {
+    width: 100%;
+    height: 40px;
+    border: 1px solid var(--line);
+    background: var(--paper-2);
+    border-radius: 999px;
+    padding: 0 16px 0 42px;
+    color: var(--ink);
+    transition: border-color .15s, background .15s, box-shadow .15s;
+  }
+  .search input:focus {
+    outline: none;
+    border-color: var(--ink-3);
+    background: var(--paper);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--ink) 5%, transparent);
+  }
+  .search::before {
+    content: "";
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    width: 18px; height: 18px;
+    background: currentColor;
+    color: var(--ink-3);
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2' stroke-linecap='round' d='M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16Zm6.5-1.5L21 21'/></svg>") center/contain no-repeat;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2' stroke-linecap='round' d='M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16Zm6.5-1.5L21 21'/></svg>") center/contain no-repeat;
+    pointer-events: none;
+  }
+  .search-clear {
+    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+    width: 26px; height: 26px;
+    border: 0; background: transparent; color: var(--ink-3);
+    border-radius: 50%;
+    display: none; align-items: center; justify-content: center;
+  }
+  .search-clear:hover { background: var(--paper-2); color: var(--ink); }
+  .search.has-value .search-clear { display: inline-flex; }
+
+  .sort {
+    display: flex; align-items: center; gap: 8px;
+    color: var(--ink-2);
+    font-size: 13px;
+  }
+  .sort label { color: var(--ink-3); }
+  .sort select {
+    height: 34px;
+    padding: 0 28px 0 12px;
+    border: 1px solid var(--line);
+    background: var(--paper-2);
+    border-radius: 8px;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='%238A8B91' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 14px;
+    cursor: pointer;
+  }
+  .sort select:focus { outline: none; border-color: var(--ink-3); }
+
+  .count {
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-3);
+    font-size: 12.5px;
+    letter-spacing: .04em;
+    white-space: nowrap;
+  }
+  .count strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- Sidebar ---------- */
+  aside {
+    grid-area: side;
+    border-right: 1px solid var(--line);
+    padding: 24px 22px 80px;
+    position: sticky;
+    top: 69px;                  /* header height */
+    align-self: start;
+    height: calc(100vh - 69px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+  aside::-webkit-scrollbar { width: 8px; }
+  aside::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 8px; }
+
+  .filter-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin: 0 0 14px;
+  }
+  .filter-head h2 {
+    margin: 0;
+    font-size: 11px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 600;
+  }
+  .reset {
+    border: 0; background: transparent;
+    color: var(--ink-3); font-size: 12px;
+    padding: 4px 6px; border-radius: 6px;
+  }
+  .reset:hover { color: var(--ink); background: var(--paper-2); }
+  .reset:disabled { opacity: 0; pointer-events: none; }
+
+  details.facet {
+    border-top: 1px solid var(--line);
+    padding: 12px 0;
+  }
+  details.facet:last-child { border-bottom: 1px solid var(--line); }
+  details.facet > summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 6px 2px;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--ink);
+    user-select: none;
+  }
+  details.facet > summary::-webkit-details-marker { display: none; }
+  details.facet > summary::after {
+    content: "";
+    width: 10px; height: 10px;
+    border-right: 1.5px solid var(--ink-3);
+    border-bottom: 1.5px solid var(--ink-3);
+    transform: rotate(45deg) translate(-2px, -2px);
+    transition: transform .15s;
+  }
+  details.facet[open] > summary::after { transform: rotate(-135deg) translate(-2px, -2px); }
+  details.facet > summary .badge {
+    margin-left: auto; margin-right: 10px;
+    background: var(--paper-2);
+    color: var(--ink-2);
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 999px;
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+  details.facet > summary .badge:empty { display: none; }
+
+  .options {
+    display: flex; flex-direction: column;
+    gap: 1px;
+    margin-top: 6px;
+  }
+  .opt {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13.5px;
+    color: var(--ink-2);
+    transition: background .12s, color .12s;
+  }
+  .opt:hover { background: var(--paper-2); color: var(--ink); }
+  .opt input { margin: 0; accent-color: var(--ink); }
+  .opt .label { flex: 1; }
+  .opt .n {
+    font-size: 11.5px; color: var(--ink-3);
+    font-variant-numeric: tabular-nums;
+  }
+  .opt .swatch {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--ink-3);
+    flex-shrink: 0;
+  }
+  .opt[data-checked="true"] {
+    color: var(--ink);
+    background: var(--paper-2);
+  }
+
+  /* ---------- Main / cards ---------- */
+  main {
+    grid-area: main;
+    padding: 26px 28px 140px;
+    max-width: 100%;
+  }
+
+  .toolbar-info {
+    display: flex; align-items: center; gap: 14px;
+    padding: 0 2px 18px;
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
+  .active-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .active-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 4px 6px 4px 10px;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+  .active-chip button {
+    border: 0; background: transparent;
+    width: 18px; height: 18px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    color: var(--ink-3);
+    line-height: 1;
+  }
+  .active-chip button:hover { background: var(--line); color: var(--ink); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 18px;
+  }
+
+  .card {
+    --c:    var(--d-out);
+    --c-bg: var(--d-out-bg);
+    --c-soft: var(--d-out-soft);
+
+    position: relative;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 20px 22px 18px;
+    box-shadow: var(--shadow-sm);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    min-height: 180px;
+  }
+  .card::before {
+    content: "";
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--c);
+    border-top-left-radius: var(--radius-lg);
+    border-bottom-left-radius: var(--radius-lg);
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    border-color: var(--line-2);
+  }
+
+  .card[data-code="Communication"]       { --c: var(--d-comm); --c-bg: var(--d-comm-bg); --c-soft: var(--d-comm-soft); }
+  .card[data-code="Symptom Control"]     { --c: var(--d-symp); --c-bg: var(--d-symp-bg); --c-soft: var(--d-symp-soft); }
+  .card[data-code="Family"]              { --c: var(--d-fam);  --c-bg: var(--d-fam-bg);  --c-soft: var(--d-fam-soft);  }
+  .card[data-code="Patient-Centred Care"]{ --c: var(--d-pcc);  --c-bg: var(--d-pcc-bg);  --c-soft: var(--d-pcc-soft);  }
+  .card[data-code="Outside Framework"]   { --c: var(--d-out);  --c-bg: var(--d-out-bg);  --c-soft: var(--d-out-soft);  }
+
+  .card-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .domain {
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--c);
+  }
+  .id {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .quote {
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink);
+    margin: 4px 0 14px;
+    position: relative;
+    padding-left: 14px;
+  }
+  .quote::before {
+    content: "\201C";
+    position: absolute;
+    left: -2px; top: -10px;
+    font-size: 38px;
+    color: var(--c);
+    opacity: .55;
+    font-family: var(--serif);
+    line-height: 1;
+  }
+  mark {
+    background: var(--highlight);
+    color: var(--ink);
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+
+  .note {
+    font-size: 13px;
+    color: var(--ink-2);
+    background: var(--c-soft);
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 12px;
+    border: 1px solid color-mix(in srgb, var(--c) 14%, transparent);
+  }
+  .note::before {
+    content: "Note  ·  ";
+    font-size: 10.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--c);
+    font-weight: 600;
+  }
+
+  .chips {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px dashed var(--line);
+  }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11.5px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--paper-2);
+    color: var(--ink-2);
+    border: 1px solid var(--line);
+    line-height: 1.6;
+    font-weight: 500;
+  }
+  .chip.subcode {
+    background: var(--c-bg);
+    color: var(--c);
+    border-color: color-mix(in srgb, var(--c) 22%, transparent);
+    font-weight: 600;
+  }
+  .chip.arm-DXM { background: var(--arm-dxm-bg); color: var(--arm-dxm); border-color: color-mix(in srgb, var(--arm-dxm) 22%, transparent); font-weight: 600; }
+  .chip.arm-MDZ { background: var(--arm-mdz-bg); color: var(--arm-mdz); border-color: color-mix(in srgb, var(--arm-mdz) 22%, transparent); font-weight: 600; }
+  .chip .dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+  /* Empty state */
+  .empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--ink-3);
+  }
+  .empty .big { font-family: var(--serif); font-size: 28px; color: var(--ink-2); margin-bottom: 6px; }
+  .empty .small { font-size: 13.5px; }
+
+  /* ---------- View toggle (segmented) ---------- */
+  .view-toggle {
+    display: inline-flex;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 2px;
+    gap: 2px;
+  }
+  .view-toggle button {
+    border: 0; background: transparent;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: var(--ink-3);
+    font-size: 12.5px;
+    font-weight: 500;
+    display: inline-flex; align-items: center; gap: 6px;
+    line-height: 1;
+    transition: background .12s, color .12s;
+  }
+  .view-toggle button:hover { color: var(--ink); }
+  .view-toggle button[aria-pressed="true"] {
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: var(--shadow-sm);
+  }
+  .view-toggle svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* ---------- Group pill bar ---------- */
+  .group-pills {
+    display: flex; align-items: center; flex-wrap: wrap;
+    gap: 6px;
+  }
+  .group-pills .group-label {
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-right: 4px;
+    font-weight: 600;
+  }
+  .group-pills .pill {
+    border: 1px solid var(--line);
+    background: var(--paper-2);
+    color: var(--ink-2);
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 500;
+    display: inline-flex; align-items: center; gap: 6px;
+    line-height: 1;
+    transition: background .12s, color .12s, border-color .12s;
+  }
+  .group-pills .pill:hover {
+    background: var(--paper);
+    color: var(--ink);
+    border-color: var(--line-2);
+  }
+  .group-pills .pill[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .group-pills .pill .order {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    display: none;
+    align-items: center; justify-content: center;
+    background: color-mix(in srgb, var(--paper) 22%, transparent);
+    font-variant-numeric: tabular-nums;
+    margin-left: -2px;
+  }
+  .group-pills .pill[aria-pressed="true"] .order { display: inline-flex; }
+  .group-pills .pill[aria-pressed="true"] .order:empty::before { content: "•"; }
+  .group-pills .pill-clear {
+    position: relative;
+    margin-left: 14px;
+    border: 1px solid var(--line-2);
+    background: var(--paper);
+    color: var(--ink-2);
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 5px 12px 5px 10px;
+    border-radius: 999px;
+    display: inline-flex; align-items: center; gap: 6px;
+    line-height: 1;
+    transition: background .12s, color .12s, border-color .12s, transform .08s;
+  }
+  .group-pills .pill-clear::before {
+    content: "";
+    position: absolute;
+    left: -8px; top: 4px; bottom: 4px;
+    width: 1px;
+    background: var(--line);
+  }
+  .group-pills .pill-clear::after {
+    content: "";
+    width: 12px; height: 12px;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' d='M6 6l12 12M18 6 6 18'/></svg>") center/contain no-repeat;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' d='M6 6l12 12M18 6 6 18'/></svg>") center/contain no-repeat;
+    order: -1;
+    opacity: .7;
+  }
+  .group-pills .pill-clear:hover {
+    background: var(--d-symp-soft);
+    color: var(--d-symp);
+    border-color: color-mix(in srgb, var(--d-symp) 35%, transparent);
+  }
+  .group-pills .pill-clear:hover::after { opacity: 1; }
+  .group-pills .pill-clear:active { transform: scale(.97); }
+
+  /* ---------- Group sections (nestable) ---------- */
+  .group-section { margin-bottom: 22px; }
+  .group-section:last-child { margin-bottom: 0; }
+  .group-section .group-section { margin-bottom: 14px; }
+  .group-section .group-section:last-child { margin-bottom: 4px; }
+
+  .group-head {
+    display: flex; align-items: baseline; gap: 10px;
+    padding: 6px 4px 10px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 14px;
+  }
+  .group-head .gbar {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--g, var(--ink-3));
+    align-self: center;
+    flex-shrink: 0;
+  }
+  .group-head .gkey {
+    font-size: 10.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 600;
+  }
+  .group-head .gtitle {
+    font-family: var(--serif);
+    font-size: 19px;
+    color: var(--ink);
+    font-style: italic;
+    letter-spacing: .005em;
+  }
+  .group-head .gcount {
+    font-size: 11.5px;
+    color: var(--ink-3);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: .04em;
+    margin-left: auto;
+    background: var(--paper-2);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  /* Nested levels: smaller, lighter divider, indented */
+  .group-section .group-section .group-head {
+    padding: 4px 2px 6px;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .group-section .group-section .group-head .gtitle { font-size: 15px; }
+  .group-section .group-section .group-head .gbar { width: 7px; height: 7px; }
+  .group-section .group-section { padding-left: 14px; border-left: 1px solid var(--line); }
+  .group-section .group-section .group-section { padding-left: 10px; }
+  .group-section .group-section .group-section .group-head .gtitle { font-size: 13px; font-style: normal; font-weight: 600; }
+
+  /* ---------- Compact list ---------- */
+  .list {
+    display: flex; flex-direction: column;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--paper);
+    box-shadow: var(--shadow-sm);
+  }
+  .list .row {
+    --c: var(--d-out);
+    --c-bg: var(--d-out-bg);
+    --c-soft: var(--d-out-soft);
+    position: relative;
+    display: flex; align-items: center; gap: 12px;
+    padding: 9px 14px 9px 18px;
+    border-top: 1px solid var(--line);
+    cursor: pointer;
+    transition: background .1s;
+    font-size: 13.5px;
+  }
+  .list .row:first-child { border-top: 0; }
+  .list .row::before {
+    content: "";
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--c);
+  }
+  .list .row[data-code="Communication"]       { --c: var(--d-comm); --c-bg: var(--d-comm-bg); --c-soft: var(--d-comm-soft); }
+  .list .row[data-code="Symptom Control"]     { --c: var(--d-symp); --c-bg: var(--d-symp-bg); --c-soft: var(--d-symp-soft); }
+  .list .row[data-code="Family"]              { --c: var(--d-fam);  --c-bg: var(--d-fam-bg);  --c-soft: var(--d-fam-soft);  }
+  .list .row[data-code="Patient-Centred Care"]{ --c: var(--d-pcc);  --c-bg: var(--d-pcc-bg);  --c-soft: var(--d-pcc-soft);  }
+  .list .row[data-code="Outside Framework"]   { --c: var(--d-out);  --c-bg: var(--d-out-bg);  --c-soft: var(--d-out-soft);  }
+
+  .list .row:hover { background: color-mix(in srgb, var(--c) 5%, var(--paper)); }
+  .list .row[aria-expanded="true"] {
+    background: color-mix(in srgb, var(--c) 6%, var(--paper));
+    border-top-color: color-mix(in srgb, var(--c) 22%, transparent);
+  }
+
+  .list .row .meta {
+    display: flex; align-items: center; gap: 8px;
+    flex-shrink: 0;
+    width: 320px;
+    overflow: hidden;
+  }
+  .list .row .pat {
+    font-weight: 600; color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    width: 56px;
+  }
+  .list .row .arm-pill {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: var(--paper-2);
+  }
+  .list .row .arm-pill.DXM { background: var(--arm-dxm-bg); color: var(--arm-dxm); }
+  .list .row .arm-pill.MDZ { background: var(--arm-mdz-bg); color: var(--arm-mdz); }
+  .list .row .day { color: var(--ink-2); width: 52px; font-variant-numeric: tabular-nums; }
+  .list .row .disc { color: var(--ink-3); width: 64px; font-size: 12px; }
+  .list .row .sub {
+    font-size: 11.5px;
+    background: var(--c-bg);
+    color: var(--c);
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-weight: 600;
+    border: 1px solid color-mix(in srgb, var(--c) 22%, transparent);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+  }
+  .list .row .qline {
+    flex: 1;
+    color: var(--ink-2);
+    font-family: var(--serif);
+    font-size: 14.5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+  .list .row .id {
+    font-family: var(--mono);
+    color: var(--ink-3);
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+
+  .list .row[aria-expanded="true"] {
+    flex-wrap: wrap;
+    padding-top: 14px;
+    padding-bottom: 18px;
+  }
+  .list .row[aria-expanded="true"] .qline { display: none; }
+  .list .row[aria-expanded="true"] .id { align-self: flex-start; }
+
+  .list .row .expanded {
+    display: none;
+    flex-basis: 100%;
+    margin-top: 12px;
+    padding-top: 14px;
+    border-top: 1px dashed color-mix(in srgb, var(--c) 28%, transparent);
+  }
+  .list .row[aria-expanded="true"] .expanded {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .list .row .expanded .domain-tag {
+    font-size: 10.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--c);
+    font-weight: 700;
+  }
+  .list .row .expanded .full-quote {
+    font-family: var(--serif);
+    font-size: 17.5px;
+    line-height: 1.5;
+    color: var(--ink);
+    padding-left: 18px;
+    position: relative;
+    margin: -2px 0 0;
+  }
+  .list .row .expanded .full-quote::before {
+    content: "\201C";
+    position: absolute; left: 0; top: -10px;
+    font-size: 38px;
+    color: var(--c);
+    opacity: .55;
+    font-family: var(--serif);
+    line-height: 1;
+  }
+  .list .row .expanded .note {
+    font-size: 13px;
+    color: var(--ink-2);
+    background: var(--c-soft);
+    border-radius: 10px;
+    padding: 10px 12px;
+    border: 1px solid color-mix(in srgb, var(--c) 14%, transparent);
+  }
+  .list .row .expanded .note::before {
+    content: "Note  ·  ";
+    font-size: 10.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--c);
+    font-weight: 700;
+  }
+  .list .row .expanded .ex-chips {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .list .row .expanded .ex-chips .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11.5px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--paper-2);
+    color: var(--ink-2);
+    border: 1px solid var(--line);
+    line-height: 1.6;
+    font-weight: 500;
+  }
+  .list .row .expanded .ex-chips .chip.subcode {
+    background: var(--c-bg);
+    color: var(--c);
+    border-color: color-mix(in srgb, var(--c) 22%, transparent);
+    font-weight: 600;
+  }
+  .list .row .expanded .ex-chips .chip.subcode .dot {
+    width: 5px; height: 5px; border-radius: 50%; background: currentColor;
+  }
+  .list .row .expanded .ex-chips .chip.arm-DXM { background: var(--arm-dxm-bg); color: var(--arm-dxm); border-color: color-mix(in srgb, var(--arm-dxm) 22%, transparent); font-weight: 600; }
+  .list .row .expanded .ex-chips .chip.arm-MDZ { background: var(--arm-mdz-bg); color: var(--arm-mdz); border-color: color-mix(in srgb, var(--arm-mdz) 22%, transparent); font-weight: 600; }
+  .list .row .expanded .src {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .list .row .expanded .src::before {
+    content: "";
+    width: 11px; height: 13px;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-6-6Zm0 0v6h6'/></svg>") center/contain no-repeat;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-6-6Zm0 0v6h6'/></svg>") center/contain no-repeat;
+    opacity: .8;
+  }
+
+  /* Show more */
+  .show-more-wrap {
+    text-align: center;
+    padding: 20px 0 4px;
+  }
+  .show-more {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    color: var(--ink-2);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background .12s, color .12s, border-color .12s;
+  }
+  .show-more:hover { background: var(--paper); color: var(--ink); border-color: var(--line-2); }
+  .show-more .n { color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+  /* Group-by select reuses .sort select styles */
+
+  /* ---------- Stats footer ---------- */
+  .stats {
+    position: fixed;
+    left: 18px;
+    bottom: 14px;
+    z-index: 20;
+    display: inline-flex; align-items: center;
+    gap: 12px;
+    padding: 8px 14px;
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+    backdrop-filter: saturate(1.2) blur(10px);
+    -webkit-backdrop-filter: saturate(1.2) blur(10px);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    box-shadow: var(--shadow-sm);
+    font-size: 11.5px;
+    letter-spacing: .04em;
+    color: var(--ink-3);
+    font-variant-numeric: tabular-nums;
+    user-select: none;
+    transition: opacity .15s, transform .15s;
+  }
+  .stats .stat {
+    display: inline-flex; align-items: baseline; gap: 5px;
+  }
+  .stats .stat .num {
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .stats .stat .lab {
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    font-size: 10.5px;
+  }
+  .stats .of {
+    color: var(--ink-3);
+    font-size: 10.5px;
+  }
+  .stats .sep { width: 1px; height: 14px; background: var(--line); }
+  @media (max-width: 720px) {
+    .stats { left: 10px; right: 10px; bottom: 10px; justify-content: center; }
+  }
+
+  /* Loading flicker */
+  .skeleton .grid { opacity: .35; }
+
+  /* Mobile */
+  @media (max-width: 880px) {
+    .app { grid-template-columns: 1fr; grid-template-areas: "header" "main"; }
+    aside { display: none; }
+    .header-inner { padding: 12px 16px; flex-wrap: wrap; }
+    .search { order: 3; flex-basis: 100%; max-width: none; }
+    .sort, .count { order: 2; }
+    main { padding: 18px 16px 100px; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Password gate -->
+<div id="gate" style="
+  position:fixed;inset:0;z-index:9999;
+  background:var(--paper);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ui);
+">
+  <div style="
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:2.5rem 3rem;
+    width:min(380px,90vw);
+    box-shadow:var(--shadow-lg);
+    text-align:center;
+  ">
+    <div style="font-size:1.4rem;font-weight:700;color:var(--ink);margin-bottom:.4rem;">DREAMS</div>
+    <div style="font-size:.85rem;color:var(--ink-3);margin-bottom:2rem;">Qualitative Coding Database</div>
+    <input id="gate-input" type="password" placeholder="Password"
+      autocomplete="current-password"
+      style="
+        width:100%;padding:.7rem 1rem;
+        border:1.5px solid var(--line-2);border-radius:var(--radius);
+        background:var(--paper);color:var(--ink);
+        font-family:var(--ui);font-size:.95rem;
+        outline:none;margin-bottom:.75rem;
+        transition:border-color .15s;
+      "
+      onfocus="this.style.borderColor='var(--accent)'"
+      onblur="this.style.borderColor='var(--line-2)'"
+    />
+    <div id="gate-err" style="color:#B14A3F;font-size:.8rem;min-height:1.2em;margin-bottom:.5rem;"></div>
+    <button onclick="checkPassword()" style="
+      width:100%;padding:.7rem;
+      background:var(--accent);color:var(--paper);
+      border:none;border-radius:var(--radius);
+      font-family:var(--ui);font-size:.95rem;font-weight:600;
+      cursor:pointer;transition:opacity .15s;
+    " onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Enter</button>
+  </div>
+</div>
+<script>
+  const _PW = "DREAMS2026";
+  if (sessionStorage.getItem("dreams_auth") === "1") {
+    document.getElementById("gate").style.display = "none";
+  }
+  document.getElementById("gate-input").addEventListener("keydown", e => {
+    if (e.key === "Enter") checkPassword();
+  });
+  function checkPassword() {
+    const v = document.getElementById("gate-input").value;
+    if (v === _PW) {
+      sessionStorage.setItem("dreams_auth", "1");
+      document.getElementById("gate").style.display = "none";
+    } else {
+      document.getElementById("gate-err").textContent = "Incorrect password.";
+      document.getElementById("gate-input").value = "";
+      document.getElementById("gate-input").focus();
+    }
+  }
+</script>
+
+<div class="app">
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="mark">DREAMS</div>
+        <div class="sub">Coded Quotes</div>
+      </div>
+      <div class="search" id="searchWrap">
+        <input id="search" type="search" autocomplete="off" spellcheck="false" placeholder="Search quotes…" />
+        <button class="search-clear" id="searchClear" aria-label="Clear search">×</button>
+      </div>
+      <div class="view-toggle" role="group" aria-label="View">
+        <button id="view-list" aria-pressed="true" title="Compact list">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          List
+        </button>
+        <button id="view-cards" aria-pressed="false" title="Card view">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Cards
+        </button>
+      </div>
+      <div class="sort">
+        <label for="sort">Sort</label>
+        <select id="sort">
+          <option value="patient">Patient</option>
+          <option value="arm">Arm</option>
+          <option value="day">Day</option>
+          <option value="code">Domain</option>
+          <option value="id">Order added</option>
+        </select>
+      </div>
+      <div class="count" id="count">— of —</div>
+    </div>
+  </header>
+
+  <aside>
+    <div class="filter-head">
+      <h2>Filters</h2>
+      <button class="reset" id="reset" disabled>Clear all</button>
+    </div>
+    <div id="facets"></div>
+  </aside>
+
+  <main>
+    <div class="toolbar-info">
+      <div class="group-pills" id="groupPills" aria-label="Group by">
+        <span class="group-label">Group by</span>
+        <button class="pill" data-group="code"      aria-pressed="false"><span class="order"></span>Domain</button>
+        <button class="pill" data-group="subcode"   aria-pressed="false"><span class="order"></span>Sub-code</button>
+        <button class="pill" data-group="patient"   aria-pressed="false"><span class="order"></span>Patient</button>
+        <button class="pill" data-group="arm"       aria-pressed="false"><span class="order"></span>Arm</button>
+        <button class="pill" data-group="day"       aria-pressed="false"><span class="order"></span>Day</button>
+        <button class="pill" data-group="discipline" aria-pressed="false"><span class="order"></span>Note type</button>
+        <button class="pill-clear" id="clearGroups" type="button" hidden>Clear</button>
+      </div>
+      <div class="active-chips" id="activeChips"></div>
+    </div>
+    <div id="grid"></div>
+  </main>
+
+  <div id="stats" class="stats" aria-live="polite"></div>
+</div>
+
+<!-- ===== Embedded data (fallback when fetch fails) ===== -->
+<script id="embedded-data" type="application/json">[{"id": 1, "source_file": "MDZ23-Medical-003-2023-06-02-1834.txt", "patient": "MDZ23", "arm": "MDZ", "day": "Day0", "discipline": "Medical", "quote": "Substantial deterioration with Brian experiencing some breathing distress, asking for help", "code": "Symptom Control", "subcode": "Breathing distress", "note": ""}, {"id": 2, "source_file": "MDZ23-Medical-003-2023-06-02-1834.txt", "patient": "MDZ23", "arm": "MDZ", "day": "Day0", "discipline": "Medical", "quote": "Substantial deterioration with Brian experiencing some breathing distress, asking for help", "code": "Communication", "subcode": "Patient verbalising needs", "note": "Patient able to articulate request pre-sedation"}, {"id": 3, "source_file": "MDZ23-Medical-003-2023-06-02-1834.txt", "patient": "MDZ23", "arm": "MDZ", "day": "Day0", "discipline": "Medical", "quote": "Was normal earlier today without evidence of delirium, now fixated with some mild hyperactivity", "code": "Symptom Control", "subcode": "Delirium onset", "note": "Acute change — baseline to hyperactive delirium"}, {"id": 4, "source_file": "MDZ23-Medical-003-2023-06-02-1834.txt", "patient": "MDZ23", "arm": "MDZ", "day": "Day0", "discipline": "Medical", "quote": "Has also used 4x PRN hydromorphone last 24 hours at 1.5mg", "code": "Symptom Control", "subcode": "Breakthrough medication", "note": ""}, {"id": 5, "source_file": "MDZ9-Nursing-011-2022-03-30-1446.txt", "patient": "MDZ9", "arm": "MDZ", "day": "Day1", "discipline": "Nursing", "quote": "Cognition: responding to voice, alert at times", "code": "Communication", "subcode": "Responsive to voice", "note": "Day 1 MDZ — patient still rousable after midazolam commenced"}, {"id": 6, "source_file": "MDZ9-Nursing-011-2022-03-30-1446.txt", "patient": "MDZ9", "arm": "MDZ", "day": "Day1", "discipline": "Nursing", "quote": "Pain Management: s/d commenced appears settled", "code": "Symptom Control", "subcode": "Pain controlled", "note": "Settled after study drug commencement"}, {"id": 7, "source_file": "MDZ9-Nursing-011-2022-03-30-1446.txt", "patient": "MDZ9", "arm": "MDZ", "day": "Day1", "discipline": "Nursing", "quote": "Breathing remains on cont O2 at 2 LPM via n/p, SOB on exertion", "code": "Symptom Control", "subcode": "Breathing distress", "note": ""}, {"id": 8, "source_file": "MDZ9-Nursing-011-2022-03-30-1446.txt", "patient": "MDZ9", "arm": "MDZ", "day": "Day1", "discipline": "Nursing", "quote": "Family/Carer: requires support and tlc, distressed at times due to current situation", "code": "Family", "subcode": "Family distress witnessed", "note": ""}, {"id": 9, "source_file": "MDZ25-Nursing-018-2023-07-16-1929.txt", "patient": "MDZ25", "arm": "MDZ", "day": "Day2", "discipline": "Nursing", "quote": "Appears settled. Nil tenderness to left hip/flank when touching. Breakthrough morphine effect. Patient appears settled and sleeping at time of report.", "code": "Symptom Control", "subcode": "Comfort achieved", "note": "Also coded Patient-Centred Care"}, {"id": 10, "source_file": "MDZ25-Nursing-018-2023-07-16-1929.txt", "patient": "MDZ25", "arm": "MDZ", "day": "Day2", "discipline": "Nursing", "quote": "Appears settled. Nil tenderness to left hip/flank when touching. Breakthrough morphine effect. Patient appears settled and sleeping at time of report.", "code": "Patient-Centred Care", "subcode": "Apparent comfort", "note": "Also coded Symptom Control"}, {"id": 11, "source_file": "MDZ25-Nursing-018-2023-07-16-1929.txt", "patient": "MDZ25", "arm": "MDZ", "day": "Day2", "discipline": "Nursing", "quote": "Nil tenderness to left hip/flank when touching", "code": "Symptom Control", "subcode": "Pain controlled", "note": ""}, {"id": 12, "source_file": "MDZ25-Nursing-018-2023-07-16-1929.txt", "patient": "MDZ25", "arm": "MDZ", "day": "Day2", "discipline": "Nursing", "quote": "Breakthrough morphine effect", "code": "Symptom Control", "subcode": "Breakthrough medication", "note": ""}, {"id": 13, "source_file": "DXM23_PCA_Day_2_Form_1.txt", "patient": "DXM23", "arm": "DXM", "day": "Day2", "discipline": "PCA", "quote": "She was frustrated with not being able to verbalise what she wanted, which was for her knees to be up. We got it in the end with slight nods or shaking the head.", "code": "Communication", "subcode": "Difficulty communicating", "note": "Patient unable to verbalise but retains non-verbal communication capacity"}, {"id": 14, "source_file": "DXM23_PCA_Day_2_Form_1.txt", "patient": "DXM23", "arm": "DXM", "day": "Day2", "discipline": "PCA", "quote": "She pointed/rubbed her throat and confirmed she was sore.", "code": "Communication", "subcode": "Patient verbalising needs", "note": "Non-verbal — pointing/gesture to communicate pain location"}, {"id": 15, "source_file": "DXM23_PCA_Day_2_Form_1.txt", "patient": "DXM23", "arm": "DXM", "day": "Day2", "discipline": "PCA", "quote": "She had two small periods of agitation, both due to discomfort.", "code": "Symptom Control", "subcode": "Agitation", "note": "Family attribution — agitation linked to pain"}, {"id": 16, "source_file": "DXM23_PCA_Day_2_Form_1.txt", "patient": "DXM23", "arm": "DXM", "day": "Day2", "discipline": "PCA", "quote": "Mum had a mostly restful day.", "code": "Symptom Control", "subcode": "Comfort achieved", "note": "Family observation of overall comfort"}, {"id": 17, "source_file": "DXM23_PCA_Day_2_Form_1.txt", "patient": "DXM23", "arm": "DXM", "day": "Day2", "discipline": "PCA", "quote": "She had tears in her eyes and looked sad.", "code": "Symptom Control", "subcode": "Psychological distress", "note": "Family observing patient's emotional state"}, {"id": 18, "source_file": "DXM23_PCA_Day_2_Form_1.txt", "patient": "DXM23", "arm": "DXM", "day": "Day2", "discipline": "PCA", "quote": "I offered a wet swab for her to suck and it helped a lot.", "code": "Family", "subcode": "Family providing care", "note": "Family actively participating in comfort care"}]</script>
+
+<script>
+(() => {
+  "use strict";
+
+  // ---------- Config ----------
+  const FACETS = [
+    { key: "code",       label: "Domain",     coloured: true  },
+    { key: "subcode",    label: "Sub-code"                    },
+    { key: "arm",        label: "Arm"                          },
+    { key: "day",        label: "Day"                          },
+    { key: "discipline", label: "Note type"                    },
+    { key: "patient",    label: "Patient"                      },
+  ];
+
+  const DOMAIN_VAR = {
+    "Communication":          "--d-comm",
+    "Symptom Control":        "--d-symp",
+    "Family":                 "--d-fam",
+    "Patient-Centred Care":   "--d-pcc",
+    "Outside Framework":      "--d-out",
+  };
+
+  // Stable orderings for known dimensions
+  const DAY_ORDER = ["DayMinus1", "Day0", "Day1", "Day2", "Day3", "Day4", "Day5"];
+  const DOMAIN_ORDER = ["Communication", "Symptom Control", "Family", "Patient-Centred Care", "Outside Framework"];
+  const ARM_ORDER = ["DXM", "MDZ"];
+  const DISCIPLINE_ORDER = ["Medical", "Nursing", "PCA"];
+
+  // ---------- State ----------
+  const PAGE = 300;
+  const state = {
+    data: [],
+    filters: {},          // { code: Set<string>, ... }
+    search: "",
+    sort: "patient",
+    view: "list",         // "cards" | "list"
+    groupBy: [],          // ordered array of facet keys; outer → inner
+    cap: PAGE,
+  };
+  for (const f of FACETS) state.filters[f.key] = new Set();
+
+  // ---------- Bootstrap data ----------
+  async function loadData() {
+    // Try fetch first (so when hosted, latest JSON is used)
+    try {
+      const r = await fetch("coded_quotes.json", { cache: "no-store" });
+      if (r.ok) {
+        const j = await r.json();
+        if (Array.isArray(j) && j.length) return j;
+      }
+    } catch (_) { /* fall through to embedded */ }
+
+    // Fallback: embedded JSON
+    const raw = document.getElementById("embedded-data").textContent.trim();
+    if (!raw || raw === "__EMBEDDED_" + "JSON__") return [];
+    try { return JSON.parse(raw); } catch { return []; }
+  }
+
+  // ---------- Helpers ----------
+  const $  = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+  const escapeHTML = (s) =>
+    String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+
+  const escapeRE = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  const labelDay = (d) => {
+    if (!d) return d;
+    if (d === "DayMinus1") return "Day −1";
+    return d.replace(/^Day/, "Day ");
+  };
+
+  const labelArm = (a) => a === "DXM" ? "Dexmedetomidine" : a === "MDZ" ? "Midazolam" : a;
+
+  const patientNum = (p) => {
+    const m = String(p).match(/(\d+)/);
+    return m ? +m[1] : 0;
+  };
+
+  function compareBy(field) {
+    return (a, b) => {
+      switch (field) {
+        case "patient": {
+          const ar = (a.arm || "").localeCompare(b.arm || "");
+          if (ar) return ar;
+          return patientNum(a.patient) - patientNum(b.patient) || a.id - b.id;
+        }
+        case "arm": {
+          const ai = ARM_ORDER.indexOf(a.arm); const bi = ARM_ORDER.indexOf(b.arm);
+          return (ai - bi) || patientNum(a.patient) - patientNum(b.patient) || a.id - b.id;
+        }
+        case "day": {
+          const ai = DAY_ORDER.indexOf(a.day); const bi = DAY_ORDER.indexOf(b.day);
+          return (ai - bi) || (a.arm || "").localeCompare(b.arm || "") || patientNum(a.patient) - patientNum(b.patient);
+        }
+        case "code": {
+          const ai = DOMAIN_ORDER.indexOf(a.code); const bi = DOMAIN_ORDER.indexOf(b.code);
+          return (ai - bi) || (a.subcode || "").localeCompare(b.subcode || "") || a.id - b.id;
+        }
+        case "id":
+        default:
+          return a.id - b.id;
+      }
+    };
+  }
+
+  function orderedValues(key, values) {
+    const arr = Array.from(values);
+    const map = {
+      day: DAY_ORDER, code: DOMAIN_ORDER, arm: ARM_ORDER, discipline: DISCIPLINE_ORDER,
+    };
+    if (map[key]) {
+      const idx = (v) => { const i = map[key].indexOf(v); return i === -1 ? 999 : i; };
+      arr.sort((a, b) => idx(a) - idx(b) || a.localeCompare(b));
+    } else if (key === "patient") {
+      arr.sort((a, b) => {
+        const aArm = a.startsWith("DXM") ? 0 : 1;
+        const bArm = b.startsWith("DXM") ? 0 : 1;
+        return aArm - bArm || patientNum(a) - patientNum(b);
+      });
+    } else {
+      arr.sort((a, b) => a.localeCompare(b));
+    }
+    return arr;
+  }
+
+  // ---------- Filtering ----------
+  function matches(item) {
+    for (const f of FACETS) {
+      const sel = state.filters[f.key];
+      if (sel.size && !sel.has(item[f.key])) return false;
+    }
+    if (state.search) {
+      const s = state.search.toLowerCase();
+      const hay = [
+        item.quote, item.note, item.subcode, item.code, item.patient,
+        item.discipline, item.arm, item.day, item.source_file
+      ].filter(Boolean).join(" ").toLowerCase();
+      if (!hay.includes(s)) return false;
+    }
+    return true;
+  }
+
+  // ---------- Highlighting ----------
+  function highlight(text, query) {
+    if (!text) return "";
+    const safe = escapeHTML(text);
+    if (!query) return safe;
+    const re = new RegExp(`(${escapeRE(query)})`, "gi");
+    return safe.replace(re, "<mark>$1</mark>");
+  }
+
+  // ---------- Render: facets ----------
+  function renderFacets() {
+    const container = $("#facets");
+
+    // Compute counts honouring all OTHER active facets + search
+    const countsFor = (key) => {
+      const counts = new Map();
+      for (const item of state.data) {
+        // ignore this facet's own filter when counting
+        let ok = true;
+        for (const f of FACETS) {
+          if (f.key === key) continue;
+          const sel = state.filters[f.key];
+          if (sel.size && !sel.has(item[f.key])) { ok = false; break; }
+        }
+        if (ok && state.search) {
+          const s = state.search.toLowerCase();
+          const hay = [item.quote, item.note, item.subcode, item.code, item.patient, item.discipline, item.arm, item.day, item.source_file]
+            .filter(Boolean).join(" ").toLowerCase();
+          if (!hay.includes(s)) ok = false;
+        }
+        if (!ok) continue;
+        const v = item[key];
+        if (v == null || v === "") continue;
+        counts.set(v, (counts.get(v) || 0) + 1);
+      }
+      return counts;
+    };
+
+    const html = FACETS.map(f => {
+      const counts = countsFor(f.key);
+      // Always include any currently selected values, even if zero in current view
+      for (const v of state.filters[f.key]) if (!counts.has(v)) counts.set(v, 0);
+      const values = orderedValues(f.key, new Set([...counts.keys()]));
+      const sel = state.filters[f.key];
+      const open = f.key === "code" || sel.size > 0;
+
+      const opts = values.map(v => {
+        const checked = sel.has(v);
+        const n = counts.get(v) || 0;
+        const swatch = (f.coloured && DOMAIN_VAR[v])
+          ? `<span class="swatch" style="background:var(${DOMAIN_VAR[v]})"></span>`
+          : (f.key === "arm" ? `<span class="swatch" style="background:var(--arm-${v.toLowerCase()})"></span>` : "");
+        const lab = f.key === "day" ? labelDay(v)
+                  : f.key === "arm" ? `${v} <span style="color:var(--ink-3)">— ${labelArm(v).toLowerCase()}</span>`
+                  : v;
+        return `<label class="opt" data-checked="${checked}">
+          <input type="checkbox" data-facet="${f.key}" value="${escapeHTML(v)}" ${checked ? "checked" : ""} />
+          ${swatch}<span class="label">${lab}</span><span class="n">${n}</span>
+        </label>`;
+      }).join("");
+
+      const badge = sel.size ? `<span class="badge">${sel.size}</span>` : "";
+
+      return `<details class="facet" ${open ? "open" : ""} data-facet="${f.key}">
+        <summary>${f.label}${badge}</summary>
+        <div class="options">${opts || `<div style="padding:6px 8px;color:var(--ink-3);font-size:12.5px">No values</div>`}</div>
+      </details>`;
+    }).join("");
+
+    container.innerHTML = html;
+  }
+
+  // ---------- Render: grid (cards/list, optional grouped) ----------
+  function cardHTML(it, q) {
+    const noteHTML = it.note ? `<div class="note">${highlight(it.note, q)}</div>` : "";
+    return `
+      <article class="card" data-code="${escapeHTML(it.code || "Outside Framework")}">
+        <div class="card-head">
+          <span class="domain">${escapeHTML(it.code || "—")}</span>
+          <span class="id">#${it.id}</span>
+        </div>
+        <blockquote class="quote">${highlight(it.quote, q)}</blockquote>
+        ${noteHTML}
+        <div class="chips">
+          ${it.subcode ? `<span class="chip subcode"><span class="dot"></span>${escapeHTML(it.subcode)}</span>` : ""}
+          ${it.arm ? `<span class="chip arm-${escapeHTML(it.arm)}">${escapeHTML(it.arm)}</span>` : ""}
+          ${it.patient ? `<span class="chip">${escapeHTML(it.patient)}</span>` : ""}
+          ${it.day ? `<span class="chip">${escapeHTML(labelDay(it.day))}</span>` : ""}
+          ${it.discipline ? `<span class="chip">${escapeHTML(it.discipline)}</span>` : ""}
+        </div>
+      </article>`;
+  }
+
+  function rowHTML(it, q) {
+    const noteHTML = it.note ? `<div class="note">${highlight(it.note, q)}</div>` : "";
+    const exChips = `
+      <div class="ex-chips">
+        ${it.subcode ? `<span class="chip subcode"><span class="dot"></span>${escapeHTML(it.subcode)}</span>` : ""}
+        ${it.arm ? `<span class="chip arm-${escapeHTML(it.arm)}">${escapeHTML(it.arm)}</span>` : ""}
+        ${it.patient ? `<span class="chip">${escapeHTML(it.patient)}</span>` : ""}
+        ${it.day ? `<span class="chip">${escapeHTML(labelDay(it.day))}</span>` : ""}
+        ${it.discipline ? `<span class="chip">${escapeHTML(it.discipline)}</span>` : ""}
+      </div>`;
+    return `
+      <div class="row" data-code="${escapeHTML(it.code || "Outside Framework")}" data-id="${it.id}" aria-expanded="false" tabindex="0">
+        <div class="meta">
+          <span class="pat">${escapeHTML(it.patient || "")}</span>
+          ${it.arm ? `<span class="arm-pill ${escapeHTML(it.arm)}">${escapeHTML(it.arm)}</span>` : ""}
+          <span class="day">${escapeHTML(labelDay(it.day) || "")}</span>
+          <span class="disc">${escapeHTML(it.discipline || "")}</span>
+          ${it.subcode ? `<span class="sub" title="${escapeHTML(it.subcode)}">${escapeHTML(it.subcode)}</span>` : ""}
+        </div>
+        <div class="qline">${highlight(it.quote, q)}</div>
+        <div class="id">#${it.id}</div>
+        <div class="expanded">
+          <div class="domain-tag">${escapeHTML(it.code || "—")}</div>
+          <blockquote class="full-quote">${highlight(it.quote, q)}</blockquote>
+          ${noteHTML}
+          ${exChips}
+          <div class="src">${escapeHTML(it.source_file || "")}</div>
+        </div>
+      </div>`;
+  }
+
+  function groupOrder(key) {
+    return {
+      day: DAY_ORDER, code: DOMAIN_ORDER, arm: ARM_ORDER, discipline: DISCIPLINE_ORDER,
+    }[key] || null;
+  }
+
+  function groupKey(it, key) {
+    const v = it[key];
+    return (v == null || v === "") ? "—" : v;
+  }
+
+  function renderItems(items, q, view) {
+    if (view === "list") {
+      return `<div class="list">${items.map(it => rowHTML(it, q)).join("")}</div>`;
+    }
+    return `<div class="grid">${items.map(it => cardHTML(it, q)).join("")}</div>`;
+  }
+
+  function facetLabel(key) {
+    return ({code:"Domain", subcode:"Sub-code", patient:"Patient", arm:"Arm", day:"Day", discipline:"Note type"})[key] || key;
+  }
+
+  function groupColour(key, value) {
+    if (key === "code" && DOMAIN_VAR[value]) return `var(${DOMAIN_VAR[value]})`;
+    if (key === "subcode") {
+      // Inherit colour from the implied parent domain isn't available here cheaply; neutral is fine
+      return "var(--ink-3)";
+    }
+    if (key === "arm") return `var(--arm-${String(value).toLowerCase()})`;
+    return "var(--ink-3)";
+  }
+
+  function groupLabelOf(key, value) {
+    if (key === "day") return labelDay(value);
+    return value;
+  }
+
+  function sortGroupKeys(key, keys) {
+    const fixed = groupOrder(key);
+    const arr = Array.from(keys);
+    if (fixed) {
+      arr.sort((a, b) => {
+        const ai = fixed.indexOf(a); const bi = fixed.indexOf(b);
+        return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi) || a.localeCompare(b);
+      });
+    } else if (key === "patient") {
+      arr.sort((a, b) => {
+        const aa = a.startsWith("DXM") ? 0 : 1;
+        const bb = b.startsWith("DXM") ? 0 : 1;
+        return aa - bb || patientNum(a) - patientNum(b);
+      });
+    } else {
+      arr.sort((a, b) => a.localeCompare(b));
+    }
+    return arr;
+  }
+
+  function renderGrouped(items, keys, q, view) {
+    if (!keys.length) return renderItems(items, q, view);
+    const [key, ...rest] = keys;
+    const buckets = new Map();
+    for (const it of items) {
+      const k = groupKey(it, key);
+      if (!buckets.has(k)) buckets.set(k, []);
+      buckets.get(k).push(it);
+    }
+    const ordered = sortGroupKeys(key, buckets.keys());
+    return ordered.map(k => {
+      const sub = buckets.get(k);
+      const colour = groupColour(key, k);
+      const label = groupLabelOf(key, k);
+      return `<section class="group-section" style="--g:${colour}">
+        <header class="group-head">
+          <span class="gbar"></span>
+          <span class="gkey">${escapeHTML(facetLabel(key))}</span>
+          <span class="gtitle">${escapeHTML(label)}</span>
+          <span class="gcount">${sub.length}</span>
+        </header>
+        ${renderGrouped(sub, rest, q, view)}
+      </section>`;
+    }).join("");
+  }
+
+  function renderGrid() {
+    const root = $("#grid");
+    const filtered = state.data.filter(matches).sort(compareBy(state.sort));
+    const q = state.search;
+    const total = state.data.length;
+
+    if (!filtered.length) {
+      root.className = "";
+      root.innerHTML = `<div class="grid"><div class="empty">
+        <div class="big">No matching quotes</div>
+        <div class="small">Try clearing a filter or refining your search.</div>
+      </div></div>`;
+      $("#count").innerHTML = `<strong>0</strong> of ${total}`;
+      renderStats(filtered);
+      renderActiveChips();
+      const active0 = hasActiveFilters();
+      $("#reset").disabled = !active0;
+      const cb0 = $("#clearGroups"); if (cb0) cb0.hidden = !active0;
+      return;
+    }
+
+    // Apply cap to keep DOM light at scale
+    const capped = filtered.slice(0, state.cap);
+    const remaining = filtered.length - capped.length;
+
+    let html = "";
+    if (state.groupBy.length) {
+      html = renderGrouped(capped, state.groupBy, q, state.view);
+    } else {
+      html = renderItems(capped, q, state.view);
+    }
+
+    if (remaining > 0) {
+      html += `<div class="show-more-wrap">
+        <button class="show-more" id="showMore">
+          Show ${Math.min(PAGE, remaining)} more
+          <span class="n">· ${remaining} hidden</span>
+        </button>
+      </div>`;
+    }
+
+    root.innerHTML = html;
+
+    $("#count").innerHTML = `<strong>${filtered.length}</strong> of ${total}` +
+      (remaining > 0 ? ` <span style="color:var(--ink-3)">· showing ${capped.length}</span>` : "");
+    renderStats(filtered);
+    renderActiveChips();
+    const active = hasActiveFilters();
+    $("#reset").disabled = !active;
+    const cb = $("#clearGroups"); if (cb) cb.hidden = !active;
+  }
+
+  function hasActiveFilters() {
+    if (state.search) return true;
+    if (state.groupBy.length) return true;
+    for (const f of FACETS) if (state.filters[f.key].size) return true;
+    return false;
+  }
+
+  function uniqueCount(items, key) {
+    const s = new Set();
+    for (const it of items) { const v = it[key]; if (v) s.add(v); }
+    return s.size;
+  }
+
+  function renderStats(filtered) {
+    const el = $("#stats");
+    if (!el) return;
+    const totalNotes = uniqueCount(state.data, "source_file");
+    const totalCodes = state.data.length;
+    const filteredNotes = uniqueCount(filtered, "source_file");
+    const filteredCodes = filtered.length;
+    const isFiltered = filteredCodes !== totalCodes;
+    el.innerHTML = `
+      <div class="stat">
+        <span class="num">${filteredNotes}</span>
+        ${isFiltered ? `<span class="of">/ ${totalNotes}</span>` : ""}
+        <span class="lab">notes</span>
+      </div>
+      <div class="sep"></div>
+      <div class="stat">
+        <span class="num">${filteredCodes}</span>
+        ${isFiltered ? `<span class="of">/ ${totalCodes}</span>` : ""}
+        <span class="lab">codes</span>
+      </div>`;
+  }
+
+  function renderGroupPills() {
+    for (const btn of $$("#groupPills .pill[data-group]")) {
+      const key = btn.dataset.group;
+      const idx = state.groupBy.indexOf(key);
+      const on = idx !== -1;
+      btn.setAttribute("aria-pressed", String(on));
+      const ord = btn.querySelector(".order");
+      ord.textContent = on ? String(idx + 1) : "";
+    }
+    const clearBtn = $("#clearGroups");
+    if (clearBtn) clearBtn.hidden = !hasActiveFilters();
+  }
+
+  function renderActiveChips() {
+    const wrap = $("#activeChips");
+    const chips = [];
+    if (state.search) {
+      chips.push(`<span class="active-chip">search: "${escapeHTML(state.search)}"
+        <button data-clear="search" aria-label="Clear search">×</button></span>`);
+    }
+    for (const f of FACETS) {
+      for (const v of state.filters[f.key]) {
+        chips.push(`<span class="active-chip">${escapeHTML(f.label.toLowerCase())}: ${escapeHTML(f.key === "day" ? labelDay(v) : v)}
+          <button data-clear-facet="${f.key}" data-value="${escapeHTML(v)}" aria-label="Remove">×</button></span>`);
+      }
+    }
+    wrap.innerHTML = chips.join("");
+  }
+
+  // ---------- Events ----------
+  function resetCap() { state.cap = PAGE; }
+
+  function resetAll() {
+    for (const f of FACETS) state.filters[f.key].clear();
+    state.search = "";
+    state.groupBy = [];
+    const searchEl = $("#search");
+    const searchWrap = $("#searchWrap");
+    if (searchEl) searchEl.value = "";
+    if (searchWrap) searchWrap.classList.remove("has-value");
+    resetCap();
+    renderGroupPills();
+    renderFacets();
+    renderGrid();
+  }
+
+  function wire() {
+    // Search (debounced)
+    let t;
+    const searchEl = $("#search");
+    const searchWrap = $("#searchWrap");
+    searchEl.addEventListener("input", () => {
+      clearTimeout(t);
+      t = setTimeout(() => {
+        state.search = searchEl.value.trim();
+        searchWrap.classList.toggle("has-value", !!searchEl.value);
+        resetCap();
+        renderFacets();
+        renderGrid();
+      }, 90);
+    });
+    $("#searchClear").addEventListener("click", () => {
+      searchEl.value = "";
+      state.search = "";
+      searchWrap.classList.remove("has-value");
+      resetCap();
+      renderFacets(); renderGrid();
+      searchEl.focus();
+    });
+
+    // Sort
+    $("#sort").addEventListener("change", (e) => {
+      state.sort = e.target.value;
+      renderGrid();
+    });
+
+    // Group-by pills (multi, click-order = nesting order)
+    $("#groupPills").addEventListener("click", (e) => {
+      if (e.target.closest("#clearGroups")) {
+        resetAll();
+        return;
+      }
+      const btn = e.target.closest("button.pill[data-group]");
+      if (!btn) return;
+      const key = btn.dataset.group;
+      const idx = state.groupBy.indexOf(key);
+      if (idx === -1) state.groupBy.push(key);
+      else state.groupBy.splice(idx, 1);
+      renderGroupPills();
+      resetCap();
+      renderGrid();
+    });
+
+    // View toggle
+    const setView = (v) => {
+      state.view = v;
+      $("#view-cards").setAttribute("aria-pressed", String(v === "cards"));
+      $("#view-list").setAttribute("aria-pressed", String(v === "list"));
+      renderGrid();
+    };
+    $("#view-cards").addEventListener("click", () => setView("cards"));
+    $("#view-list").addEventListener("click", () => setView("list"));
+
+    // Facet checkboxes (delegated)
+    $("#facets").addEventListener("change", (e) => {
+      const cb = e.target.closest('input[type="checkbox"][data-facet]');
+      if (!cb) return;
+      const facet = cb.dataset.facet;
+      const val = cb.value;
+      const sel = state.filters[facet];
+      if (cb.checked) sel.add(val); else sel.delete(val);
+      resetCap();
+      renderFacets();
+      renderGrid();
+    });
+
+    // Reset
+    $("#reset").addEventListener("click", () => resetAll());
+
+    // Active chip removal
+    $("#activeChips").addEventListener("click", (e) => {
+      const fc = e.target.closest("[data-clear-facet]");
+      if (fc) {
+        state.filters[fc.dataset.clearFacet].delete(fc.dataset.value);
+        resetCap();
+        renderFacets(); renderGrid();
+        return;
+      }
+      const sc = e.target.closest('[data-clear="search"]');
+      if (sc) {
+        state.search = "";
+        searchEl.value = "";
+        searchWrap.classList.remove("has-value");
+        resetCap();
+        renderFacets(); renderGrid();
+      }
+    });
+
+    // Grid: row expand + show-more (delegated)
+    $("#grid").addEventListener("click", (e) => {
+      const more = e.target.closest("#showMore");
+      if (more) {
+        state.cap += PAGE;
+        renderGrid();
+        return;
+      }
+      const row = e.target.closest(".list .row");
+      if (row) {
+        const open = row.getAttribute("aria-expanded") === "true";
+        row.setAttribute("aria-expanded", String(!open));
+      }
+    });
+    $("#grid").addEventListener("keydown", (e) => {
+      const row = e.target.closest(".list .row");
+      if (row && (e.key === "Enter" || e.key === " ")) {
+        e.preventDefault();
+        const open = row.getAttribute("aria-expanded") === "true";
+        row.setAttribute("aria-expanded", String(!open));
+      }
+    });
+
+    // Keyboard: '/' focuses search; Esc clears
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "/" && document.activeElement.tagName !== "INPUT") {
+        e.preventDefault(); searchEl.focus(); searchEl.select();
+      } else if (e.key === "Escape" && document.activeElement === searchEl && searchEl.value) {
+        searchEl.value = ""; state.search = "";
+        searchWrap.classList.remove("has-value");
+        resetCap();
+        renderFacets(); renderGrid();
+      }
+    });
+  }
+
+  // ---------- Init ----------
+  (async function init() {
+    state.data = await loadData();
+    wire();
+    renderGroupPills();
+    renderFacets();
+    renderGrid();
+  })();
+})();
+</script>
+</body>
+</html>

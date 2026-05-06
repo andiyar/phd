@@ -5,3 +5,7 @@
 !.gitignore
 !Journal TOC/
 !Journal TOC/DREAMS_Journal_Analysis_Dashboard.html
+
+# Qualitative coding database
+!qualitative/
+!qualitative/**
