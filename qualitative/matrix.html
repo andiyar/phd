@@ -323,33 +323,82 @@
     top: calc(100% + 8px);
     left: 0;
     z-index: 50;
-    min-width: 240px;
-    max-width: 320px;
-    max-height: 60vh;
-    overflow: auto;
+    width: 380px;
+    max-width: 92vw;
+    max-height: 70vh;
+    display: flex; flex-direction: column;
     background: var(--paper);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     box-shadow: var(--shadow-lg);
-    padding: 6px;
   }
   .pop[hidden] { display: none; }
-  .pop .pop-section {
-    border-bottom: 1px solid var(--line);
-    padding: 6px 0;
+  .pop .pop-search {
+    width: calc(100% - 12px);
+    margin: 8px 6px 4px;
+    height: 32px;
+    border: 1px solid var(--line);
+    background: var(--paper-2);
+    color: var(--ink);
+    border-radius: 8px;
+    padding: 0 10px;
+    font-size: 13px;
+    flex-shrink: 0;
   }
-  .pop .pop-section:last-child { border-bottom: 0; }
-  .pop .pop-head {
-    font-size: 11px;
+  .pop .pop-search:focus { outline: none; border-color: var(--ink-3); }
+  .pop-body {
+    overflow-y: auto;
+    padding: 4px 6px 8px;
+    flex: 1;
+  }
+  .pop details.pop-section {
+    border-bottom: 1px solid var(--line);
+    padding: 0;
+  }
+  .pop details.pop-section:last-child { border-bottom: 0; }
+  .pop details.pop-section > summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 8px;
+    font-size: 11.5px;
     letter-spacing: .14em;
     text-transform: uppercase;
-    color: var(--ink-3);
-    padding: 4px 8px 6px;
+    color: var(--ink-2);
     font-weight: 600;
+    user-select: none;
+    border-radius: 6px;
   }
+  .pop details.pop-section > summary:hover { background: var(--paper-2); color: var(--ink); }
+  .pop details.pop-section > summary::-webkit-details-marker { display: none; }
+  .pop details.pop-section > summary::after {
+    content: "";
+    width: 8px; height: 8px;
+    border-right: 1.5px solid var(--ink-3);
+    border-bottom: 1.5px solid var(--ink-3);
+    transform: rotate(45deg) translate(-1px, -1px);
+    transition: transform .15s;
+    margin-left: 8px;
+  }
+  .pop details.pop-section[open] > summary::after { transform: rotate(-135deg) translate(-1px, -1px); }
+  .pop details.pop-section > summary .label { flex: 1; }
+  .pop details.pop-section > summary .sel-badge {
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 10.5px;
+    font-weight: 700;
+    min-width: 18px; height: 18px;
+    border-radius: 999px;
+    padding: 0 5px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+  }
+  .pop details.pop-section > summary .sel-badge:empty { display: none; }
+  .pop .pop-options { padding: 2px 4px 8px; }
   .pop .pop-item {
     display: flex; align-items: center; gap: 8px;
-    padding: 6px 8px;
+    padding: 7px 8px;
     border-radius: 6px;
     cursor: pointer;
     font-size: 13px;
@@ -368,18 +417,8 @@
     font-size: 11.5px; color: var(--ink-3);
     font-variant-numeric: tabular-nums;
   }
-  .pop .pop-search {
-    width: calc(100% - 8px);
-    margin: 4px 4px 6px;
-    height: 32px;
-    border: 1px solid var(--line);
-    background: var(--paper-2);
-    color: var(--ink);
-    border-radius: 8px;
-    padding: 0 10px;
-    font-size: 13px;
-  }
-  .pop .pop-search:focus { outline: none; border-color: var(--ink-3); }
+  .pop .pop-item[data-checked="true"] { background: color-mix(in srgb, var(--ink) 5%, transparent); }
+  .pop .pop-item[data-checked="true"] .label { font-weight: 600; }
 
   /* ---------- Matrix table ---------- */
   main {
@@ -1314,24 +1353,27 @@
   }
 
   // ---------- Filter popover ----------
+  // Long facets that should default to closed (sub-code, patient have many values)
+  const POP_DEFAULT_CLOSED = new Set(["subcode", "patient"]);
+
   function openFilterPop() {
     const pop = $("#filterPop");
     const counts = scopeAwareCounts();
-    const search = "";
 
-    pop.innerHTML = FACETS.map(f => {
+    const sectionsHTML = FACETS.map(f => {
       const all = new Set(state.data.map(d => d[f.key]).filter(Boolean));
       const values = naturalOrder(f.key, all);
       const map = counts[f.key];
+      const sel = state.scope[f.key];
       const items = values.map(v => {
-        const checked = state.scope[f.key].has(v);
+        const checked = sel.has(v);
         const n = map.get(v) || 0;
         const lbl = valueLabel(f.key, v);
         const swatch = (f.coloured && DOMAIN_VAR[v])
           ? `<span class="swatch" style="background:var(${DOMAIN_VAR[v]})"></span>`
           : "";
         return `
-          <label class="pop-item" data-facet="${f.key}" data-val="${escapeHTML(v)}">
+          <label class="pop-item" data-facet="${f.key}" data-val="${escapeHTML(v)}" data-checked="${checked}">
             <input type="checkbox" data-facet="${f.key}" data-val="${escapeHTML(v)}" ${checked ? "checked" : ""}>
             ${swatch}
             <span class="label">${escapeHTML(lbl)}</span>
@@ -1339,16 +1381,24 @@
           </label>
         `;
       }).join("");
+      // Open if user has any selection, OR it's a short facet by default
+      const open = sel.size > 0 || !POP_DEFAULT_CLOSED.has(f.key);
+      const badge = sel.size ? `<span class="sel-badge">${sel.size}</span>` : `<span class="sel-badge"></span>`;
       return `
-        <div class="pop-section" data-section="${f.key}">
-          <div class="pop-head">${escapeHTML(f.label)}</div>
-          ${items}
-        </div>
+        <details class="pop-section" data-section="${f.key}"${open ? " open" : ""}>
+          <summary>
+            <span class="label">${escapeHTML(f.label)}</span>
+            ${badge}
+          </summary>
+          <div class="pop-options">${items}</div>
+        </details>
       `;
     }).join("");
 
-    // Insert search at top
-    pop.insertAdjacentHTML("afterbegin", `<input class="pop-search" id="popSearch" placeholder="Search facets…" />`);
+    pop.innerHTML = `
+      <input class="pop-search" id="popSearch" placeholder="Search facets…" />
+      <div class="pop-body">${sectionsHTML}</div>
+    `;
     pop.hidden = false;
 
     setTimeout(() => $("#popSearch")?.focus(), 0);
@@ -1357,6 +1407,28 @@
     const pop = $("#filterPop");
     pop.hidden = true;
     pop.innerHTML = "";
+  }
+
+  // Update count numbers and selected badges in-place — preserves scroll/expand state.
+  function refreshPopCountsInPlace() {
+    const pop = $("#filterPop");
+    if (pop.hidden) return;
+    const counts = scopeAwareCounts();
+    for (const f of FACETS) {
+      const map = counts[f.key];
+      const sel = state.scope[f.key];
+      $$(`.pop-item[data-facet="${f.key}"]`, pop).forEach(item => {
+        const v = item.dataset.val;
+        const nEl = item.querySelector(".n");
+        if (nEl) nEl.textContent = String(map.get(v) || 0);
+        item.dataset.checked = sel.has(v) ? "true" : "false";
+      });
+      const sec = pop.querySelector(`details[data-section="${f.key}"]`);
+      if (sec) {
+        const badge = sec.querySelector(".sel-badge");
+        if (badge) badge.textContent = sel.size ? String(sel.size) : "";
+      }
+    }
   }
 
   function scopeAwareCounts() {
@@ -1499,16 +1571,16 @@
       const val = cb.dataset.val;
       const sel = state.scope[key];
       if (cb.checked) sel.add(val); else sel.delete(val);
-      // Re-render scope chips, matrix; refresh counts in pop
+      // Update matrix + chips, then refresh pop counts in place (no DOM rebuild,
+      // so scroll position and which sections are open are preserved).
       renderAll();
-      // Refresh pop counts inline (lightweight: rebuild)
-      const sv = $("#popSearch")?.value || "";
-      openFilterPop();
-      if (sv) { $("#popSearch").value = sv; filterPopBySearch(sv); }
+      refreshPopCountsInPlace();
     });
+    // Track which sections the user opened/closed so we can restore on search clear.
+    const popUserOpenState = new Map();
     function filterPopBySearch(q) {
       q = q.trim().toLowerCase();
-      $$("#filterPop .pop-section").forEach(sec => {
+      $$("#filterPop details.pop-section").forEach(sec => {
         let any = false;
         $$(".pop-item", sec).forEach(it => {
           const text = it.querySelector(".label").textContent.toLowerCase();
@@ -1517,6 +1589,17 @@
           if (visible) any = true;
         });
         sec.style.display = any ? "" : "none";
+        // While searching, force-open any section that has matches.
+        // When search is empty, restore the user's open state.
+        if (q) {
+          if (!popUserOpenState.has(sec)) popUserOpenState.set(sec, sec.open);
+          sec.open = any;
+        } else {
+          if (popUserOpenState.has(sec)) {
+            sec.open = popUserOpenState.get(sec);
+            popUserOpenState.delete(sec);
+          }
+        }
       });
     }
     $("#filterPop").addEventListener("input", (e) => {
