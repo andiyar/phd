@@ -1,0 +1,1174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FAF7F2">
+<title>DREAMS — Coded Quotes</title>
+<script>
+  // Reverse redirect — bounces wide viewports back to the desktop viewer.
+  // Triggers on iPad rotation from portrait → landscape.
+  (function () {
+    var mq = window.matchMedia("(min-width: 881px)");
+    if (mq.matches) {
+      window.location.replace("index.html" + window.location.search + window.location.hash);
+      return;
+    }
+    var onChange = function (e) {
+      if (e.matches) {
+        window.location.replace("index.html" + window.location.search + window.location.hash);
+      }
+    };
+    if (mq.addEventListener) mq.addEventListener("change", onChange);
+    else if (mq.addListener) mq.addListener(onChange);
+  })();
+</script>
+<style>
+  /* ---------- Design tokens (matches desktop viewer) ---------- */
+  :root {
+    --paper:        #FAF7F2;
+    --paper-2:      #F4EFE6;
+    --ink:          #1C1D22;
+    --ink-2:        #4A4B53;
+    --ink-3:        #8A8B91;
+    --line:         #E6E1D6;
+    --line-2:       #D6D0C2;
+    --accent:       #2E3033;
+    --highlight:    #FFE9A8;
+
+    --d-comm:       #B07B2E;  --d-comm-bg:    #F4E9D2;  --d-comm-soft:  #FBF4E2;
+    --d-symp:       #B14A3F;  --d-symp-bg:    #F2D8D2;  --d-symp-soft:  #FAE7E2;
+    --d-fam:        #4F7A4E;  --d-fam-bg:     #DEE9D9;  --d-fam-soft:   #ECF2E7;
+    --d-pcc:        #6B5391;  --d-pcc-bg:     #E1D9EB;  --d-pcc-soft:   #EFE9F4;
+    --d-out:        #6E6F77;  --d-out-bg:     #DEDED9;  --d-out-soft:   #ECECE7;
+
+    --arm-dxm:      #2F5D8B;  --arm-dxm-bg:   #DAE5EE;
+    --arm-mdz:      #8B5A2F;  --arm-mdz-bg:   #EFE3D5;
+
+    --shadow-sm:    0 1px 2px rgba(28,29,34,.04), 0 1px 1px rgba(28,29,34,.03);
+    --shadow:       0 4px 14px rgba(28,29,34,.06), 0 2px 4px rgba(28,29,34,.04);
+    --shadow-lg:    0 -8px 24px rgba(28,29,34,.08);
+
+    --radius-sm:    6px;
+    --radius:       10px;
+    --radius-lg:    16px;
+
+    --ui:           -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
+    --serif:        "Iowan Old Style", "Palatino", "Charter", "Georgia", "Times New Roman", serif;
+    --mono:         ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+
+    --topbar-h:     54px;
+    --searchbar-h:  56px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper:      #16171B;
+      --paper-2:    #1E1F24;
+      --ink:        #ECEAE3;
+      --ink-2:      #B5B4AE;
+      --ink-3:      #76777E;
+      --line:       #2A2B30;
+      --line-2:     #353740;
+      --accent:     #ECEAE3;
+      --highlight:  #6B5414;
+
+      --d-comm:     #E1B868;  --d-comm-bg:    #3D3220;  --d-comm-soft:  #2A2418;
+      --d-symp:     #E58B7E;  --d-symp-bg:    #402523;  --d-symp-soft:  #2C1B1A;
+      --d-fam:      #99C18F;  --d-fam-bg:     #243321;  --d-fam-soft:   #1B2519;
+      --d-pcc:      #B4A3DC;  --d-pcc-bg:     #2D2940;  --d-pcc-soft:   #211E2E;
+      --d-out:      #B4B5BB;  --d-out-bg:     #2C2D32;  --d-out-soft:   #212126;
+
+      --arm-dxm:    #8AB4D9;  --arm-dxm-bg:   #1F2D3B;
+      --arm-mdz:    #D2A57A;  --arm-mdz-bg:   #34281C;
+    }
+  }
+
+  /* ---------- Reset / base ---------- */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--ui);
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior-y: contain;
+  }
+  body.sheet-open { overflow: hidden; }
+  button { font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  input, select, textarea { font: inherit; color: inherit; }
+  ::selection { background: var(--highlight); color: var(--ink); }
+
+  /* ---------- Top bar ---------- */
+  .topbar {
+    position: sticky; top: 0; z-index: 30;
+    height: var(--topbar-h);
+    display: flex; align-items: center; gap: 12px;
+    padding: 0 14px;
+    padding-top: env(safe-area-inset-top);
+    height: calc(var(--topbar-h) + env(safe-area-inset-top));
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+    backdrop-filter: saturate(1.2) blur(14px);
+    -webkit-backdrop-filter: saturate(1.2) blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand {
+    display: flex; align-items: baseline; gap: 8px;
+    user-select: none;
+    flex-shrink: 0;
+  }
+  .brand .mark {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 20px;
+    letter-spacing: .01em;
+    color: var(--ink);
+  }
+  .brand .mark::first-letter { color: var(--d-symp); }
+  .brand .sub {
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .topbar .spacer { flex: 1; }
+  .topbar .count {
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-3);
+    font-size: 12px;
+    letter-spacing: .04em;
+    white-space: nowrap;
+  }
+  .topbar .count strong { color: var(--ink); font-weight: 600; }
+
+  .sort-wrap {
+    position: relative;
+  }
+  .sort-wrap select {
+    appearance: none;
+    -webkit-appearance: none;
+    height: 32px;
+    padding: 0 26px 0 10px;
+    border: 1px solid var(--line);
+    background: var(--paper-2);
+    border-radius: 8px;
+    font-size: 12.5px;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .sort-wrap::after {
+    content: "";
+    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+    width: 10px; height: 10px;
+    background: currentColor;
+    color: var(--ink-3);
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/></svg>") center/contain no-repeat;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/></svg>") center/contain no-repeat;
+    pointer-events: none;
+  }
+
+  /* ---------- Search row ---------- */
+  .searchrow {
+    position: sticky;
+    top: calc(var(--topbar-h) + env(safe-area-inset-top));
+    z-index: 25;
+    background: var(--paper);
+    padding: 10px 14px 10px;
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .search {
+    flex: 1;
+    position: relative;
+  }
+  .search input {
+    width: 100%;
+    height: 38px;
+    border: 1px solid var(--line);
+    background: var(--paper-2);
+    border-radius: 999px;
+    padding: 0 38px 0 38px;
+    color: var(--ink);
+    font-size: 15px;
+    transition: border-color .15s, background .15s, box-shadow .15s;
+  }
+  .search input:focus {
+    outline: none;
+    border-color: var(--ink-3);
+    background: var(--paper);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--ink) 5%, transparent);
+  }
+  .search::before {
+    content: "";
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    width: 16px; height: 16px;
+    background: currentColor;
+    color: var(--ink-3);
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2' stroke-linecap='round' d='M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16Zm6.5-1.5L21 21'/></svg>") center/contain no-repeat;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2' stroke-linecap='round' d='M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16Zm6.5-1.5L21 21'/></svg>") center/contain no-repeat;
+    pointer-events: none;
+  }
+  .search-clear {
+    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+    width: 26px; height: 26px;
+    border: 0; background: transparent; color: var(--ink-3);
+    border-radius: 50%;
+    display: none; align-items: center; justify-content: center;
+    font-size: 18px; line-height: 1;
+  }
+  .search-clear:active { background: var(--paper-2); color: var(--ink); }
+  .search.has-value .search-clear { display: inline-flex; }
+
+  .filter-btn {
+    height: 38px;
+    padding: 0 14px 0 12px;
+    border: 1px solid var(--line);
+    background: var(--paper-2);
+    color: var(--ink);
+    border-radius: 999px;
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13.5px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .filter-btn .icon {
+    width: 14px; height: 14px;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M3 5h18M6 12h12M10 19h4'/></svg>") center/contain no-repeat;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M3 5h18M6 12h12M10 19h4'/></svg>") center/contain no-repeat;
+  }
+  .filter-btn .badge {
+    margin-left: 2px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 10.5px;
+    font-weight: 700;
+    min-width: 18px; height: 18px;
+    border-radius: 999px;
+    padding: 0 5px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .filter-btn .badge:empty { display: none; }
+  .filter-btn[data-active="true"] {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .filter-btn[data-active="true"] .badge {
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  /* ---------- Active filter chips ---------- */
+  .chiprow {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 8px 14px 0;
+    margin: 0;
+  }
+  .chiprow::-webkit-scrollbar { display: none; }
+  .chiprow:empty { display: none; }
+  .chiprow .chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 4px 6px 4px 10px;
+    font-size: 12px;
+    color: var(--ink-2);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .chiprow .chip .label { color: var(--ink-3); margin-right: 2px; }
+  .chiprow .chip .x {
+    border: 0; background: transparent;
+    width: 18px; height: 18px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    color: var(--ink-3);
+    line-height: 1;
+    font-size: 14px;
+  }
+  .chiprow .chip .x:active { background: var(--line); color: var(--ink); }
+  .chiprow .clear-all {
+    border: 0; background: transparent;
+    color: var(--ink-3);
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* ---------- Cards ---------- */
+  main {
+    padding: 14px 14px 32px;
+  }
+
+  .card {
+    --c:    var(--d-out);
+    --c-bg: var(--d-out-bg);
+    --c-soft: var(--d-out-soft);
+
+    position: relative;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 16px 18px 14px 22px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .card::before {
+    content: "";
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--c);
+  }
+  .card[data-code="Communication"]       { --c: var(--d-comm); --c-bg: var(--d-comm-bg); --c-soft: var(--d-comm-soft); }
+  .card[data-code="Symptom Control"]     { --c: var(--d-symp); --c-bg: var(--d-symp-bg); --c-soft: var(--d-symp-soft); }
+  .card[data-code="Family"]              { --c: var(--d-fam);  --c-bg: var(--d-fam-bg);  --c-soft: var(--d-fam-soft);  }
+  .card[data-code="Patient-Centred Care"]{ --c: var(--d-pcc);  --c-bg: var(--d-pcc-bg);  --c-soft: var(--d-pcc-soft);  }
+  .card[data-code="Outside Framework"]   { --c: var(--d-out);  --c-bg: var(--d-out-bg);  --c-soft: var(--d-out-soft);  }
+
+  .card-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .card .domain {
+    font-size: 10.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--c);
+  }
+  .card .id {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--ink-3);
+    font-variant-numeric: tabular-nums;
+  }
+  .card .quote {
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--ink);
+    margin: 0;
+    position: relative;
+    padding-left: 14px;
+  }
+  .card .quote::before {
+    content: "“";
+    position: absolute; left: -2px; top: -4px;
+    font-size: 26px;
+    color: var(--c);
+    line-height: 1;
+    font-family: var(--serif);
+  }
+  .card .note {
+    margin-top: 10px;
+    padding: 8px 10px;
+    background: var(--c-soft);
+    border-left: 2px solid var(--c);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--ink-2);
+    font-style: italic;
+  }
+  .card .note::before {
+    content: "Note — ";
+    font-style: normal;
+    font-weight: 600;
+    color: var(--c);
+    letter-spacing: .04em;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+  .card .meta {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+  }
+  .card .meta .pill {
+    font-size: 11.5px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--paper-2);
+    color: var(--ink-2);
+    border: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  .card .meta .pill.subcode {
+    background: var(--c-bg);
+    color: var(--c);
+    border-color: color-mix(in srgb, var(--c) 22%, transparent);
+    font-weight: 600;
+  }
+  .card .meta .pill.subcode .dot {
+    display: inline-block;
+    width: 5px; height: 5px;
+    background: var(--c);
+    border-radius: 50%;
+    margin-right: 5px;
+    vertical-align: 1px;
+  }
+  .card .meta .pill.arm.DXM { background: var(--arm-dxm-bg); color: var(--arm-dxm); border-color: color-mix(in srgb, var(--arm-dxm) 22%, transparent); font-weight: 600; }
+  .card .meta .pill.arm.MDZ { background: var(--arm-mdz-bg); color: var(--arm-mdz); border-color: color-mix(in srgb, var(--arm-mdz) 22%, transparent); font-weight: 600; }
+  .card .meta .pill.patient { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--ink); }
+  .card .src {
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--ink-3);
+    font-family: var(--mono);
+    word-break: break-all;
+  }
+
+  mark { background: var(--highlight); color: var(--ink); padding: 0 1px; border-radius: 2px; }
+
+  .empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--ink-3);
+  }
+  .empty .title {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink-2);
+    margin-bottom: 6px;
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    padding: 24px 14px calc(20px + env(safe-area-inset-bottom));
+    text-align: center;
+    border-top: 1px solid var(--line);
+    color: var(--ink-3);
+    font-size: 12.5px;
+  }
+  footer .desktop-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--ink-2);
+    text-decoration: none;
+    border: 1px solid var(--line);
+    background: var(--paper-2);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+  footer .desktop-link:active { background: var(--line); }
+  footer .desktop-link .icon {
+    width: 14px; height: 14px;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M2 5h20v12H2zM8 21h8M12 17v4'/></svg>") center/contain no-repeat;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M2 5h20v12H2zM8 21h8M12 17v4'/></svg>") center/contain no-repeat;
+  }
+  footer .note { display: block; font-size: 11.5px; color: var(--ink-3); margin-top: 4px; }
+
+  /* ---------- Filter bottom sheet ---------- */
+  .sheet-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(28,29,34,.45);
+    z-index: 90;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s;
+  }
+  .sheet-backdrop.open { opacity: 1; pointer-events: auto; }
+
+  .sheet {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 100;
+    max-height: 85vh;
+    background: var(--paper);
+    border-top-left-radius: var(--radius-lg);
+    border-top-right-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(100%);
+    transition: transform .3s cubic-bezier(.32,.72,0,1);
+    display: flex; flex-direction: column;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .sheet.open { transform: translateY(0); }
+  .sheet .grabber {
+    width: 36px; height: 4px; border-radius: 999px;
+    background: var(--line-2);
+    margin: 8px auto 4px;
+    flex-shrink: 0;
+  }
+  .sheet-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 16px 12px;
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .sheet-head h2 {
+    margin: 0; font-size: 16px; font-weight: 600; color: var(--ink);
+  }
+  .sheet-head .actions {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .sheet-head button {
+    border: 0; background: transparent;
+    color: var(--ink-2);
+    font-size: 14px;
+    padding: 6px 10px;
+    border-radius: 8px;
+  }
+  .sheet-head .reset {
+    color: var(--ink-3);
+  }
+  .sheet-head .reset:disabled { opacity: 0; pointer-events: none; }
+  .sheet-head .done {
+    background: var(--ink);
+    color: var(--paper);
+    font-weight: 600;
+    padding: 6px 14px;
+  }
+
+  .sheet-body {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 16px 12px;
+  }
+
+  details.facet {
+    border-bottom: 1px solid var(--line);
+    padding: 4px 0;
+  }
+  details.facet:last-child { border-bottom: 0; }
+  details.facet > summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 2px;
+    font-weight: 600;
+    font-size: 14.5px;
+    color: var(--ink);
+    user-select: none;
+  }
+  details.facet > summary::-webkit-details-marker { display: none; }
+  details.facet > summary::after {
+    content: "";
+    width: 9px; height: 9px;
+    border-right: 1.5px solid var(--ink-3);
+    border-bottom: 1.5px solid var(--ink-3);
+    transform: rotate(45deg) translate(-1px, -1px);
+    transition: transform .15s;
+    margin-left: 8px;
+  }
+  details.facet[open] > summary::after { transform: rotate(-135deg) translate(-1px, -1px); }
+  details.facet > summary .badge {
+    margin-left: auto; margin-right: 10px;
+    background: var(--paper-2);
+    color: var(--ink-2);
+    font-size: 11.5px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+  details.facet > summary .badge:empty { display: none; }
+
+  .options {
+    display: flex; flex-direction: column;
+    gap: 1px;
+    margin: 4px 0 12px;
+  }
+  .opt {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 6px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14.5px;
+    color: var(--ink);
+    min-height: 40px;
+  }
+  .opt:active { background: var(--paper-2); }
+  .opt input { margin: 0; width: 18px; height: 18px; accent-color: var(--ink); flex-shrink: 0; }
+  .opt .swatch {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--ink-3);
+    flex-shrink: 0;
+  }
+  .opt .label { flex: 1; }
+  .opt .n {
+    font-size: 12px; color: var(--ink-3);
+    font-variant-numeric: tabular-nums;
+  }
+  .opt[data-checked="true"] { color: var(--ink); }
+  .opt[data-checked="true"] .label { font-weight: 600; }
+
+  /* ---------- Password gate (matches desktop) ---------- */
+  #gate {
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--ui);
+  }
+  #gate .box {
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 2.2rem 2rem;
+    width: min(380px, 90vw);
+    box-shadow: 0 18px 40px rgba(28,29,34,.10), 0 4px 10px rgba(28,29,34,.05);
+    text-align: center;
+  }
+  #gate .title { font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: .4rem; }
+  #gate .sub { font-size: .85rem; color: var(--ink-3); margin-bottom: 2rem; }
+  #gate input {
+    width: 100%; padding: .7rem 1rem;
+    border: 1.5px solid var(--line-2); border-radius: var(--radius);
+    background: var(--paper); color: var(--ink);
+    font-family: var(--ui); font-size: 1rem;
+    outline: none; margin-bottom: .75rem;
+    transition: border-color .15s;
+  }
+  #gate input:focus { border-color: var(--accent); }
+  #gate .err { color: #B14A3F; font-size: .8rem; min-height: 1.2em; margin-bottom: .5rem; }
+  #gate button {
+    width: 100%; padding: .8rem;
+    background: var(--accent); color: var(--paper);
+    border: none; border-radius: var(--radius);
+    font-family: var(--ui); font-size: 1rem; font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<!-- Password gate -->
+<div id="gate">
+  <div class="box">
+    <div class="title">DREAMS</div>
+    <div class="sub">Qualitative Coding Database</div>
+    <input id="gate-input" type="password" placeholder="Password" autocomplete="current-password" />
+    <div id="gate-err" class="err"></div>
+    <button id="gate-submit">Enter</button>
+  </div>
+</div>
+<script>
+  (function () {
+    var PW = "DREAMS2026";
+    var gate = document.getElementById("gate");
+    var input = document.getElementById("gate-input");
+    var err = document.getElementById("gate-err");
+    if (sessionStorage.getItem("dreams_auth") === "1") {
+      gate.style.display = "none";
+    }
+    function check() {
+      if (input.value === PW) {
+        sessionStorage.setItem("dreams_auth", "1");
+        gate.style.display = "none";
+      } else {
+        err.textContent = "Incorrect password.";
+        input.value = "";
+        input.focus();
+      }
+    }
+    document.getElementById("gate-submit").addEventListener("click", check);
+    input.addEventListener("keydown", function (e) { if (e.key === "Enter") check(); });
+  })();
+</script>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="mark">DREAMS</div>
+    <div class="sub">Coded</div>
+  </div>
+  <div class="spacer"></div>
+  <div class="sort-wrap">
+    <select id="sort" aria-label="Sort">
+      <option value="patient">Patient</option>
+      <option value="arm">Arm</option>
+      <option value="day">Day</option>
+      <option value="code">Domain</option>
+      <option value="id">Order</option>
+    </select>
+  </div>
+  <div class="count" id="count">— of —</div>
+</header>
+
+<div class="searchrow">
+  <div class="search" id="searchWrap">
+    <input id="search" type="search" autocomplete="off" spellcheck="false" placeholder="Search quotes…" />
+    <button class="search-clear" id="searchClear" aria-label="Clear search">×</button>
+  </div>
+  <button class="filter-btn" id="filterBtn" type="button" aria-haspopup="dialog" aria-expanded="false">
+    <span class="icon" aria-hidden="true"></span>
+    <span>Filters</span>
+    <span class="badge" id="filterBadge"></span>
+  </button>
+</div>
+
+<div class="chiprow" id="chiprow" aria-label="Active filters"></div>
+
+<main id="main">
+  <div id="grid"></div>
+</main>
+
+<footer>
+  <a href="index.html" class="desktop-link" id="desktopLink">
+    <span class="icon" aria-hidden="true"></span>
+    <span>Use desktop view</span>
+  </a>
+  <span class="note">Best on a wide screen — full filtering, multi-axis grouping, list view</span>
+</footer>
+
+<!-- Filter bottom sheet -->
+<div class="sheet-backdrop" id="sheetBackdrop"></div>
+<aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Filters" aria-hidden="true">
+  <div class="grabber" aria-hidden="true"></div>
+  <div class="sheet-head">
+    <h2>Filters</h2>
+    <div class="actions">
+      <button class="reset" id="sheetReset" type="button" disabled>Clear all</button>
+      <button class="done" id="sheetDone" type="button">Done</button>
+    </div>
+  </div>
+  <div class="sheet-body" id="sheetBody"></div>
+</aside>
+
+<script id="embedded-data" type="application/json">[]</script>
+
+<script>
+(() => {
+  "use strict";
+
+  const FACETS = [
+    { key: "code",       label: "Domain",     coloured: true },
+    { key: "subcode",    label: "Sub-code"                   },
+    { key: "arm",        label: "Arm"                        },
+    { key: "day",        label: "Day"                        },
+    { key: "discipline", label: "Source"                     },
+    { key: "patient",    label: "Patient"                    },
+  ];
+
+  const DOMAIN_VAR = {
+    "Communication":          "--d-comm",
+    "Symptom Control":        "--d-symp",
+    "Family":                 "--d-fam",
+    "Patient-Centred Care":   "--d-pcc",
+    "Outside Framework":      "--d-out",
+  };
+
+  const DAY_ORDER = ["DayMinus1", "Day0", "Day1", "Day2", "Day3", "Day4", "Day5"];
+  const DOMAIN_ORDER = ["Communication", "Symptom Control", "Family", "Patient-Centred Care", "Outside Framework"];
+  const ARM_ORDER = ["DXM", "MDZ"];
+  const DISCIPLINE_ORDER = ["Medical", "Nursing", "PCA"];
+
+  const PAGE = 200;
+  const state = {
+    data: [],
+    filters: {},
+    search: "",
+    sort: "patient",
+    cap: PAGE,
+  };
+  for (const f of FACETS) state.filters[f.key] = new Set();
+
+  const $  = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+  const escapeHTML = (s) =>
+    String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+
+  const escapeRE = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  const labelDay = (d) => {
+    if (!d) return d;
+    if (d === "DayMinus1") return "Day −1";
+    return d.replace(/^Day/, "Day ");
+  };
+
+  const labelArm = (a) => a === "DXM" ? "Dexmedetomidine" : a === "MDZ" ? "Midazolam" : a;
+
+  const patientNum = (p) => {
+    const m = String(p).match(/(\d+)/);
+    return m ? +m[1] : 0;
+  };
+
+  function compareBy(field) {
+    return (a, b) => {
+      switch (field) {
+        case "patient": {
+          const ar = (a.arm || "").localeCompare(b.arm || "");
+          if (ar) return ar;
+          return patientNum(a.patient) - patientNum(b.patient) || a.id - b.id;
+        }
+        case "arm": {
+          const ai = ARM_ORDER.indexOf(a.arm); const bi = ARM_ORDER.indexOf(b.arm);
+          return (ai - bi) || patientNum(a.patient) - patientNum(b.patient) || a.id - b.id;
+        }
+        case "day": {
+          const ai = DAY_ORDER.indexOf(a.day); const bi = DAY_ORDER.indexOf(b.day);
+          return (ai - bi) || (a.arm || "").localeCompare(b.arm || "") || patientNum(a.patient) - patientNum(b.patient);
+        }
+        case "code": {
+          const ai = DOMAIN_ORDER.indexOf(a.code); const bi = DOMAIN_ORDER.indexOf(b.code);
+          return (ai - bi) || (a.subcode || "").localeCompare(b.subcode || "") || a.id - b.id;
+        }
+        case "id":
+        default:
+          return a.id - b.id;
+      }
+    };
+  }
+
+  function orderedValues(key, values) {
+    const arr = Array.from(values);
+    const map = { day: DAY_ORDER, code: DOMAIN_ORDER, arm: ARM_ORDER, discipline: DISCIPLINE_ORDER };
+    if (map[key]) {
+      const idx = (v) => { const i = map[key].indexOf(v); return i === -1 ? 999 : i; };
+      arr.sort((a, b) => idx(a) - idx(b) || a.localeCompare(b));
+    } else if (key === "patient") {
+      arr.sort((a, b) => {
+        const aArm = a.startsWith("DXM") ? 0 : 1;
+        const bArm = b.startsWith("DXM") ? 0 : 1;
+        return aArm - bArm || patientNum(a) - patientNum(b);
+      });
+    } else {
+      arr.sort((a, b) => a.localeCompare(b));
+    }
+    return arr;
+  }
+
+  function matches(item) {
+    for (const f of FACETS) {
+      const sel = state.filters[f.key];
+      if (sel.size && !sel.has(item[f.key])) return false;
+    }
+    if (state.search) {
+      const s = state.search.toLowerCase();
+      const hay = [
+        item.quote, item.note, item.subcode, item.code, item.patient,
+        item.discipline, item.arm, item.day, item.source_file
+      ].filter(Boolean).join(" ").toLowerCase();
+      if (!hay.includes(s)) return false;
+    }
+    return true;
+  }
+
+  function highlight(text, query) {
+    if (!text) return "";
+    const safe = escapeHTML(text);
+    if (!query) return safe;
+    const re = new RegExp(escapeRE(query), "ig");
+    return safe.replace(re, m => `<mark>${m}</mark>`);
+  }
+
+  function activeFilterCount() {
+    let n = 0;
+    for (const f of FACETS) n += state.filters[f.key].size;
+    return n;
+  }
+
+  // ---------- Counts (for facet sheet) ----------
+  function valueCounts() {
+    // For each facet key, count items that match ALL OTHER active filters + search.
+    // Lets users see how many results each option would return.
+    const out = {};
+    for (const f of FACETS) out[f.key] = new Map();
+
+    for (const item of state.data) {
+      // Search must always pass
+      if (state.search) {
+        const s = state.search.toLowerCase();
+        const hay = [
+          item.quote, item.note, item.subcode, item.code, item.patient,
+          item.discipline, item.arm, item.day, item.source_file
+        ].filter(Boolean).join(" ").toLowerCase();
+        if (!hay.includes(s)) continue;
+      }
+      for (const f of FACETS) {
+        // For this facet, check that all OTHER facets pass
+        let ok = true;
+        for (const g of FACETS) {
+          if (g.key === f.key) continue;
+          const sel = state.filters[g.key];
+          if (sel.size && !sel.has(item[g.key])) { ok = false; break; }
+        }
+        if (!ok) continue;
+        const v = item[f.key];
+        if (v == null) continue;
+        out[f.key].set(v, (out[f.key].get(v) || 0) + 1);
+      }
+    }
+    return out;
+  }
+
+  // ---------- Render ----------
+  function renderCount() {
+    const all = state.data.length;
+    const filtered = state.data.filter(matches).length;
+    const el = $("#count");
+    el.innerHTML = `<strong>${filtered}</strong> of ${all}`;
+  }
+
+  function renderChips() {
+    const row = $("#chiprow");
+    const active = activeFilterCount();
+    if (!active) { row.innerHTML = ""; return; }
+
+    const parts = [];
+    for (const f of FACETS) {
+      const sel = state.filters[f.key];
+      if (!sel.size) continue;
+      for (const v of sel) {
+        const lbl = f.key === "day" ? labelDay(v) : v;
+        parts.push(`
+          <span class="chip" data-key="${f.key}" data-val="${escapeHTML(v)}">
+            <span class="label">${escapeHTML(f.label)}:</span>${escapeHTML(lbl)}
+            <button class="x" type="button" aria-label="Remove ${escapeHTML(f.label)} ${escapeHTML(lbl)}">×</button>
+          </span>
+        `);
+      }
+    }
+    parts.push(`<button class="clear-all" id="chipClearAll" type="button">Clear all</button>`);
+    row.innerHTML = parts.join("");
+  }
+
+  function renderFilterBadge() {
+    const n = activeFilterCount();
+    const btn = $("#filterBtn");
+    const badge = $("#filterBadge");
+    badge.textContent = n ? String(n) : "";
+    btn.dataset.active = n > 0 ? "true" : "false";
+    btn.setAttribute("aria-label", n ? `Filters (${n} active)` : "Filters");
+    $("#sheetReset").disabled = n === 0;
+  }
+
+  function renderCards() {
+    const grid = $("#grid");
+    const filtered = state.data.filter(matches).sort(compareBy(state.sort));
+    const slice = filtered.slice(0, state.cap);
+    const q = state.search;
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `
+        <div class="empty">
+          <div class="title">No quotes match.</div>
+          <div>Try clearing some filters or your search.</div>
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = slice.map(item => {
+      const sub = item.subcode ? `<span class="pill subcode"><span class="dot"></span>${escapeHTML(item.subcode)}</span>` : "";
+      const note = item.note ? `<div class="note">${highlight(item.note, q)}</div>` : "";
+      return `
+        <article class="card" data-code="${escapeHTML(item.code || "Outside Framework")}">
+          <div class="card-head">
+            <div class="domain">${escapeHTML(item.code || "—")}</div>
+            <div class="id">#${item.id}</div>
+          </div>
+          <p class="quote">${highlight(item.quote || "", q)}</p>
+          ${note}
+          <div class="meta">
+            ${sub}
+            <span class="pill arm ${escapeHTML(item.arm || "")}">${escapeHTML(item.arm || "—")}</span>
+            <span class="pill patient">${escapeHTML(item.patient || "—")}</span>
+            <span class="pill">${escapeHTML(labelDay(item.day) || "—")}</span>
+            <span class="pill">${escapeHTML(item.discipline || "—")}</span>
+          </div>
+        </article>
+      `;
+    }).join("");
+
+    if (filtered.length > slice.length) {
+      grid.insertAdjacentHTML("beforeend", `
+        <div class="empty">
+          <div>Showing ${slice.length} of ${filtered.length}.</div>
+          <button id="loadMore" class="filter-btn" style="margin-top:10px">Load more</button>
+        </div>
+      `);
+    }
+  }
+
+  function renderFacets() {
+    const counts = valueCounts();
+    const body = $("#sheetBody");
+
+    body.innerHTML = FACETS.map(f => {
+      const map = counts[f.key];
+      const all = new Set(state.data.map(d => d[f.key]).filter(Boolean));
+      const values = orderedValues(f.key, all);
+      const selected = state.filters[f.key];
+      const open = selected.size > 0 ? " open" : "";
+
+      const opts = values.map(v => {
+        const n = map.get(v) || 0;
+        const checked = selected.has(v);
+        const lbl = f.key === "day" ? labelDay(v) : v;
+        const swatch = (f.coloured && DOMAIN_VAR[v])
+          ? `<span class="swatch" style="background:var(${DOMAIN_VAR[v]})"></span>`
+          : "";
+        return `
+          <label class="opt" data-checked="${checked}">
+            <input type="checkbox" data-facet="${f.key}" data-val="${escapeHTML(v)}" ${checked ? "checked" : ""}>
+            ${swatch}
+            <span class="label">${escapeHTML(lbl)}</span>
+            <span class="n">${n}</span>
+          </label>
+        `;
+      }).join("");
+
+      const badge = selected.size ? `<span class="badge">${selected.size}</span>` : "";
+      return `
+        <details class="facet"${open}>
+          <summary>${escapeHTML(f.label)} ${badge}</summary>
+          <div class="options">${opts}</div>
+        </details>
+      `;
+    }).join("");
+  }
+
+  function renderAll() {
+    renderCount();
+    renderChips();
+    renderFilterBadge();
+    renderCards();
+  }
+
+  // ---------- Sheet ----------
+  function openSheet() {
+    renderFacets();
+    document.body.classList.add("sheet-open");
+    $("#sheet").classList.add("open");
+    $("#sheet").setAttribute("aria-hidden", "false");
+    $("#sheetBackdrop").classList.add("open");
+    $("#filterBtn").setAttribute("aria-expanded", "true");
+  }
+  function closeSheet() {
+    document.body.classList.remove("sheet-open");
+    $("#sheet").classList.remove("open");
+    $("#sheet").setAttribute("aria-hidden", "true");
+    $("#sheetBackdrop").classList.remove("open");
+    $("#filterBtn").setAttribute("aria-expanded", "false");
+  }
+
+  // ---------- Bootstrap ----------
+  async function loadData() {
+    try {
+      const r = await fetch("coded_quotes.json", { cache: "no-store" });
+      if (r.ok) {
+        const j = await r.json();
+        if (Array.isArray(j) && j.length) return j;
+      }
+    } catch (_) { /* fall through */ }
+    const raw = $("#embedded-data").textContent.trim();
+    try { return raw ? JSON.parse(raw) : []; } catch { return []; }
+  }
+
+  async function init() {
+    state.data = await loadData();
+    renderAll();
+
+    // Search
+    const searchEl = $("#search");
+    const searchWrap = $("#searchWrap");
+    const searchClear = $("#searchClear");
+    searchEl.addEventListener("input", () => {
+      state.search = searchEl.value.trim();
+      searchWrap.classList.toggle("has-value", !!state.search);
+      state.cap = PAGE;
+      renderAll();
+    });
+    searchClear.addEventListener("click", () => {
+      searchEl.value = "";
+      state.search = "";
+      searchWrap.classList.remove("has-value");
+      renderAll();
+      searchEl.focus();
+    });
+
+    // Sort
+    $("#sort").addEventListener("change", (e) => {
+      state.sort = e.target.value;
+      renderCards();
+    });
+
+    // Filter button
+    $("#filterBtn").addEventListener("click", openSheet);
+    $("#sheetDone").addEventListener("click", closeSheet);
+    $("#sheetBackdrop").addEventListener("click", closeSheet);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && $("#sheet").classList.contains("open")) closeSheet();
+    });
+
+    // Sheet checkbox changes (delegated)
+    $("#sheetBody").addEventListener("change", (e) => {
+      const cb = e.target.closest("input[type=checkbox][data-facet]");
+      if (!cb) return;
+      const key = cb.dataset.facet;
+      const val = cb.dataset.val;
+      const sel = state.filters[key];
+      if (cb.checked) sel.add(val); else sel.delete(val);
+      const opt = cb.closest(".opt");
+      if (opt) opt.dataset.checked = cb.checked ? "true" : "false";
+      // Re-render counts in sheet (other facets) so users see live counts
+      renderFacets();
+      state.cap = PAGE;
+      renderAll();
+    });
+
+    // Sheet reset
+    $("#sheetReset").addEventListener("click", () => {
+      for (const f of FACETS) state.filters[f.key].clear();
+      renderFacets();
+      state.cap = PAGE;
+      renderAll();
+    });
+
+    // Chip removal (delegated)
+    $("#chiprow").addEventListener("click", (e) => {
+      const x = e.target.closest(".x");
+      const clearAll = e.target.closest("#chipClearAll");
+      if (clearAll) {
+        for (const f of FACETS) state.filters[f.key].clear();
+        state.cap = PAGE;
+        renderAll();
+        return;
+      }
+      if (!x) return;
+      const chip = x.closest(".chip");
+      const key = chip.dataset.key;
+      const val = chip.dataset.val;
+      state.filters[key].delete(val);
+      state.cap = PAGE;
+      renderAll();
+    });
+
+    // Load more (delegated on grid)
+    $("#grid").addEventListener("click", (e) => {
+      if (e.target && e.target.id === "loadMore") {
+        state.cap += PAGE;
+        renderCards();
+      }
+    });
+
+    // Footer: switch to desktop view
+    $("#desktopLink").addEventListener("click", (e) => {
+      sessionStorage.setItem("dreams_force_desktop", "1");
+      // Let the link navigate normally
+    });
+  }
+
+  init();
+})();
+</script>
+
+</body>
+</html>

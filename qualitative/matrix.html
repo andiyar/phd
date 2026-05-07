@@ -1,0 +1,1552 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FAF7F2">
+<title>DREAMS — Code Matrix</title>
+<script>
+  // Mobile redirect — matrix is a desktop-only view.
+  (function () {
+    if (sessionStorage.getItem("dreams_force_desktop") === "1") return;
+    var mq = window.matchMedia("(max-width: 880px)");
+    if (mq.matches) {
+      window.location.replace("mobile.html");
+      return;
+    }
+    var onChange = function (e) {
+      if (e.matches && sessionStorage.getItem("dreams_force_desktop") !== "1") {
+        window.location.replace("mobile.html");
+      }
+    };
+    if (mq.addEventListener) mq.addEventListener("change", onChange);
+    else if (mq.addListener) mq.addListener(onChange);
+  })();
+</script>
+<style>
+  /* ---------- Design tokens (matches viewer) ---------- */
+  :root {
+    --paper:        #FAF7F2;
+    --paper-2:      #F4EFE6;
+    --ink:          #1C1D22;
+    --ink-2:        #4A4B53;
+    --ink-3:        #8A8B91;
+    --line:         #E6E1D6;
+    --line-2:       #D6D0C2;
+    --accent:       #2E3033;
+    --highlight:    #FFE9A8;
+
+    --d-comm:       #B07B2E;  --d-comm-bg:    #F4E9D2;  --d-comm-soft:  #FBF4E2;
+    --d-symp:       #B14A3F;  --d-symp-bg:    #F2D8D2;  --d-symp-soft:  #FAE7E2;
+    --d-fam:        #4F7A4E;  --d-fam-bg:     #DEE9D9;  --d-fam-soft:   #ECF2E7;
+    --d-pcc:        #6B5391;  --d-pcc-bg:     #E1D9EB;  --d-pcc-soft:   #EFE9F4;
+    --d-out:        #6E6F77;  --d-out-bg:     #DEDED9;  --d-out-soft:   #ECECE7;
+
+    --arm-dxm:      #2F5D8B;  --arm-dxm-bg:   #DAE5EE;
+    --arm-mdz:      #8B5A2F;  --arm-mdz-bg:   #EFE3D5;
+
+    --heat:         #2F5D8B;
+    --heat-bg:      #DAE5EE;
+
+    --shadow-sm:    0 1px 2px rgba(28,29,34,.04), 0 1px 1px rgba(28,29,34,.03);
+    --shadow:       0 4px 14px rgba(28,29,34,.06), 0 2px 4px rgba(28,29,34,.04);
+    --shadow-lg:    0 18px 40px rgba(28,29,34,.10), 0 4px 10px rgba(28,29,34,.05);
+
+    --radius-sm:    6px;
+    --radius:       10px;
+    --radius-lg:    16px;
+
+    --ui:           -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
+    --serif:        "Iowan Old Style", "Palatino", "Charter", "Georgia", "Times New Roman", serif;
+    --mono:         ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+
+    --topbar-h:     58px;
+    --controls-h:   54px;
+    --rail-h:       50px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper:      #16171B;
+      --paper-2:    #1E1F24;
+      --ink:        #ECEAE3;
+      --ink-2:      #B5B4AE;
+      --ink-3:      #76777E;
+      --line:       #2A2B30;
+      --line-2:     #353740;
+      --accent:     #ECEAE3;
+      --highlight:  #6B5414;
+
+      --d-comm:     #E1B868;  --d-comm-bg:    #3D3220;  --d-comm-soft:  #2A2418;
+      --d-symp:     #E58B7E;  --d-symp-bg:    #402523;  --d-symp-soft:  #2C1B1A;
+      --d-fam:      #99C18F;  --d-fam-bg:     #243321;  --d-fam-soft:   #1B2519;
+      --d-pcc:      #B4A3DC;  --d-pcc-bg:     #2D2940;  --d-pcc-soft:   #211E2E;
+      --d-out:      #B4B5BB;  --d-out-bg:     #2C2D32;  --d-out-soft:   #212126;
+
+      --arm-dxm:    #8AB4D9;  --arm-dxm-bg:   #1F2D3B;
+      --arm-mdz:    #D2A57A;  --arm-mdz-bg:   #34281C;
+
+      --heat:       #8AB4D9;
+      --heat-bg:    #1F2D3B;
+    }
+  }
+
+  /* ---------- Reset / base ---------- */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--ui);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body.drawer-open { overflow: hidden; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  input, select, textarea { font: inherit; color: inherit; }
+  ::selection { background: var(--highlight); color: var(--ink); }
+
+  /* ---------- Top bar ---------- */
+  header.topbar {
+    position: sticky; top: 0; z-index: 30;
+    height: var(--topbar-h);
+    display: flex; align-items: center; gap: 18px;
+    padding: 0 24px;
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+    backdrop-filter: saturate(1.2) blur(14px);
+    -webkit-backdrop-filter: saturate(1.2) blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand {
+    display: flex; align-items: baseline; gap: 10px;
+    user-select: none;
+    flex-shrink: 0;
+  }
+  .brand .mark {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 22px;
+    letter-spacing: .01em;
+    color: var(--ink);
+  }
+  .brand .mark::first-letter { color: var(--d-symp); }
+  .brand .sub {
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .nav-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1px solid var(--line);
+    background: var(--paper-2);
+    color: var(--ink-2);
+    text-decoration: none;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 999px;
+    font-size: 12.5px;
+  }
+  .nav-back:hover { background: var(--paper); color: var(--ink); border-color: var(--line-2); }
+  .nav-back .arrow {
+    width: 12px; height: 12px;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M19 12H6m6-7-7 7 7 7'/></svg>") center/contain no-repeat;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M19 12H6m6-7-7 7 7 7'/></svg>") center/contain no-repeat;
+  }
+  .topbar .spacer { flex: 1; }
+  .topbar .count {
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-3);
+    font-size: 12.5px;
+    letter-spacing: .04em;
+    white-space: nowrap;
+  }
+  .topbar .count strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- Controls bar ---------- */
+  .controls {
+    position: sticky;
+    top: var(--topbar-h);
+    z-index: 25;
+    display: flex; align-items: center; gap: 18px;
+    height: var(--controls-h);
+    padding: 0 24px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .ctl {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--ink-2);
+    font-size: 13px;
+  }
+  .ctl label { color: var(--ink-3); font-size: 12px; letter-spacing: .04em; }
+  .ctl select {
+    height: 32px;
+    padding: 0 28px 0 12px;
+    border: 1px solid var(--line);
+    background: var(--paper-2);
+    color: var(--ink);
+    border-radius: 8px;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='%238A8B91' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 14px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .ctl select:focus { outline: none; border-color: var(--ink-3); }
+
+  .seg {
+    display: inline-flex;
+    border: 1px solid var(--line);
+    background: var(--paper-2);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .seg button {
+    background: transparent;
+    border: 0;
+    height: 30px;
+    padding: 0 11px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    border-right: 1px solid var(--line);
+  }
+  .seg button:last-child { border-right: 0; }
+  .seg button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .seg button:hover:not([aria-pressed="true"]) { background: var(--paper); color: var(--ink); }
+
+  .ctl .toggle {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 30px;
+    padding: 0 11px;
+    border: 1px solid var(--line);
+    background: var(--paper-2);
+    color: var(--ink-2);
+    border-radius: 8px;
+    font-size: 12.5px;
+    cursor: pointer;
+  }
+  .ctl .toggle[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  /* ---------- Filter rail ---------- */
+  .rail {
+    position: sticky;
+    top: calc(var(--topbar-h) + var(--controls-h));
+    z-index: 20;
+    background: var(--paper-2);
+    border-bottom: 1px solid var(--line);
+    padding: 8px 24px;
+    display: flex; align-items: center; gap: 10px;
+    flex-wrap: wrap;
+    min-height: var(--rail-h);
+  }
+  .rail .label {
+    color: var(--ink-3);
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    margin-right: 4px;
+  }
+  .rail .add-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1px dashed var(--line-2);
+    background: transparent;
+    color: var(--ink-2);
+    height: 28px;
+    padding: 0 12px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    position: relative;
+  }
+  .rail .add-btn:hover { border-color: var(--ink-3); color: var(--ink); }
+  .rail .add-btn .plus {
+    width: 12px; height: 12px;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' d='M12 5v14M5 12h14'/></svg>") center/contain no-repeat;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' d='M12 5v14M5 12h14'/></svg>") center/contain no-repeat;
+  }
+  .rail .clear-all {
+    border: 0; background: transparent;
+    color: var(--ink-3);
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .rail .clear-all:hover { color: var(--ink); }
+
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 3px 6px 3px 10px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    white-space: nowrap;
+  }
+  .chip .k { color: var(--ink-3); margin-right: 2px; }
+  .chip .v { color: var(--ink); font-weight: 500; }
+  .chip .x {
+    border: 0; background: transparent;
+    width: 18px; height: 18px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    color: var(--ink-3);
+    line-height: 1;
+    font-size: 14px;
+  }
+  .chip .x:hover { background: var(--paper-2); color: var(--ink); }
+  .chip .v.has-multi { color: var(--ink); }
+  .chip .v .more { color: var(--ink-3); margin-left: 2px; font-weight: 400; }
+
+  /* ---------- Filter popover (for "Add filter") ---------- */
+  .pop {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 50;
+    min-width: 240px;
+    max-width: 320px;
+    max-height: 60vh;
+    overflow: auto;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    padding: 6px;
+  }
+  .pop[hidden] { display: none; }
+  .pop .pop-section {
+    border-bottom: 1px solid var(--line);
+    padding: 6px 0;
+  }
+  .pop .pop-section:last-child { border-bottom: 0; }
+  .pop .pop-head {
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding: 4px 8px 6px;
+    font-weight: 600;
+  }
+  .pop .pop-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--ink);
+    user-select: none;
+  }
+  .pop .pop-item:hover { background: var(--paper-2); }
+  .pop .pop-item input { margin: 0; accent-color: var(--ink); flex-shrink: 0; }
+  .pop .pop-item .swatch {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--ink-3);
+    flex-shrink: 0;
+  }
+  .pop .pop-item .label { flex: 1; }
+  .pop .pop-item .n {
+    font-size: 11.5px; color: var(--ink-3);
+    font-variant-numeric: tabular-nums;
+  }
+  .pop .pop-search {
+    width: calc(100% - 8px);
+    margin: 4px 4px 6px;
+    height: 32px;
+    border: 1px solid var(--line);
+    background: var(--paper-2);
+    color: var(--ink);
+    border-radius: 8px;
+    padding: 0 10px;
+    font-size: 13px;
+  }
+  .pop .pop-search:focus { outline: none; border-color: var(--ink-3); }
+
+  /* ---------- Matrix table ---------- */
+  main {
+    padding: 18px 24px 80px;
+  }
+  .matrix-meta {
+    margin: 0 0 12px;
+    color: var(--ink-3);
+    font-size: 12.5px;
+    display: flex; align-items: baseline; gap: 16px;
+    flex-wrap: wrap;
+  }
+  .matrix-meta strong { color: var(--ink); font-weight: 600; }
+  .matrix-meta .legend {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-left: auto;
+  }
+  .matrix-meta .legend .bar {
+    width: 100px; height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(to right, var(--paper-2), var(--heat));
+    border: 1px solid var(--line);
+  }
+  .matrix-meta .legend .end {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .matrix-wrap {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper);
+    overflow: auto;
+    max-height: calc(100vh - var(--topbar-h) - var(--controls-h) - var(--rail-h) - 100px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  table.matrix {
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    width: 100%;
+  }
+  table.matrix th, table.matrix td {
+    padding: 8px 10px;
+    text-align: right;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  table.matrix th { font-weight: 600; }
+  table.matrix th:first-child, table.matrix td:first-child {
+    text-align: left;
+    position: sticky;
+    left: 0;
+    z-index: 4;
+    background: var(--paper);
+    border-right: 1px solid var(--line-2);
+    min-width: 220px;
+    max-width: 360px;
+  }
+  table.matrix thead th {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--paper-2);
+    color: var(--ink-2);
+    font-size: 12px;
+    letter-spacing: .04em;
+  }
+  table.matrix thead th:first-child { z-index: 6; background: var(--paper-2); }
+  table.matrix thead th.col-total {
+    color: var(--ink);
+    background: var(--paper-2);
+    border-left: 1px solid var(--line-2);
+  }
+  table.matrix .row-domain {
+    background: var(--paper-2);
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+    user-select: none;
+  }
+  table.matrix .row-domain td:first-child {
+    background: var(--paper-2);
+  }
+  table.matrix .row-domain td {
+    background: var(--paper-2);
+  }
+  table.matrix .row-domain .caret {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    margin-right: 8px;
+    vertical-align: 1px;
+    transition: transform .15s;
+  }
+  table.matrix .row-domain[data-collapsed="true"] .caret { transform: rotate(-45deg); }
+  table.matrix .row-domain .domain-label {
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-size: 11.5px;
+  }
+  table.matrix .row-subcode td:first-child { padding-left: 32px; }
+  table.matrix .row-subcode .label-row {
+    display: flex; align-items: center; gap: 8px;
+  }
+  table.matrix .row-subcode .label-row .swatch {
+    width: 6px; height: 6px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+  table.matrix tbody tr:hover td { background: color-mix(in srgb, var(--ink) 4%, transparent); }
+  table.matrix tbody tr:hover td:first-child {
+    background: color-mix(in srgb, var(--ink) 4%, var(--paper));
+  }
+
+  table.matrix td.cell {
+    cursor: pointer;
+    transition: filter .12s;
+    color: var(--ink);
+  }
+  table.matrix td.cell.empty { color: var(--ink-3); cursor: default; }
+  table.matrix td.cell:hover:not(.empty) { filter: brightness(.97); }
+  table.matrix td.cell.col-total {
+    background: var(--paper-2);
+    color: var(--ink);
+    font-weight: 600;
+    border-left: 1px solid var(--line-2);
+  }
+  table.matrix tfoot td {
+    background: var(--paper-2);
+    color: var(--ink);
+    font-weight: 700;
+    border-top: 1px solid var(--line-2);
+  }
+  table.matrix tfoot td:first-child {
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-size: 11.5px;
+  }
+
+  table.matrix .pct-suffix { color: var(--ink-3); margin-left: 2px; font-size: 11px; }
+
+  /* Domain-coloured headers when col=code */
+  table.matrix thead th.col-d-Communication       { color: var(--d-comm); }
+  table.matrix thead th.col-d-SymptomControl      { color: var(--d-symp); }
+  table.matrix thead th.col-d-Family              { color: var(--d-fam); }
+  table.matrix thead th.col-d-PatientCentredCare  { color: var(--d-pcc); }
+  table.matrix thead th.col-d-OutsideFramework    { color: var(--d-out); }
+
+  /* Empty / loading */
+  .empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--ink-3);
+  }
+  .empty .title {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink-2);
+    margin-bottom: 6px;
+  }
+
+  /* ---------- Drawer ---------- */
+  .drawer-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(28,29,34,.35);
+    z-index: 80;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s;
+  }
+  .drawer-backdrop.open { opacity: 1; pointer-events: auto; }
+  .drawer {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: min(540px, 90vw);
+    background: var(--paper);
+    border-left: 1px solid var(--line);
+    box-shadow: -16px 0 40px rgba(28,29,34,.10);
+    z-index: 90;
+    transform: translateX(100%);
+    transition: transform .28s cubic-bezier(.32,.72,0,1);
+    display: flex; flex-direction: column;
+  }
+  .drawer.open { transform: translateX(0); }
+  .drawer-head {
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .drawer-head .meta {
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 4px;
+  }
+  .drawer-head h2 {
+    margin: 0 0 4px;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    display: flex; align-items: baseline; gap: 8px;
+    flex-wrap: wrap;
+  }
+  .drawer-head h2 .x-mark { color: var(--ink-3); font-weight: 400; }
+  .drawer-head .sub {
+    color: var(--ink-3);
+    font-size: 12.5px;
+  }
+  .drawer-head .close {
+    position: absolute; top: 14px; right: 14px;
+    border: 0; background: transparent;
+    color: var(--ink-3);
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .drawer-head .close:hover { background: var(--paper-2); color: var(--ink); }
+  .drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px 16px 20px;
+  }
+  .drawer-card {
+    --c: var(--d-out);
+    --c-bg: var(--d-out-bg);
+    --c-soft: var(--d-out-soft);
+    position: relative;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--c);
+    border-radius: var(--radius);
+    padding: 12px 14px 12px 14px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow-sm);
+  }
+  .drawer-card[data-code="Communication"]       { --c: var(--d-comm); --c-bg: var(--d-comm-bg); --c-soft: var(--d-comm-soft); }
+  .drawer-card[data-code="Symptom Control"]     { --c: var(--d-symp); --c-bg: var(--d-symp-bg); --c-soft: var(--d-symp-soft); }
+  .drawer-card[data-code="Family"]              { --c: var(--d-fam);  --c-bg: var(--d-fam-bg);  --c-soft: var(--d-fam-soft);  }
+  .drawer-card[data-code="Patient-Centred Care"]{ --c: var(--d-pcc);  --c-bg: var(--d-pcc-bg);  --c-soft: var(--d-pcc-soft);  }
+  .drawer-card[data-code="Outside Framework"]   { --c: var(--d-out);  --c-bg: var(--d-out-bg);  --c-soft: var(--d-out-soft);  }
+  .drawer-card .head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 6px;
+    gap: 10px;
+  }
+  .drawer-card .domain {
+    font-size: 10.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--c);
+  }
+  .drawer-card .id {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--ink-3);
+  }
+  .drawer-card .quote {
+    font-family: var(--serif);
+    font-size: 14.5px;
+    line-height: 1.45;
+    color: var(--ink);
+    margin: 0;
+  }
+  .drawer-card .note {
+    margin-top: 8px;
+    padding: 6px 10px;
+    background: var(--c-soft);
+    border-left: 2px solid var(--c);
+    border-radius: 4px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    font-style: italic;
+  }
+  .drawer-card .meta {
+    margin-top: 8px;
+    display: flex; flex-wrap: wrap; gap: 5px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--line);
+  }
+  .drawer-card .meta .pill {
+    font-size: 10.5px;
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: var(--paper-2);
+    color: var(--ink-2);
+    border: 1px solid var(--line);
+  }
+  .drawer-card .meta .pill.subcode {
+    background: var(--c-bg);
+    color: var(--c);
+    border-color: color-mix(in srgb, var(--c) 22%, transparent);
+    font-weight: 600;
+  }
+  .drawer-card .meta .pill.arm.DXM { background: var(--arm-dxm-bg); color: var(--arm-dxm); border-color: color-mix(in srgb, var(--arm-dxm) 22%, transparent); font-weight: 600; }
+  .drawer-card .meta .pill.arm.MDZ { background: var(--arm-mdz-bg); color: var(--arm-mdz); border-color: color-mix(in srgb, var(--arm-mdz) 22%, transparent); font-weight: 600; }
+
+  /* ---------- Password gate ---------- */
+  #gate {
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--ui);
+  }
+  #gate .box {
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 3rem;
+    width: min(380px, 90vw);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+  }
+  #gate .title { font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: .4rem; }
+  #gate .sub   { font-size: .85rem; color: var(--ink-3); margin-bottom: 2rem; }
+  #gate input {
+    width: 100%; padding: .7rem 1rem;
+    border: 1.5px solid var(--line-2); border-radius: var(--radius);
+    background: var(--paper); color: var(--ink);
+    font-family: var(--ui); font-size: .95rem;
+    outline: none; margin-bottom: .75rem;
+    transition: border-color .15s;
+  }
+  #gate input:focus { border-color: var(--accent); }
+  #gate .err { color: #B14A3F; font-size: .8rem; min-height: 1.2em; margin-bottom: .5rem; }
+  #gate button {
+    width: 100%; padding: .7rem;
+    background: var(--accent); color: var(--paper);
+    border: none; border-radius: var(--radius);
+    font-family: var(--ui); font-size: .95rem; font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="box">
+    <div class="title">DREAMS</div>
+    <div class="sub">Qualitative Coding Database</div>
+    <input id="gate-input" type="password" placeholder="Password" autocomplete="current-password" />
+    <div id="gate-err" class="err"></div>
+    <button id="gate-submit">Enter</button>
+  </div>
+</div>
+<script>
+  (function () {
+    var PW = "DREAMS2026";
+    var gate = document.getElementById("gate");
+    var input = document.getElementById("gate-input");
+    var err = document.getElementById("gate-err");
+    if (sessionStorage.getItem("dreams_auth") === "1") {
+      gate.style.display = "none";
+    }
+    function check() {
+      if (input.value === PW) {
+        sessionStorage.setItem("dreams_auth", "1");
+        gate.style.display = "none";
+      } else {
+        err.textContent = "Incorrect password.";
+        input.value = "";
+        input.focus();
+      }
+    }
+    document.getElementById("gate-submit").addEventListener("click", check);
+    input.addEventListener("keydown", function (e) { if (e.key === "Enter") check(); });
+  })();
+</script>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="mark">DREAMS</div>
+    <div class="sub">Code Matrix</div>
+  </div>
+  <a class="nav-back" href="index.html"><span class="arrow"></span>Quote viewer</a>
+  <div class="spacer"></div>
+  <div class="count" id="count">— quotes</div>
+</header>
+
+<div class="controls">
+  <div class="ctl">
+    <label for="rowDim">Rows</label>
+    <select id="rowDim">
+      <option value="subcode">Sub-code</option>
+      <option value="code">Domain</option>
+      <option value="patient">Patient</option>
+      <option value="arm">Arm</option>
+      <option value="day">Day</option>
+      <option value="discipline">Source</option>
+    </select>
+  </div>
+  <div class="ctl">
+    <label for="colDim">Columns</label>
+    <select id="colDim">
+      <option value="discipline">Source</option>
+      <option value="arm">Arm</option>
+      <option value="day">Day</option>
+      <option value="code">Domain</option>
+      <option value="patient">Patient</option>
+      <option value="subcode">Sub-code</option>
+    </select>
+  </div>
+  <div class="ctl">
+    <label>Show</label>
+    <div class="seg" role="tablist" id="normSeg">
+      <button data-norm="count"  aria-pressed="true">Counts</button>
+      <button data-norm="pctcol" aria-pressed="false">% col</button>
+      <button data-norm="pctrow" aria-pressed="false">% row</button>
+    </div>
+  </div>
+  <div class="ctl">
+    <label>Sort</label>
+    <div class="seg" role="tablist" id="sortSeg">
+      <button data-sort="natural"    aria-pressed="true">Natural</button>
+      <button data-sort="prevalence" aria-pressed="false">Prevalence</button>
+    </div>
+  </div>
+  <div class="ctl">
+    <button class="toggle" id="groupToggle" aria-pressed="true" type="button">
+      <span>Group rows by Domain</span>
+    </button>
+  </div>
+</div>
+
+<div class="rail">
+  <span class="label">Scope</span>
+  <div id="chips" style="display:contents"></div>
+  <span style="position:relative">
+    <button class="add-btn" id="addFilter" type="button">
+      <span class="plus" aria-hidden="true"></span>
+      <span>Add filter</span>
+    </button>
+    <div class="pop" id="filterPop" hidden role="dialog" aria-label="Add filter"></div>
+  </span>
+  <button class="clear-all" id="clearScope" type="button" hidden>Clear scope</button>
+</div>
+
+<main>
+  <div class="matrix-meta" id="matrixMeta"></div>
+  <div class="matrix-wrap">
+    <table class="matrix" id="matrix"></table>
+  </div>
+</main>
+
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="drawer-head">
+    <div class="meta" id="drawerMeta"></div>
+    <h2 id="drawerTitle"></h2>
+    <div class="sub" id="drawerSub"></div>
+    <button class="close" id="drawerClose" aria-label="Close">×</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+</aside>
+
+<script id="embedded-data" type="application/json">[]</script>
+
+<script>
+(() => {
+  "use strict";
+
+  // ---------- Config ----------
+  const FACETS = [
+    { key: "code",       label: "Domain",   coloured: true },
+    { key: "subcode",    label: "Sub-code"  },
+    { key: "arm",        label: "Arm"       },
+    { key: "day",        label: "Day"       },
+    { key: "discipline", label: "Source"    },
+    { key: "patient",    label: "Patient"   },
+  ];
+  const FACET_LABEL = Object.fromEntries(FACETS.map(f => [f.key, f.label]));
+
+  const DOMAIN_VAR = {
+    "Communication":          "--d-comm",
+    "Symptom Control":        "--d-symp",
+    "Family":                 "--d-fam",
+    "Patient-Centred Care":   "--d-pcc",
+    "Outside Framework":      "--d-out",
+  };
+
+  const DAY_ORDER = ["DayMinus1", "Day0", "Day1", "Day2", "Day3", "Day4", "Day5"];
+  const DOMAIN_ORDER = ["Communication", "Symptom Control", "Family", "Patient-Centred Care", "Outside Framework"];
+  const ARM_ORDER = ["DXM", "MDZ"];
+  const DISCIPLINE_ORDER = ["Medical", "Nursing", "PCA"];
+
+  // ---------- State ----------
+  const state = {
+    data: [],
+    scope: {},                   // { facet: Set<value> }
+    rowDim: "subcode",
+    colDim: "discipline",
+    norm: "count",               // count | pctcol | pctrow
+    sort: "natural",             // natural | prevalence
+    groupByDomain: true,
+    collapsed: new Set(),        // collapsed domain group keys
+    subcodeDomain: {},           // subcode → modal domain
+  };
+  for (const f of FACETS) state.scope[f.key] = new Set();
+
+  // ---------- Helpers ----------
+  const $  = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const escapeHTML = (s) =>
+    String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+
+  const labelDay = (d) => {
+    if (!d) return d;
+    if (d === "DayMinus1") return "Day −1";
+    return d.replace(/^Day/, "Day ");
+  };
+
+  const labelArm = (a) => a === "DXM" ? "Dexmedetomidine" : a === "MDZ" ? "Midazolam" : a;
+
+  const patientNum = (p) => {
+    const m = String(p).match(/(\d+)/);
+    return m ? +m[1] : 0;
+  };
+
+  function naturalOrder(key, values) {
+    const arr = Array.from(values);
+    const map = { day: DAY_ORDER, code: DOMAIN_ORDER, arm: ARM_ORDER, discipline: DISCIPLINE_ORDER };
+    if (map[key]) {
+      const idx = (v) => { const i = map[key].indexOf(v); return i === -1 ? 999 : i; };
+      arr.sort((a, b) => idx(a) - idx(b) || a.localeCompare(b));
+    } else if (key === "patient") {
+      arr.sort((a, b) => {
+        const aArm = a.startsWith("DXM") ? 0 : 1;
+        const bArm = b.startsWith("DXM") ? 0 : 1;
+        return aArm - bArm || patientNum(a) - patientNum(b);
+      });
+    } else if (key === "subcode") {
+      // Group by domain order, then alphabetical within domain
+      arr.sort((a, b) => {
+        const da = state.subcodeDomain[a] || "";
+        const db = state.subcodeDomain[b] || "";
+        const di = DOMAIN_ORDER.indexOf(da);
+        const dj = DOMAIN_ORDER.indexOf(db);
+        return (di === -1 ? 999 : di) - (dj === -1 ? 999 : dj) || a.localeCompare(b);
+      });
+    } else {
+      arr.sort((a, b) => a.localeCompare(b));
+    }
+    return arr;
+  }
+
+  function valueLabel(key, v) {
+    if (v == null || v === "") return "—";
+    if (key === "day") return labelDay(v);
+    return v;
+  }
+
+  // ---------- Filtering (scope) ----------
+  function inScope(item) {
+    for (const f of FACETS) {
+      const sel = state.scope[f.key];
+      if (sel.size && !sel.has(item[f.key])) return false;
+    }
+    return true;
+  }
+
+  function activeScope() {
+    let n = 0;
+    for (const f of FACETS) n += state.scope[f.key].size;
+    return n;
+  }
+
+  // ---------- Subcode → Domain map ----------
+  function buildSubcodeDomainMap() {
+    const counts = new Map();
+    for (const it of state.data) {
+      if (!it.subcode || !it.code) continue;
+      let m = counts.get(it.subcode);
+      if (!m) { m = new Map(); counts.set(it.subcode, m); }
+      m.set(it.code, (m.get(it.code) || 0) + 1);
+    }
+    const out = {};
+    for (const [sc, m] of counts) {
+      let best = null, bestN = -1;
+      for (const [code, n] of m) if (n > bestN) { best = code; bestN = n; }
+      out[sc] = best;
+    }
+    state.subcodeDomain = out;
+  }
+
+  // ---------- Pivot ----------
+  function pivot() {
+    const rows = new Map();   // rowKey → Map(colKey → count)
+    const colTotals = new Map();
+    const rowTotals = new Map();
+    let grand = 0;
+
+    const items = [];
+    for (const it of state.data) {
+      if (!inScope(it)) continue;
+      items.push(it);
+      const rk = it[state.rowDim];
+      const ck = it[state.colDim];
+      if (rk == null || ck == null) continue;
+      let r = rows.get(rk);
+      if (!r) { r = new Map(); rows.set(rk, r); }
+      r.set(ck, (r.get(ck) || 0) + 1);
+      colTotals.set(ck, (colTotals.get(ck) || 0) + 1);
+      rowTotals.set(rk, (rowTotals.get(rk) || 0) + 1);
+      grand++;
+    }
+
+    const rowKeys = naturalOrder(state.rowDim, rows.keys());
+    const colKeys = naturalOrder(state.colDim, colTotals.keys());
+
+    if (state.sort === "prevalence") {
+      // Sort rows by total desc; preserve domain grouping if applicable
+      if (state.rowDim === "subcode" && state.groupByDomain) {
+        rowKeys.sort((a, b) => {
+          const da = state.subcodeDomain[a] || "";
+          const db = state.subcodeDomain[b] || "";
+          const di = DOMAIN_ORDER.indexOf(da);
+          const dj = DOMAIN_ORDER.indexOf(db);
+          if (di !== dj) return (di === -1 ? 999 : di) - (dj === -1 ? 999 : dj);
+          return (rowTotals.get(b) || 0) - (rowTotals.get(a) || 0);
+        });
+      } else {
+        rowKeys.sort((a, b) => (rowTotals.get(b) || 0) - (rowTotals.get(a) || 0));
+      }
+      // Cols by total desc, but keep code/day/arm/discipline natural
+      if (!["code","day","arm","discipline"].includes(state.colDim)) {
+        colKeys.sort((a, b) => (colTotals.get(b) || 0) - (colTotals.get(a) || 0));
+      }
+    }
+
+    return { rows, colTotals, rowTotals, grand, rowKeys, colKeys, items };
+  }
+
+  // ---------- Render: counts strip ----------
+  function renderCount(items) {
+    const all = state.data.length;
+    const inScopeN = items.length;
+    $("#count").innerHTML = `<strong>${inScopeN}</strong> of ${all} quotes`;
+  }
+
+  function renderMeta(p) {
+    const meta = $("#matrixMeta");
+    const max = (() => {
+      let m = 0;
+      for (const r of p.rows.values()) for (const v of r.values()) if (v > m) m = v;
+      return m;
+    })();
+    const rowLbl = FACET_LABEL[state.rowDim];
+    const colLbl = FACET_LABEL[state.colDim];
+    meta.innerHTML = `
+      <span><strong>${p.rowKeys.length}</strong> ${escapeHTML(rowLbl).toLowerCase()}${p.rowKeys.length===1?"":"s"} × <strong>${p.colKeys.length}</strong> ${escapeHTML(colLbl).toLowerCase()}${p.colKeys.length===1?"":"s"}</span>
+      <span><strong>${p.grand}</strong> coded quotes</span>
+      <span class="legend"><span>0</span><span class="bar" aria-hidden="true"></span><span class="end">${max}</span></span>
+    `;
+  }
+
+  // ---------- Render: scope chips ----------
+  function renderChips() {
+    const wrap = $("#chips");
+    const parts = [];
+    for (const f of FACETS) {
+      const sel = state.scope[f.key];
+      if (!sel.size) continue;
+      const arr = naturalOrder(f.key, sel);
+      const max = 3;
+      const shown = arr.slice(0, max).map(v => valueLabel(f.key, v)).join(", ");
+      const more = arr.length > max ? ` +${arr.length - max}` : "";
+      parts.push(`
+        <span class="chip" data-key="${f.key}">
+          <span class="k">${escapeHTML(f.label)}:</span>
+          <span class="v ${arr.length>1?"has-multi":""}">${escapeHTML(shown)}<span class="more">${more}</span></span>
+          <button class="x" type="button" aria-label="Remove ${escapeHTML(f.label)} filter">×</button>
+        </span>
+      `);
+    }
+    wrap.innerHTML = parts.join("");
+    $("#clearScope").hidden = activeScope() === 0;
+  }
+
+  // ---------- Render: matrix ----------
+  function heatStyle(value, max) {
+    if (!value || max <= 0) return "";
+    const t = Math.min(1, value / max);
+    // Mix between paper-2 (cool background) and heat color, with gentle gamma
+    const alpha = Math.pow(t, 0.7);
+    return `background: color-mix(in srgb, var(--heat) ${Math.round(alpha*32)}%, var(--paper));`;
+  }
+
+  function fmt(value, rowTotal, colTotal) {
+    if (state.norm === "pctcol") {
+      if (!colTotal) return value ? `${value}` : "";
+      return value ? `${(value/colTotal*100).toFixed(0)}<span class="pct-suffix">%</span>` : "";
+    }
+    if (state.norm === "pctrow") {
+      if (!rowTotal) return value ? `${value}` : "";
+      return value ? `${(value/rowTotal*100).toFixed(0)}<span class="pct-suffix">%</span>` : "";
+    }
+    return value ? `${value}` : "";
+  }
+
+  function colHeaderClass(colKey) {
+    if (state.colDim !== "code") return "";
+    const slug = colKey.replace(/[^A-Za-z]/g, "");
+    return ` col-d-${slug}`;
+  }
+
+  function renderMatrix(p) {
+    const tbl = $("#matrix");
+    if (p.rowKeys.length === 0 || p.colKeys.length === 0) {
+      tbl.innerHTML = `<tbody><tr><td><div class="empty"><div class="title">No data in this scope.</div><div>Try removing a scope filter.</div></div></td></tr></tbody>`;
+      return;
+    }
+
+    // Compute heatmap max
+    let max = 0;
+    for (const r of p.rows.values()) for (const v of r.values()) if (v > max) max = v;
+    if (state.norm === "pctcol") {
+      max = 0;
+      for (const rk of p.rowKeys) {
+        for (const ck of p.colKeys) {
+          const v = (p.rows.get(rk)?.get(ck)) || 0;
+          const ct = p.colTotals.get(ck) || 0;
+          const pct = ct ? v / ct * 100 : 0;
+          if (pct > max) max = pct;
+        }
+      }
+    } else if (state.norm === "pctrow") {
+      max = 0;
+      for (const rk of p.rowKeys) {
+        const rt = p.rowTotals.get(rk) || 0;
+        for (const ck of p.colKeys) {
+          const v = (p.rows.get(rk)?.get(ck)) || 0;
+          const pct = rt ? v / rt * 100 : 0;
+          if (pct > max) max = pct;
+        }
+      }
+    }
+
+    // Build header
+    const rowLbl = FACET_LABEL[state.rowDim];
+    const head = `
+      <thead>
+        <tr>
+          <th>${escapeHTML(rowLbl)}</th>
+          ${p.colKeys.map(ck => `<th class="${colHeaderClass(ck)}" title="${escapeHTML(ck)}">${escapeHTML(valueLabel(state.colDim, ck))}</th>`).join("")}
+          <th class="col-total">Total</th>
+        </tr>
+      </thead>
+    `;
+
+    // Build body
+    const useGrouping = state.groupByDomain && state.rowDim === "subcode";
+    const bodyRows = [];
+
+    if (useGrouping) {
+      // Group subcodes by their domain
+      const groups = new Map();   // domain → [subcodeKeys]
+      for (const rk of p.rowKeys) {
+        const dom = state.subcodeDomain[rk] || "Outside Framework";
+        if (!groups.has(dom)) groups.set(dom, []);
+        groups.get(dom).push(rk);
+      }
+      // Iterate in DOMAIN_ORDER, plus any leftover at end
+      const domains = [...groups.keys()].sort((a, b) => {
+        const ai = DOMAIN_ORDER.indexOf(a); const bi = DOMAIN_ORDER.indexOf(b);
+        return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+      });
+
+      for (const dom of domains) {
+        const subs = groups.get(dom);
+        // Domain row totals (sum of its subcode rows for each col)
+        const domColTotals = new Map();
+        let domRowTotal = 0;
+        for (const sc of subs) {
+          const r = p.rows.get(sc);
+          if (!r) continue;
+          for (const [ck, v] of r) {
+            domColTotals.set(ck, (domColTotals.get(ck) || 0) + v);
+            domRowTotal += v;
+          }
+        }
+
+        const collapsed = state.collapsed.has(dom);
+        const cssVar = DOMAIN_VAR[dom];
+
+        bodyRows.push(`
+          <tr class="row-domain" data-domain="${escapeHTML(dom)}" data-collapsed="${collapsed}">
+            <td>
+              <span class="caret" style="${cssVar?`color: var(${cssVar})`:""}"></span>
+              <span class="domain-label" style="${cssVar?`color: var(${cssVar})`:""}">${escapeHTML(dom)}</span>
+              <span style="color:var(--ink-3); font-weight:500; margin-left:8px; font-size:11px;">(${subs.length})</span>
+            </td>
+            ${p.colKeys.map(ck => {
+              const v = domColTotals.get(ck) || 0;
+              const ct = p.colTotals.get(ck) || 0;
+              return `<td class="cell ${v?"":"empty"}" data-row="${escapeHTML(dom)}" data-col="${escapeHTML(ck)}" data-domain-row="1" style="${heatStyle(v, max * (state.norm==="count" ? 1.5 : 1.5))}">${fmt(v, domRowTotal, ct)}</td>`;
+            }).join("")}
+            <td class="cell col-total" style="${heatStyle(domRowTotal, max * 1.5)}">${state.norm==="count" ? domRowTotal : ""}</td>
+          </tr>
+        `);
+
+        if (!collapsed) {
+          for (const sc of subs) {
+            const r = p.rows.get(sc) || new Map();
+            const rt = p.rowTotals.get(sc) || 0;
+            const cssV = DOMAIN_VAR[state.subcodeDomain[sc]] || "--ink-3";
+            bodyRows.push(`
+              <tr class="row-subcode" data-row="${escapeHTML(sc)}">
+                <td>
+                  <span class="label-row">
+                    <span class="swatch" style="background: var(${cssV})"></span>
+                    <span>${escapeHTML(sc)}</span>
+                  </span>
+                </td>
+                ${p.colKeys.map(ck => {
+                  const v = r.get(ck) || 0;
+                  const ct = p.colTotals.get(ck) || 0;
+                  return `<td class="cell ${v?"":"empty"}" data-row="${escapeHTML(sc)}" data-col="${escapeHTML(ck)}" style="${heatStyle(state.norm==="pctcol" ? (ct?v/ct*100:0) : state.norm==="pctrow" ? (rt?v/rt*100:0) : v, max)}">${fmt(v, rt, ct)}</td>`;
+                }).join("")}
+                <td class="cell col-total">${state.norm==="count" ? rt : ""}</td>
+              </tr>
+            `);
+          }
+        }
+      }
+    } else {
+      for (const rk of p.rowKeys) {
+        const r = p.rows.get(rk) || new Map();
+        const rt = p.rowTotals.get(rk) || 0;
+        const isDomainRow = state.rowDim === "code";
+        const cssV = isDomainRow ? DOMAIN_VAR[rk] : null;
+        bodyRows.push(`
+          <tr class="row-subcode" data-row="${escapeHTML(rk)}">
+            <td>
+              <span class="label-row">
+                ${cssV ? `<span class="swatch" style="background: var(${cssV})"></span>` : ""}
+                <span>${escapeHTML(valueLabel(state.rowDim, rk))}</span>
+              </span>
+            </td>
+            ${p.colKeys.map(ck => {
+              const v = r.get(ck) || 0;
+              const ct = p.colTotals.get(ck) || 0;
+              return `<td class="cell ${v?"":"empty"}" data-row="${escapeHTML(rk)}" data-col="${escapeHTML(ck)}" style="${heatStyle(state.norm==="pctcol" ? (ct?v/ct*100:0) : state.norm==="pctrow" ? (rt?v/rt*100:0) : v, max)}">${fmt(v, rt, ct)}</td>`;
+            }).join("")}
+            <td class="cell col-total">${state.norm==="count" ? rt : ""}</td>
+          </tr>
+        `);
+      }
+    }
+
+    // Footer: column totals
+    const footer = `
+      <tfoot>
+        <tr>
+          <td>Total</td>
+          ${p.colKeys.map(ck => `<td>${state.norm==="count" ? (p.colTotals.get(ck) || 0) : ""}</td>`).join("")}
+          <td>${state.norm==="count" ? p.grand : ""}</td>
+        </tr>
+      </tfoot>
+    `;
+
+    tbl.innerHTML = head + `<tbody>${bodyRows.join("")}</tbody>` + footer;
+  }
+
+  function renderAll() {
+    const p = pivot();
+    renderCount(p.items);
+    renderMeta(p);
+    renderChips();
+    renderMatrix(p);
+  }
+
+  // ---------- Drawer ----------
+  function openDrawer(rowKey, colKey, domainRow) {
+    const drawer = $("#drawer");
+    const matched = state.data.filter(it => {
+      if (!inScope(it)) return false;
+      if (it[state.colDim] !== colKey) return false;
+      if (domainRow) {
+        // Domain group row: include all subcodes whose modal domain == rowKey
+        return state.subcodeDomain[it.subcode] === rowKey;
+      }
+      return it[state.rowDim] === rowKey;
+    });
+
+    const rowLbl = domainRow
+      ? `${escapeHTML(rowKey)} <span style="color:var(--ink-3); font-weight:400; font-size:13px; letter-spacing:.08em;">(domain)</span>`
+      : escapeHTML(valueLabel(state.rowDim, rowKey));
+    const colLbl = escapeHTML(valueLabel(state.colDim, colKey));
+
+    $("#drawerMeta").textContent = `${FACET_LABEL[state.rowDim]} × ${FACET_LABEL[state.colDim]}`;
+    $("#drawerTitle").innerHTML = `${rowLbl} <span class="x-mark">×</span> ${colLbl}`;
+    $("#drawerSub").textContent = `${matched.length} quote${matched.length===1?"":"s"}`;
+
+    if (matched.length === 0) {
+      $("#drawerBody").innerHTML = `<div class="empty"><div class="title">No quotes here.</div></div>`;
+    } else {
+      $("#drawerBody").innerHTML = matched.map(it => `
+        <article class="drawer-card" data-code="${escapeHTML(it.code || "Outside Framework")}">
+          <div class="head">
+            <div class="domain">${escapeHTML(it.code || "—")}</div>
+            <div class="id">#${it.id}</div>
+          </div>
+          <p class="quote">${escapeHTML(it.quote || "")}</p>
+          ${it.note ? `<div class="note">${escapeHTML(it.note)}</div>` : ""}
+          <div class="meta">
+            ${it.subcode ? `<span class="pill subcode">${escapeHTML(it.subcode)}</span>` : ""}
+            <span class="pill arm ${escapeHTML(it.arm || "")}">${escapeHTML(it.arm || "—")}</span>
+            <span class="pill">${escapeHTML(it.patient || "—")}</span>
+            <span class="pill">${escapeHTML(labelDay(it.day) || "—")}</span>
+            <span class="pill">${escapeHTML(it.discipline || "—")}</span>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    document.body.classList.add("drawer-open");
+    drawer.classList.add("open");
+    drawer.setAttribute("aria-hidden", "false");
+    $("#drawerBackdrop").classList.add("open");
+  }
+  function closeDrawer() {
+    document.body.classList.remove("drawer-open");
+    $("#drawer").classList.remove("open");
+    $("#drawer").setAttribute("aria-hidden", "true");
+    $("#drawerBackdrop").classList.remove("open");
+  }
+
+  // ---------- Filter popover ----------
+  function openFilterPop() {
+    const pop = $("#filterPop");
+    const counts = scopeAwareCounts();
+    const search = "";
+
+    pop.innerHTML = FACETS.map(f => {
+      const all = new Set(state.data.map(d => d[f.key]).filter(Boolean));
+      const values = naturalOrder(f.key, all);
+      const map = counts[f.key];
+      const items = values.map(v => {
+        const checked = state.scope[f.key].has(v);
+        const n = map.get(v) || 0;
+        const lbl = valueLabel(f.key, v);
+        const swatch = (f.coloured && DOMAIN_VAR[v])
+          ? `<span class="swatch" style="background:var(${DOMAIN_VAR[v]})"></span>`
+          : "";
+        return `
+          <label class="pop-item" data-facet="${f.key}" data-val="${escapeHTML(v)}">
+            <input type="checkbox" data-facet="${f.key}" data-val="${escapeHTML(v)}" ${checked ? "checked" : ""}>
+            ${swatch}
+            <span class="label">${escapeHTML(lbl)}</span>
+            <span class="n">${n}</span>
+          </label>
+        `;
+      }).join("");
+      return `
+        <div class="pop-section" data-section="${f.key}">
+          <div class="pop-head">${escapeHTML(f.label)}</div>
+          ${items}
+        </div>
+      `;
+    }).join("");
+
+    // Insert search at top
+    pop.insertAdjacentHTML("afterbegin", `<input class="pop-search" id="popSearch" placeholder="Search facets…" />`);
+    pop.hidden = false;
+
+    setTimeout(() => $("#popSearch")?.focus(), 0);
+  }
+  function closeFilterPop() {
+    const pop = $("#filterPop");
+    pop.hidden = true;
+    pop.innerHTML = "";
+  }
+
+  function scopeAwareCounts() {
+    const out = {};
+    for (const f of FACETS) out[f.key] = new Map();
+    for (const it of state.data) {
+      for (const f of FACETS) {
+        // Pass all OTHER scope filters
+        let ok = true;
+        for (const g of FACETS) {
+          if (g.key === f.key) continue;
+          const sel = state.scope[g.key];
+          if (sel.size && !sel.has(it[g.key])) { ok = false; break; }
+        }
+        if (!ok) continue;
+        const v = it[f.key];
+        if (v == null) continue;
+        out[f.key].set(v, (out[f.key].get(v) || 0) + 1);
+      }
+    }
+    return out;
+  }
+
+  // ---------- Bootstrap ----------
+  async function loadData() {
+    try {
+      const r = await fetch("coded_quotes.json", { cache: "no-store" });
+      if (r.ok) {
+        const j = await r.json();
+        if (Array.isArray(j) && j.length) return j;
+      }
+    } catch (_) { /* fall through */ }
+    const raw = $("#embedded-data").textContent.trim();
+    try { return raw ? JSON.parse(raw) : []; } catch { return []; }
+  }
+
+  async function init() {
+    state.data = await loadData();
+    buildSubcodeDomainMap();
+    renderAll();
+
+    // Dim pickers
+    $("#rowDim").addEventListener("change", (e) => {
+      state.rowDim = e.target.value;
+      // If row matches col, swap col to first different
+      if (state.rowDim === state.colDim) {
+        const fallback = state.rowDim === "discipline" ? "code" : "discipline";
+        state.colDim = fallback;
+        $("#colDim").value = fallback;
+      }
+      // groupByDomain only meaningful when row=subcode
+      $("#groupToggle").style.opacity = state.rowDim === "subcode" ? "1" : ".4";
+      $("#groupToggle").disabled = state.rowDim !== "subcode";
+      state.collapsed.clear();
+      renderAll();
+    });
+    $("#colDim").addEventListener("change", (e) => {
+      state.colDim = e.target.value;
+      if (state.colDim === state.rowDim) {
+        const fallback = state.colDim === "subcode" ? "code" : "subcode";
+        state.rowDim = fallback;
+        $("#rowDim").value = fallback;
+      }
+      renderAll();
+    });
+
+    // Norm seg
+    $("#normSeg").addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-norm]");
+      if (!b) return;
+      state.norm = b.dataset.norm;
+      $$("#normSeg button").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+      renderAll();
+    });
+
+    // Sort seg
+    $("#sortSeg").addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-sort]");
+      if (!b) return;
+      state.sort = b.dataset.sort;
+      $$("#sortSeg button").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+      renderAll();
+    });
+
+    // Group toggle
+    $("#groupToggle").addEventListener("click", () => {
+      state.groupByDomain = !state.groupByDomain;
+      $("#groupToggle").setAttribute("aria-pressed", state.groupByDomain ? "true" : "false");
+      state.collapsed.clear();
+      renderAll();
+    });
+
+    // Domain row click → collapse/expand
+    $("#matrix").addEventListener("click", (e) => {
+      // Heading click: collapse/expand
+      const headingCell = e.target.closest(".row-domain td:first-child");
+      if (headingCell) {
+        const tr = headingCell.closest("tr");
+        const dom = tr.dataset.domain;
+        if (state.collapsed.has(dom)) state.collapsed.delete(dom);
+        else state.collapsed.add(dom);
+        renderAll();
+        return;
+      }
+      // Cell click → drawer
+      const cell = e.target.closest("td.cell");
+      if (cell && !cell.classList.contains("empty") && !cell.classList.contains("col-total")) {
+        const row = cell.dataset.row;
+        const col = cell.dataset.col;
+        const isDomainRow = cell.dataset.domainRow === "1";
+        openDrawer(row, col, isDomainRow);
+      }
+    });
+
+    // Drawer close
+    $("#drawerClose").addEventListener("click", closeDrawer);
+    $("#drawerBackdrop").addEventListener("click", closeDrawer);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        if ($("#drawer").classList.contains("open")) closeDrawer();
+        else if (!$("#filterPop").hidden) closeFilterPop();
+      }
+    });
+
+    // Add filter popover
+    $("#addFilter").addEventListener("click", (e) => {
+      e.stopPropagation();
+      if ($("#filterPop").hidden) openFilterPop();
+      else closeFilterPop();
+    });
+    document.addEventListener("click", (e) => {
+      if (!$("#filterPop").hidden && !e.target.closest("#filterPop") && !e.target.closest("#addFilter")) {
+        closeFilterPop();
+      }
+    });
+    $("#filterPop").addEventListener("change", (e) => {
+      const cb = e.target.closest("input[type=checkbox][data-facet]");
+      if (!cb) return;
+      const key = cb.dataset.facet;
+      const val = cb.dataset.val;
+      const sel = state.scope[key];
+      if (cb.checked) sel.add(val); else sel.delete(val);
+      // Re-render scope chips, matrix; refresh counts in pop
+      renderAll();
+      // Refresh pop counts inline (lightweight: rebuild)
+      const sv = $("#popSearch")?.value || "";
+      openFilterPop();
+      if (sv) { $("#popSearch").value = sv; filterPopBySearch(sv); }
+    });
+    function filterPopBySearch(q) {
+      q = q.trim().toLowerCase();
+      $$("#filterPop .pop-section").forEach(sec => {
+        let any = false;
+        $$(".pop-item", sec).forEach(it => {
+          const text = it.querySelector(".label").textContent.toLowerCase();
+          const visible = !q || text.includes(q);
+          it.style.display = visible ? "" : "none";
+          if (visible) any = true;
+        });
+        sec.style.display = any ? "" : "none";
+      });
+    }
+    $("#filterPop").addEventListener("input", (e) => {
+      if (e.target.id === "popSearch") filterPopBySearch(e.target.value);
+    });
+
+    // Chip removal
+    $("#chips").addEventListener("click", (e) => {
+      const chip = e.target.closest(".chip");
+      const x = e.target.closest(".x");
+      if (chip && x) {
+        const key = chip.dataset.key;
+        // Click × → remove ALL values for this facet (chip represents the facet)
+        state.scope[key].clear();
+        renderAll();
+      }
+    });
+    $("#clearScope").addEventListener("click", () => {
+      for (const f of FACETS) state.scope[f.key].clear();
+      renderAll();
+    });
+
+    // Sync colDim disable for current rowDim
+    $("#colDim").value = state.colDim;
+    $("#rowDim").value = state.rowDim;
+  }
+
+  init();
+})();
+</script>
+
+</body>
+</html>
