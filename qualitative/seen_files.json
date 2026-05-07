@@ -1,0 +1,112 @@
+[
+  {
+    "file": "MDZ23-Medical-003-2023-06-02-1834.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "MDZ9-Nursing-011-2022-03-30-1446.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "MDZ25-Nursing-018-2023-07-16-1929.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "DXM23_PCA_Day_2_Form_1.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "MDZ16-Nursing-013-2022-08-07-0354.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "MDZ21-Nursing-015-2023-03-01-0509.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "DXM3_PCA_Day_1_Form_1.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "DXM3-Medical-004-2021-06-04-1030.txt",
+    "status": "skipped",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "DXM19-Nursing-013-2022-12-22-1134.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "DXM3-Nursing-009-2021-06-05-1227.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "DXM19-Nursing-005-2022-12-20-2006.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "DXM11-Nursing-023-2022-05-09-1833.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "DXM8-Nursing-012-2021-12-31-0502.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "DXM26-Nursing-013-2023-10-23-1542.txt",
+    "status": "skipped",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "DXM23-Nursing-007-2023-05-17-1931.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "DXM4-Medical-008-2021-07-09-1546.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "MDZ24_PCA_Day_0_Form_1.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "MDZ5-Medical-006-2021-07-01-0919.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "MDZ2-Nursing-003-2021-05-24-1423.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "DXM16-Nursing-010-2022-11-05-0522.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "DXM23-Nursing-013-2023-05-18-2110.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  },
+  {
+    "file": "MDZ3-Nursing-013-2021-06-12-1718.txt",
+    "status": "coded",
+    "date": "2026-05-05"
+  }
+]

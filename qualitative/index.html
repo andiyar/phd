@@ -4,6 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>DREAMS — Coded Quotes</title>
+<script>
+  // Mobile redirect — bounces narrow viewports to mobile.html.
+  // Skipped if user explicitly chose desktop via the mobile footer link.
+  (function () {
+    if (sessionStorage.getItem("dreams_force_desktop") === "1") return;
+    var mq = window.matchMedia("(max-width: 880px)");
+    if (mq.matches) {
+      window.location.replace("mobile.html" + window.location.search + window.location.hash);
+      return;
+    }
+    var onChange = function (e) {
+      if (e.matches && sessionStorage.getItem("dreams_force_desktop") !== "1") {
+        window.location.replace("mobile.html" + window.location.search + window.location.hash);
+      }
+    };
+    if (mq.addEventListener) mq.addEventListener("change", onChange);
+    else if (mq.addListener) mq.addListener(onChange);
+  })();
+</script>
 <style>
   /* ---------- Design tokens ---------- */
   :root {
