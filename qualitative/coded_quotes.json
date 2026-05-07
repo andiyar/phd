@@ -248,7 +248,7 @@
     "discipline": "Nursing",
     "quote": "Moist breathing continues however does not appear bothersome.",
     "code": "Symptom Control",
-    "subcode": "Respiratory secretions",
+    "subcode": "Death rattle",
     "note": ""
   },
   {
@@ -1233,6 +1233,114 @@
     "quote": "Shirley's husband has stayed the night",
     "code": "Family",
     "subcode": "Family present",
+    "note": ""
+  },
+  {
+    "id": 104,
+    "source_file": "MDZ23-Nursing-004-2023-06-02-0326.txt",
+    "patient": "MDZ23",
+    "arm": "MDZ",
+    "day": "DayMinus1",
+    "discipline": "Nursing",
+    "quote": "fatigued at times and sleeping on and off",
+    "code": "Symptom Control",
+    "subcode": "Fatigue",
+    "note": ""
+  },
+  {
+    "id": 105,
+    "source_file": "MDZ23-Nursing-004-2023-06-02-0326.txt",
+    "patient": "MDZ23",
+    "arm": "MDZ",
+    "day": "DayMinus1",
+    "discipline": "Nursing",
+    "quote": "can be vague at times. mostly orientated",
+    "code": "Communication",
+    "subcode": "Confused",
+    "note": ""
+  },
+  {
+    "id": 106,
+    "source_file": "MDZ23-Nursing-004-2023-06-02-0326.txt",
+    "patient": "MDZ23",
+    "arm": "MDZ",
+    "day": "DayMinus1",
+    "discipline": "Nursing",
+    "quote": "family at bedside tonight",
+    "code": "Family",
+    "subcode": "Family present",
+    "note": ""
+  },
+  {
+    "id": 107,
+    "source_file": "MDZ23-Nursing-004-2023-06-02-0326.txt",
+    "patient": "MDZ23",
+    "arm": "MDZ",
+    "day": "DayMinus1",
+    "discipline": "Nursing",
+    "quote": "Looks comfortable at time of report",
+    "code": "Patient-Centred Care",
+    "subcode": "Apparent comfort",
+    "note": ""
+  },
+  {
+    "id": 108,
+    "source_file": "DXM11-Nursing-013-2022-05-08-2258.txt",
+    "patient": "DXM11",
+    "arm": "DXM",
+    "day": "Day0",
+    "discipline": "Nursing",
+    "quote": "extremely moist chest - too low to suction - irregular deep breathing",
+    "code": "Symptom Control",
+    "subcode": "Death rattle",
+    "note": ""
+  },
+  {
+    "id": 109,
+    "source_file": "DXM11-Nursing-013-2022-05-08-2258.txt",
+    "patient": "DXM11",
+    "arm": "DXM",
+    "day": "Day0",
+    "discipline": "Nursing",
+    "quote": "alert - eyes open, able to nod and shake head to answer question",
+    "code": "Communication",
+    "subcode": "Patient verbalising needs",
+    "note": ""
+  },
+  {
+    "id": 110,
+    "source_file": "DXM11-Nursing-013-2022-05-08-2258.txt",
+    "patient": "DXM11",
+    "arm": "DXM",
+    "day": "Day0",
+    "discipline": "Nursing",
+    "quote": "shaking head for no",
+    "code": "Symptom Control",
+    "subcode": "Pain controlled",
+    "note": ""
+  },
+  {
+    "id": 111,
+    "source_file": "DXM11-Nursing-013-2022-05-08-2258.txt",
+    "patient": "DXM11",
+    "arm": "DXM",
+    "day": "Day0",
+    "discipline": "Nursing",
+    "quote": "rubbing hands together, removing sheets and blankets, arms in the air at times",
+    "code": "Symptom Control",
+    "subcode": "Agitation",
+    "note": ""
+  },
+  {
+    "id": 112,
+    "source_file": "DXM11-Nursing-013-2022-05-08-2258.txt",
+    "patient": "DXM11",
+    "arm": "DXM",
+    "day": "Day0",
+    "discipline": "Nursing",
+    "quote": "400mcg glycopyrrolate given, 30mcg dexmedetomidine given, 10mg subcut morphine given",
+    "code": "Symptom Control",
+    "subcode": "Breakthrough medication",
     "note": ""
   }
 ]

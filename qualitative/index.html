@@ -1050,7 +1050,7 @@
         <button class="pill" data-group="patient"   aria-pressed="false"><span class="order"></span>Patient</button>
         <button class="pill" data-group="arm"       aria-pressed="false"><span class="order"></span>Arm</button>
         <button class="pill" data-group="day"       aria-pressed="false"><span class="order"></span>Day</button>
-        <button class="pill" data-group="discipline" aria-pressed="false"><span class="order"></span>Note type</button>
+        <button class="pill" data-group="discipline" aria-pressed="false"><span class="order"></span>Source</button>
         <button class="pill-clear" id="clearGroups" type="button" hidden>Clear</button>
       </div>
       <div class="active-chips" id="activeChips"></div>
@@ -1074,7 +1074,7 @@
     { key: "subcode",    label: "Sub-code"                    },
     { key: "arm",        label: "Arm"                          },
     { key: "day",        label: "Day"                          },
-    { key: "discipline", label: "Note type"                    },
+    { key: "discipline", label: "Source"                       },
     { key: "patient",    label: "Patient"                      },
   ];
 
@@ -1351,7 +1351,7 @@
   }
 
   function facetLabel(key) {
-    return ({code:"Domain", subcode:"Sub-code", patient:"Patient", arm:"Arm", day:"Day", discipline:"Note type"})[key] || key;
+    return ({code:"Domain", subcode:"Sub-code", patient:"Patient", arm:"Arm", day:"Day", discipline:"Source"})[key] || key;
   }
 
   function groupColour(key, value) {
