@@ -643,6 +643,51 @@
     font-size: 18px;
   }
   .drawer-head .close:hover { background: var(--paper-2); color: var(--ink); }
+  .drawer-search-wrap {
+    position: relative;
+    margin-top: 12px;
+  }
+  .drawer-search {
+    width: 100%;
+    height: 34px;
+    border: 1px solid var(--line);
+    background: var(--paper-2);
+    color: var(--ink);
+    border-radius: 8px;
+    padding: 0 32px 0 32px;
+    font-size: 13px;
+  }
+  .drawer-search:focus { outline: none; border-color: var(--ink-3); background: var(--paper); }
+  .drawer-search-wrap::before {
+    content: "";
+    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    width: 14px; height: 14px;
+    background: currentColor;
+    color: var(--ink-3);
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2' stroke-linecap='round' d='M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16Zm6.5-1.5L21 21'/></svg>") center/contain no-repeat;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2' stroke-linecap='round' d='M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16Zm6.5-1.5L21 21'/></svg>") center/contain no-repeat;
+    pointer-events: none;
+  }
+  .drawer-search-clear {
+    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+    border: 0; background: transparent;
+    color: var(--ink-3);
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: none; align-items: center; justify-content: center;
+    font-size: 16px; line-height: 1;
+  }
+  .drawer-search-clear:hover { background: var(--paper); color: var(--ink); }
+  .drawer-search-wrap.has-value .drawer-search-clear { display: inline-flex; }
+
+  .drawer-body mark {
+    background: var(--highlight);
+    color: var(--ink);
+    padding: 0 1px;
+    border-radius: 2px;
+  }
+  .drawer-card[hidden] { display: none; }
+
   .drawer-body {
     flex: 1;
     overflow-y: auto;
@@ -875,6 +920,10 @@
     <div class="meta" id="drawerMeta"></div>
     <h2 id="drawerTitle"></h2>
     <div class="sub" id="drawerSub"></div>
+    <div class="drawer-search-wrap" id="drawerSearchWrap">
+      <input class="drawer-search" id="drawerSearch" type="search" autocomplete="off" spellcheck="false" placeholder="Search within these quotes…" />
+      <button class="drawer-search-clear" id="drawerSearchClear" type="button" aria-label="Clear search">×</button>
+    </div>
     <button class="close" id="drawerClose" aria-label="Close">×</button>
   </div>
   <div class="drawer-body" id="drawerBody"></div>
@@ -1318,11 +1367,22 @@
     $("#drawerTitle").innerHTML = `${rowLbl} <span class="x-mark">×</span> ${colLbl}`;
     $("#drawerSub").textContent = `${matched.length} quote${matched.length===1?"":"s"}`;
 
+    // Reset in-drawer search on each open
+    $("#drawerSearch").value = "";
+    $("#drawerSearchWrap").classList.remove("has-value");
+    state.drawerTotal = matched.length;
+    state.drawerVisible = matched.length;
+
     if (matched.length === 0) {
+      $("#drawerSearchWrap").style.display = "none";
       $("#drawerBody").innerHTML = `<div class="empty"><div class="title">No quotes here.</div></div>`;
     } else {
+      $("#drawerSearchWrap").style.display = "";
+      // Stash plain text on each card so we can re-render on search without re-querying state.data
       $("#drawerBody").innerHTML = matched.map(it => `
-        <article class="drawer-card" data-code="${escapeHTML(it.code || "Outside Framework")}">
+        <article class="drawer-card" data-code="${escapeHTML(it.code || "Outside Framework")}"
+                 data-quote="${escapeHTML(it.quote || "")}"
+                 data-note="${escapeHTML(it.note || "")}">
           <div class="head">
             <div class="domain">${escapeHTML(it.code || "—")}</div>
             <div class="id">#${it.id}</div>
@@ -1350,6 +1410,45 @@
     $("#drawer").classList.remove("open");
     $("#drawer").setAttribute("aria-hidden", "true");
     $("#drawerBackdrop").classList.remove("open");
+  }
+
+  function escapeRE(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+
+  function applyDrawerSearch(q) {
+    q = (q || "").trim();
+    const wrap = $("#drawerSearchWrap");
+    wrap.classList.toggle("has-value", !!q);
+    const re = q ? new RegExp(escapeRE(q), "ig") : null;
+    let visible = 0;
+    const total = $$(".drawer-card", $("#drawerBody")).length;
+    $$(".drawer-card", $("#drawerBody")).forEach(card => {
+      const quote = card.dataset.quote || "";
+      const note  = card.dataset.note  || "";
+      const hay = (quote + " " + note).toLowerCase();
+      const match = !q || hay.includes(q.toLowerCase());
+      card.hidden = !match;
+      if (match) visible++;
+      // Re-render quote/note text with highlight (or plain text if no query)
+      const qEl = card.querySelector(".quote");
+      const nEl = card.querySelector(".note");
+      if (qEl) {
+        qEl.innerHTML = re
+          ? escapeHTML(quote).replace(re, m => `<mark>${m}</mark>`)
+          : escapeHTML(quote);
+      }
+      if (nEl) {
+        nEl.innerHTML = re
+          ? escapeHTML(note).replace(re, m => `<mark>${m}</mark>`)
+          : escapeHTML(note);
+      }
+    });
+    // Update the "N quotes" subtitle with match count when filtering
+    const sub = $("#drawerSub");
+    if (q) {
+      sub.textContent = `${visible} of ${total} matching “${q}”`;
+    } else {
+      sub.textContent = `${total} quote${total===1?"":"s"}`;
+    }
   }
 
   // ---------- Filter popover ----------
@@ -1546,6 +1645,15 @@
     // Drawer close
     $("#drawerClose").addEventListener("click", closeDrawer);
     $("#drawerBackdrop").addEventListener("click", closeDrawer);
+
+    // In-drawer search: filter + highlight within the currently shown quotes
+    $("#drawerSearch").addEventListener("input", (e) => applyDrawerSearch(e.target.value));
+    $("#drawerSearchClear").addEventListener("click", () => {
+      const inp = $("#drawerSearch");
+      inp.value = "";
+      applyDrawerSearch("");
+      inp.focus();
+    });
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         if ($("#drawer").classList.contains("open")) closeDrawer();
