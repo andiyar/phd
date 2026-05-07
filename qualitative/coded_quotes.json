@@ -20,7 +20,7 @@
     "discipline": "Medical",
     "quote": "Substantial deterioration with Brian experiencing some breathing distress, asking for help",
     "code": "Communication",
-    "subcode": "Patient verbalising needs",
+    "subcode": "Communicating needs",
     "note": ""
   },
   {
@@ -164,7 +164,7 @@
     "discipline": "PCA",
     "quote": "She pointed/rubbed her throat and confirmed she was sore.",
     "code": "Communication",
-    "subcode": "Patient verbalising needs",
+    "subcode": "Communicating needs",
     "note": ""
   },
   {
@@ -692,7 +692,7 @@
     "discipline": "Nursing",
     "quote": "Pt c/o pain waving hand over throat and stating she feels terrible.",
     "code": "Communication",
-    "subcode": "Patient verbalising needs",
+    "subcode": "Communicating needs",
     "note": ""
   },
   {
@@ -1304,7 +1304,7 @@
     "discipline": "Nursing",
     "quote": "alert - eyes open, able to nod and shake head to answer question",
     "code": "Communication",
-    "subcode": "Patient verbalising needs",
+    "subcode": "Communicating needs",
     "note": ""
   },
   {
