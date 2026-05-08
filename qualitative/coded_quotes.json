@@ -1474,5 +1474,101 @@
     "code": "Symptom Control",
     "subcode": "Breakthrough medication",
     "note": ""
+  },
+  {
+    "id": 124,
+    "source_file": "MDZ5-Medical-003-2021-06-29-1353.txt",
+    "patient": "MDZ5",
+    "arm": "MDZ",
+    "day": "DayMinus1",
+    "discipline": "Medical",
+    "quote": "Deterioration - started trial in midazolam arm",
+    "code": "Outside Framework",
+    "subcode": "Deterioration",
+    "note": ""
+  },
+  {
+    "id": 125,
+    "source_file": "MDZ5-Medical-003-2021-06-29-1353.txt",
+    "patient": "MDZ5",
+    "arm": "MDZ",
+    "day": "DayMinus1",
+    "discipline": "Nursing",
+    "quote": "moved to single room",
+    "code": "Patient-Centred Care",
+    "subcode": "Environment",
+    "note": "Case conference - nursing input"
+  },
+  {
+    "id": 124,
+    "source_file": "MDZ5-Medical-003-2021-06-29-1353.txt",
+    "patient": "MDZ5",
+    "arm": "MDZ",
+    "day": "DayMinus1",
+    "discipline": "Medical (CC)",
+    "quote": "Deterioration - started trial in midazolam arm",
+    "code": "Outside Framework",
+    "subcode": "Deterioration",
+    "note": ""
+  },
+  {
+    "id": 125,
+    "source_file": "MDZ5-Medical-003-2021-06-29-1353.txt",
+    "patient": "MDZ5",
+    "arm": "MDZ",
+    "day": "DayMinus1",
+    "discipline": "Nursing (CC)",
+    "quote": "moved to single room",
+    "code": "Patient-Centred Care",
+    "subcode": "Environment",
+    "note": ""
+  },
+  {
+    "id": 126,
+    "source_file": "MDZ22-Nursing-010-2023-05-02-2041.txt",
+    "patient": "MDZ22",
+    "arm": "MDZ",
+    "day": "DayMinus1",
+    "discipline": "Nursing",
+    "quote": "alert to voice at times",
+    "code": "Communication",
+    "subcode": "Responsive to voice",
+    "note": ""
+  },
+  {
+    "id": 127,
+    "source_file": "MDZ22-Nursing-010-2023-05-02-2041.txt",
+    "patient": "MDZ22",
+    "arm": "MDZ",
+    "day": "DayMinus1",
+    "discipline": "Nursing",
+    "quote": "plucking air/ agitated intervention required, very unsettled plucking the air moaning",
+    "code": "Symptom Control",
+    "subcode": "Delirium",
+    "note": ""
+  },
+  {
+    "id": 128,
+    "source_file": "MDZ22-Nursing-010-2023-05-02-2041.txt",
+    "patient": "MDZ22",
+    "arm": "MDZ",
+    "day": "DayMinus1",
+    "discipline": "Nursing",
+    "quote": "10mg of s/c morphine and 2.5mg s/c midazolam given at 16.55hrs with effect",
+    "code": "Symptom Control",
+    "subcode": "Breakthrough medication",
+    "note": ""
+  },
+  {
+    "id": 129,
+    "source_file": "MDZ22-Nursing-010-2023-05-02-2041.txt",
+    "patient": "MDZ22",
+    "arm": "MDZ",
+    "day": "DayMinus1",
+    "discipline": "Nursing",
+    "quote": "has become more settled towards end of evening",
+    "code": "Symptom Control",
+    "subcode": "Comfort achieved",
+    "note": ""
   }
 ]
