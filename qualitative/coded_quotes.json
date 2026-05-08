@@ -1570,5 +1570,101 @@
     "code": "Symptom Control",
     "subcode": "Comfort achieved",
     "note": ""
+  },
+  {
+    "id": 130,
+    "source_file": "MDZ24-Nursing-015-2023-06-13-1632.txt",
+    "patient": "MDZ24",
+    "arm": "MDZ",
+    "day": "Day1",
+    "discipline": "Nursing",
+    "quote": "unconscious",
+    "code": "Communication",
+    "subcode": "Non-responsive",
+    "note": ""
+  },
+  {
+    "id": 131,
+    "source_file": "MDZ24-Nursing-015-2023-06-13-1632.txt",
+    "patient": "MDZ24",
+    "arm": "MDZ",
+    "day": "Day1",
+    "discipline": "Nursing",
+    "quote": "Appears comfortable at time of report",
+    "code": "Patient-Centred Care",
+    "subcode": "Apparent comfort",
+    "note": ""
+  },
+  {
+    "id": 132,
+    "source_file": "MDZ24-Nursing-015-2023-06-13-1632.txt",
+    "patient": "MDZ24",
+    "arm": "MDZ",
+    "day": "Day1",
+    "discipline": "Nursing",
+    "quote": "Wife and friend at bedside this evening",
+    "code": "Family",
+    "subcode": "Family present",
+    "note": ""
+  },
+  {
+    "id": 133,
+    "source_file": "DXM26-Nursing-018-2023-10-24-2057.txt",
+    "patient": "DXM26",
+    "arm": "DXM",
+    "day": "Day2",
+    "discipline": "Nursing",
+    "quote": "pleasant interactions with staff",
+    "code": "Communication",
+    "subcode": "Verbal",
+    "note": ""
+  },
+  {
+    "id": 134,
+    "source_file": "DXM26-Nursing-018-2023-10-24-2057.txt",
+    "patient": "DXM26",
+    "arm": "DXM",
+    "day": "Day2",
+    "discipline": "Nursing",
+    "quote": "daughter in to visit - pt wife staying overnight",
+    "code": "Family",
+    "subcode": "Family present",
+    "note": ""
+  },
+  {
+    "id": 135,
+    "source_file": "DXM26-Nursing-018-2023-10-24-2057.txt",
+    "patient": "DXM26",
+    "arm": "DXM",
+    "day": "Day2",
+    "discipline": "Nursing",
+    "quote": "settled no issues voiced",
+    "code": "Patient-Centred Care",
+    "subcode": "Apparent comfort",
+    "note": ""
+  },
+  {
+    "id": 136,
+    "source_file": "DXM15-Nursing-006-2022-07-11-2157.txt",
+    "patient": "DXM15",
+    "arm": "DXM",
+    "day": "Day1",
+    "discipline": "Nursing",
+    "quote": "family is present able to pass on his need, Son staying tonight",
+    "code": "Family",
+    "subcode": "Family present",
+    "note": ""
+  },
+  {
+    "id": 137,
+    "source_file": "DXM15-Nursing-006-2022-07-11-2157.txt",
+    "patient": "DXM15",
+    "arm": "DXM",
+    "day": "Day1",
+    "discipline": "Nursing",
+    "quote": "Patient was alert on the early shift but has been unresponsive in the evening",
+    "code": "Communication",
+    "subcode": "Change in responsiveness",
+    "note": ""
   }
 ]
