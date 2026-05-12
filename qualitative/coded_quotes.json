@@ -1666,5 +1666,101 @@
     "code": "Communication",
     "subcode": "Change in responsiveness",
     "note": ""
+  },
+  {
+    "id": 138,
+    "source_file": "DXM24-Nursing-008-2023-06-13-1639.txt",
+    "patient": "DXM24",
+    "arm": "DXM",
+    "day": "Day1",
+    "discipline": "Nursing",
+    "quote": "Intermittently waking for short periods",
+    "code": "Communication",
+    "subcode": "Minimally responsive",
+    "note": ""
+  },
+  {
+    "id": 139,
+    "source_file": "MDZ18-Medical-004-2022-10-15-0912.txt",
+    "patient": "MDZ18",
+    "arm": "MDZ",
+    "day": "Day0",
+    "discipline": "Medical",
+    "quote": "mostly regulated breathing, some deeper exhalations",
+    "code": "Symptom Control",
+    "subcode": "Terminal phase breathing",
+    "note": ""
+  },
+  {
+    "id": 140,
+    "source_file": "MDZ18-Medical-004-2022-10-15-0912.txt",
+    "patient": "MDZ18",
+    "arm": "MDZ",
+    "day": "Day0",
+    "discipline": "Medical",
+    "quote": "Grimacing to light touch on hands and voice, Did not spontaneously resolve - suspect underlying pain",
+    "code": "Symptom Control",
+    "subcode": "Pain",
+    "note": ""
+  },
+  {
+    "id": 141,
+    "source_file": "MDZ18-Medical-004-2022-10-15-0912.txt",
+    "patient": "MDZ18",
+    "arm": "MDZ",
+    "day": "Day0",
+    "discipline": "Medical",
+    "quote": "Outside of grimacing appears very comfortable",
+    "code": "Patient-Centred Care",
+    "subcode": "Apparent comfort",
+    "note": ""
+  },
+  {
+    "id": 142,
+    "source_file": "DXM6-Medical-006-2021-08-30-1529.txt",
+    "patient": "DXM6",
+    "arm": "DXM",
+    "day": "Day1",
+    "discipline": "Medical",
+    "quote": "squeezing sensation which has been a feature of her pericardial effusion with chest pain",
+    "code": "Symptom Control",
+    "subcode": "Pain",
+    "note": ""
+  },
+  {
+    "id": 143,
+    "source_file": "DXM6-Medical-006-2021-08-30-1529.txt",
+    "patient": "DXM6",
+    "arm": "DXM",
+    "day": "Day1",
+    "discipline": "Medical",
+    "quote": "particularly distressed overnight. Fear behaviour w/r/t dark?",
+    "code": "Symptom Control",
+    "subcode": "Anxiety",
+    "note": ""
+  },
+  {
+    "id": 144,
+    "source_file": "DXM6-Medical-006-2021-08-30-1529.txt",
+    "patient": "DXM6",
+    "arm": "DXM",
+    "day": "Day1",
+    "discipline": "Medical",
+    "quote": "Family in attendance",
+    "code": "Family",
+    "subcode": "Family present",
+    "note": ""
+  },
+  {
+    "id": 145,
+    "source_file": "DXM6-Medical-006-2021-08-30-1529.txt",
+    "patient": "DXM6",
+    "arm": "DXM",
+    "day": "Day1",
+    "discipline": "Medical",
+    "quote": "happy with Heather's comfort at the moment",
+    "code": "Family",
+    "subcode": "Family satisfaction with care",
+    "note": ""
   }
 ]
