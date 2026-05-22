@@ -2182,5 +2182,29 @@
     "code": "Symptom Control",
     "subcode": "Comfort achieved",
     "note": ""
+  },
+  {
+    "id": 181,
+    "source_file": "DXM8-Nursing-006-2021-12-29-1750.txt",
+    "patient": "DXM8",
+    "arm": "DXM",
+    "day": "DayMinus1",
+    "discipline": "Nursing",
+    "quote": "Pt alert and cooperative with care, when spoken too",
+    "code": "Communication",
+    "subcode": "Responsive to voice",
+    "note": ""
+  },
+  {
+    "id": 182,
+    "source_file": "DXM8-Nursing-006-2021-12-29-1750.txt",
+    "patient": "DXM8",
+    "arm": "DXM",
+    "day": "DayMinus1",
+    "discipline": "Nursing",
+    "quote": "Visited by family",
+    "code": "Family",
+    "subcode": "Family present",
+    "note": ""
   }
 ]
