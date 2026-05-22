@@ -564,6 +564,247 @@
 
   table.matrix .pct-suffix { color: var(--ink-3); margin-left: 2px; font-size: 11px; }
 
+  /* ---------- E1: Arm-coloured patient rows ---------- */
+  table.matrix tr.arm-DXM td:first-child {
+    background: linear-gradient(to right,
+      color-mix(in srgb, var(--arm-dxm-bg) 85%, var(--paper)) 0%,
+      var(--paper) 100%);
+    box-shadow: inset 3px 0 0 var(--arm-dxm);
+  }
+  table.matrix tr.arm-MDZ td:first-child {
+    background: linear-gradient(to right,
+      color-mix(in srgb, var(--arm-mdz-bg) 85%, var(--paper)) 0%,
+      var(--paper) 100%);
+    box-shadow: inset 3px 0 0 var(--arm-mdz);
+  }
+  /* Tint the rest of the row very subtly to reinforce arm clustering */
+  table.matrix tr.arm-DXM td:not(:first-child):not(.col-total) {
+    background-color: color-mix(in srgb, var(--arm-dxm-bg) 16%, transparent);
+  }
+  table.matrix tr.arm-MDZ td:not(:first-child):not(.col-total) {
+    background-color: color-mix(in srgb, var(--arm-mdz-bg) 16%, transparent);
+  }
+  /* Hover state preserves arm tint */
+  table.matrix tbody tr.arm-DXM:hover td:first-child {
+    background:
+      linear-gradient(to right,
+        color-mix(in srgb, var(--arm-dxm-bg) 95%, var(--paper)) 0%,
+        color-mix(in srgb, var(--ink) 4%, var(--paper)) 100%);
+  }
+  table.matrix tbody tr.arm-MDZ:hover td:first-child {
+    background:
+      linear-gradient(to right,
+        color-mix(in srgb, var(--arm-mdz-bg) 95%, var(--paper)) 0%,
+        color-mix(in srgb, var(--ink) 4%, var(--paper)) 100%);
+  }
+
+  /* ---------- E2: Presence mode ---------- */
+  table.matrix.presence td.cell {
+    text-align: center;
+    padding: 6px 10px;
+  }
+  table.matrix.presence td.cell .pdot {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--ink-2);
+    vertical-align: middle;
+    box-shadow: 0 0 0 1.5px color-mix(in srgb, currentColor 18%, transparent);
+  }
+  /* In presence mode, suppress the heat-blue legend bar */
+  .matrix-meta.presence-mode .legend { display: none; }
+
+  /* ---------- Split-by-arm ---------- */
+  .matrix-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  .matrix-split .split-pane {
+    display: flex; flex-direction: column;
+    min-width: 0;
+  }
+  .matrix-split .split-head {
+    display: flex; align-items: baseline; gap: 10px;
+    margin: 0 2px 8px;
+  }
+  .matrix-split .split-head .arm-tag {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 17px;
+    letter-spacing: .005em;
+  }
+  .matrix-split .split-head .arm-tag .dot {
+    display: inline-block; width: 9px; height: 9px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: 1px;
+  }
+  .matrix-split .split-head .arm-tag.DXM { color: var(--arm-dxm); }
+  .matrix-split .split-head .arm-tag.MDZ { color: var(--arm-mdz); }
+  .matrix-split .split-head .arm-tag.DXM .dot { background: var(--arm-dxm); }
+  .matrix-split .split-head .arm-tag.MDZ .dot { background: var(--arm-mdz); }
+  .matrix-split .split-head .arm-sub {
+    color: var(--ink-3);
+    font-size: 11.5px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: .04em;
+  }
+  .matrix-split .matrix-wrap {
+    max-height: calc(100vh - var(--topbar-h) - var(--controls-h) - var(--rail-h) - 140px);
+  }
+  @media (max-width: 1100px) {
+    .matrix-split { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- E4: Day-trajectory view ---------- */
+  table.trajectory {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    font-size: 13px;
+  }
+  table.trajectory th, table.trajectory td {
+    padding: 8px 10px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+  }
+  table.trajectory thead th {
+    position: sticky; top: 0; z-index: 5;
+    background: var(--paper-2);
+    color: var(--ink-2);
+    font-size: 12px;
+    letter-spacing: .04em;
+    text-align: center;
+  }
+  table.trajectory th:first-child, table.trajectory td:first-child {
+    position: sticky; left: 0; z-index: 4;
+    background: var(--paper);
+    border-right: 1px solid var(--line-2);
+    min-width: 90px;
+    max-width: 110px;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  table.trajectory thead th:first-child { z-index: 6; background: var(--paper-2); }
+
+  table.trajectory tr.arm-DXM td:first-child {
+    background: linear-gradient(to right,
+      color-mix(in srgb, var(--arm-dxm-bg) 85%, var(--paper)) 0%,
+      var(--paper) 100%);
+    box-shadow: inset 3px 0 0 var(--arm-dxm);
+  }
+  table.trajectory tr.arm-MDZ td:first-child {
+    background: linear-gradient(to right,
+      color-mix(in srgb, var(--arm-mdz-bg) 85%, var(--paper)) 0%,
+      var(--paper) 100%);
+    box-shadow: inset 3px 0 0 var(--arm-mdz);
+  }
+  table.trajectory tr.arm-DXM td:not(:first-child) {
+    background-color: color-mix(in srgb, var(--arm-dxm-bg) 12%, transparent);
+  }
+  table.trajectory tr.arm-MDZ td:not(:first-child) {
+    background-color: color-mix(in srgb, var(--arm-mdz-bg) 12%, transparent);
+  }
+
+  table.trajectory td.tr-cell {
+    min-width: 140px;
+    cursor: pointer;
+  }
+  table.trajectory td.tr-cell.empty { cursor: default; color: var(--ink-3); }
+  table.trajectory td.tr-cell:hover:not(.empty) { filter: brightness(.97); }
+
+  .tr-chips {
+    display: flex; flex-wrap: wrap; gap: 4px;
+  }
+  .tr-chip {
+    --c: var(--ink-3);
+    --c-bg: var(--paper-2);
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: var(--c-bg);
+    color: var(--c);
+    border: 1px solid color-mix(in srgb, var(--c) 22%, transparent);
+    font-weight: 600;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+  .tr-chip .n {
+    color: color-mix(in srgb, var(--c) 60%, var(--ink-3));
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    font-size: 10px;
+  }
+  .tr-chip.d-Communication       { --c: var(--d-comm); --c-bg: var(--d-comm-bg); }
+  .tr-chip.d-SymptomControl      { --c: var(--d-symp); --c-bg: var(--d-symp-bg); }
+  .tr-chip.d-Family              { --c: var(--d-fam);  --c-bg: var(--d-fam-bg);  }
+  .tr-chip.d-PatientCentredCare  { --c: var(--d-pcc);  --c-bg: var(--d-pcc-bg);  }
+  .tr-chip.d-OutsideFramework    { --c: var(--d-out);  --c-bg: var(--d-out-bg);  }
+
+  .traj-legend {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    margin: 0 2px 12px;
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+  .traj-legend .swatch {
+    display: inline-block; width: 9px; height: 9px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: 1px;
+  }
+  .traj-legend .note {
+    margin-left: auto;
+    font-style: italic;
+    color: var(--ink-3);
+    font-size: 11.5px;
+  }
+
+  /* ---------- Export menu ---------- */
+  .menu-wrap { position: relative; display: inline-flex; }
+  .menu-wrap .menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    z-index: 50;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    padding: 6px;
+    min-width: 200px;
+    display: none;
+  }
+  .menu-wrap.open .menu { display: block; }
+  .menu-wrap .menu button {
+    display: flex; align-items: center; gap: 10px;
+    width: 100%;
+    border: 0; background: transparent; color: var(--ink);
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    text-align: left;
+  }
+  .menu-wrap .menu button:hover { background: var(--paper-2); }
+  .menu-wrap .menu button .ext {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--ink-3);
+    margin-left: auto;
+  }
+
+  /* Disabled control look */
+  .ctl.is-disabled,
+  .ctl button.is-disabled {
+    opacity: .4;
+    pointer-events: none;
+  }
+
   /* Domain-coloured headers when col=code */
   table.matrix thead th.col-d-Communication       { color: var(--d-comm); }
   table.matrix thead th.col-d-SymptomControl      { color: var(--d-symp); }
@@ -875,9 +1116,10 @@
   <div class="ctl">
     <label>Show</label>
     <div class="seg" role="tablist" id="normSeg">
-      <button data-norm="count"  aria-pressed="true">Counts</button>
-      <button data-norm="pctcol" aria-pressed="false">% col</button>
-      <button data-norm="pctrow" aria-pressed="false">% row</button>
+      <button data-norm="count"    aria-pressed="true">Counts</button>
+      <button data-norm="pctcol"   aria-pressed="false">% col</button>
+      <button data-norm="pctrow"   aria-pressed="false">% row</button>
+      <button data-norm="presence" aria-pressed="false">Presence</button>
     </div>
   </div>
   <div class="ctl">
@@ -891,6 +1133,27 @@
     <button class="toggle" id="groupToggle" aria-pressed="true" type="button">
       <span>Group rows by Domain</span>
     </button>
+  </div>
+  <div class="ctl">
+    <button class="toggle" id="splitToggle" aria-pressed="false" type="button" title="Render side-by-side matrices for DXM and MDZ">
+      <span>Split by arm</span>
+    </button>
+  </div>
+  <div class="ctl">
+    <label>View</label>
+    <div class="seg" role="tablist" id="viewSeg">
+      <button data-view="matrix"     aria-pressed="true">Matrix</button>
+      <button data-view="trajectory" aria-pressed="false">Trajectory</button>
+    </div>
+  </div>
+  <div class="ctl menu-wrap" id="downloadMenu">
+    <button class="toggle" id="downloadBtn" type="button" title="Download current view">
+      <span>Download</span>
+    </button>
+    <div class="menu" role="menu">
+      <button type="button" data-export="csv">Current view as CSV<span class="ext">.csv</span></button>
+      <button type="button" data-export="md">Current view as Markdown<span class="ext">.md</span></button>
+    </div>
   </div>
 </div>
 
@@ -909,9 +1172,7 @@
 
 <main>
   <div class="matrix-meta" id="matrixMeta"></div>
-  <div class="matrix-wrap">
-    <table class="matrix" id="matrix"></table>
-  </div>
+  <div id="viewRoot"></div>
 </main>
 
 <div class="drawer-backdrop" id="drawerBackdrop"></div>
@@ -965,11 +1226,14 @@
     scope: {},                   // { facet: Set<value> }
     rowDim: "subcode",
     colDim: "discipline",
-    norm: "count",               // count | pctcol | pctrow
+    norm: "count",               // count | pctcol | pctrow | presence
     sort: "natural",             // natural | prevalence
     groupByDomain: true,
     collapsed: new Set(),        // collapsed domain group keys
     subcodeDomain: {},           // subcode → modal domain
+    patientArm: {},              // patient → "DXM" | "MDZ"
+    view: "matrix",              // matrix | trajectory
+    splitByArm: false,
   };
   for (const f of FACETS) state.scope[f.key] = new Set();
 
@@ -1058,8 +1322,41 @@
     state.subcodeDomain = out;
   }
 
+  // ---------- Patient → Arm map (used for E1 row tinting) ----------
+  function buildPatientArmMap() {
+    const out = {};
+    for (const it of state.data) {
+      if (it.patient && it.arm) out[it.patient] = it.arm;
+    }
+    // Fallback: infer from ID prefix
+    for (const p of new Set(state.data.map(d => d.patient).filter(Boolean))) {
+      if (out[p]) continue;
+      if (p.startsWith("DXM")) out[p] = "DXM";
+      else if (p.startsWith("MDZ")) out[p] = "MDZ";
+    }
+    state.patientArm = out;
+  }
+
+  function armClassForRow(rowDim, rowKey) {
+    if (rowDim !== "patient") return "";
+    const arm = state.patientArm[rowKey];
+    return arm ? ` arm-${arm}` : "";
+  }
+
+  // Domain colour CSS var for a cell, used by presence dots
+  function cellDomainVar(rk, ck) {
+    if (state.rowDim === "code" && DOMAIN_VAR[rk]) return DOMAIN_VAR[rk];
+    if (state.rowDim === "subcode" && state.subcodeDomain[rk] && DOMAIN_VAR[state.subcodeDomain[rk]])
+      return DOMAIN_VAR[state.subcodeDomain[rk]];
+    if (state.colDim === "code" && DOMAIN_VAR[ck]) return DOMAIN_VAR[ck];
+    if (state.colDim === "subcode" && state.subcodeDomain[ck] && DOMAIN_VAR[state.subcodeDomain[ck]])
+      return DOMAIN_VAR[state.subcodeDomain[ck]];
+    return null;
+  }
+
   // ---------- Pivot ----------
-  function pivot() {
+  // armFilter: optional "DXM" | "MDZ" to restrict to a single arm (for split view)
+  function pivot(armFilter) {
     const rows = new Map();   // rowKey → Map(colKey → count)
     const colTotals = new Map();
     const rowTotals = new Map();
@@ -1068,6 +1365,7 @@
     const items = [];
     for (const it of state.data) {
       if (!inScope(it)) continue;
+      if (armFilter && it.arm !== armFilter) continue;
       items.push(it);
       const rk = it[state.rowDim];
       const ck = it[state.colDim];
@@ -1122,10 +1420,14 @@
     })();
     const rowLbl = FACET_LABEL[state.rowDim];
     const colLbl = FACET_LABEL[state.colDim];
+    meta.className = "matrix-meta" + (state.norm === "presence" ? " presence-mode" : "");
+    const legend = state.norm === "presence"
+      ? `<span class="legend" style="color:var(--ink-3); font-size:11.5px"><span class="pdot" style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--heat);vertical-align:middle;margin-right:6px"></span>presence (any coded quote)</span>`
+      : `<span class="legend"><span>0</span><span class="bar" aria-hidden="true"></span><span class="end">${max}</span></span>`;
     meta.innerHTML = `
       <span><strong>${p.rowKeys.length}</strong> ${escapeHTML(rowLbl).toLowerCase()}${p.rowKeys.length===1?"":"s"} × <strong>${p.colKeys.length}</strong> ${escapeHTML(colLbl).toLowerCase()}${p.colKeys.length===1?"":"s"}</span>
       <span><strong>${p.grand}</strong> coded quotes</span>
-      <span class="legend"><span>0</span><span class="bar" aria-hidden="true"></span><span class="end">${max}</span></span>
+      ${legend}
     `;
   }
 
@@ -1154,6 +1456,7 @@
 
   // ---------- Render: matrix ----------
   function heatStyle(value, max) {
+    if (state.norm === "presence") return "";    // uniform cells in presence mode
     if (!value || max <= 0) return "";
     const t = Math.min(1, value / max);
     // Mix between paper-2 (cool background) and heat color, with gentle gamma
@@ -1161,7 +1464,13 @@
     return `background: color-mix(in srgb, var(--heat) ${Math.round(alpha*32)}%, var(--paper));`;
   }
 
-  function fmt(value, rowTotal, colTotal) {
+  function fmt(value, rowTotal, colTotal, rk, ck) {
+    if (state.norm === "presence") {
+      if (!value) return "";
+      const v = cellDomainVar(rk, ck);
+      const colour = v ? `var(${v})` : "var(--heat)";
+      return `<span class="pdot" style="background:${colour}" title="${value} coded"></span>`;
+    }
     if (state.norm === "pctcol") {
       if (!colTotal) return value ? `${value}` : "";
       return value ? `${(value/colTotal*100).toFixed(0)}<span class="pct-suffix">%</span>` : "";
@@ -1179,8 +1488,9 @@
     return ` col-d-${slug}`;
   }
 
-  function renderMatrix(p) {
-    const tbl = $("#matrix");
+  function renderMatrix(p, tbl) {
+    if (!tbl) return;
+    tbl.className = "matrix" + (state.norm === "presence" ? " presence" : "");
     if (p.rowKeys.length === 0 || p.colKeys.length === 0) {
       tbl.innerHTML = `<tbody><tr><td><div class="empty"><div class="title">No data in this scope.</div><div>Try removing a scope filter.</div></div></td></tr></tbody>`;
       return;
@@ -1268,7 +1578,7 @@
             ${p.colKeys.map(ck => {
               const v = domColTotals.get(ck) || 0;
               const ct = p.colTotals.get(ck) || 0;
-              return `<td class="cell ${v?"":"empty"}" data-row="${escapeHTML(dom)}" data-col="${escapeHTML(ck)}" data-domain-row="1" style="${heatStyle(v, max * (state.norm==="count" ? 1.5 : 1.5))}">${fmt(v, domRowTotal, ct)}</td>`;
+              return `<td class="cell ${v?"":"empty"}" data-row="${escapeHTML(dom)}" data-col="${escapeHTML(ck)}" data-domain-row="1" style="${heatStyle(v, max * (state.norm==="count" ? 1.5 : 1.5))}">${fmt(v, domRowTotal, ct, dom, ck)}</td>`;
             }).join("")}
             <td class="cell col-total" style="${heatStyle(domRowTotal, max * 1.5)}">${state.norm==="count" ? domRowTotal : ""}</td>
           </tr>
@@ -1290,7 +1600,7 @@
                 ${p.colKeys.map(ck => {
                   const v = r.get(ck) || 0;
                   const ct = p.colTotals.get(ck) || 0;
-                  return `<td class="cell ${v?"":"empty"}" data-row="${escapeHTML(sc)}" data-col="${escapeHTML(ck)}" style="${heatStyle(state.norm==="pctcol" ? (ct?v/ct*100:0) : state.norm==="pctrow" ? (rt?v/rt*100:0) : v, max)}">${fmt(v, rt, ct)}</td>`;
+                  return `<td class="cell ${v?"":"empty"}" data-row="${escapeHTML(sc)}" data-col="${escapeHTML(ck)}" style="${heatStyle(state.norm==="pctcol" ? (ct?v/ct*100:0) : state.norm==="pctrow" ? (rt?v/rt*100:0) : v, max)}">${fmt(v, rt, ct, sc, ck)}</td>`;
                 }).join("")}
                 <td class="cell col-total">${state.norm==="count" ? rt : ""}</td>
               </tr>
@@ -1304,8 +1614,9 @@
         const rt = p.rowTotals.get(rk) || 0;
         const isDomainRow = state.rowDim === "code";
         const cssV = isDomainRow ? DOMAIN_VAR[rk] : null;
+        const armCls = armClassForRow(state.rowDim, rk);
         bodyRows.push(`
-          <tr class="row-subcode" data-row="${escapeHTML(rk)}">
+          <tr class="row-subcode${armCls}" data-row="${escapeHTML(rk)}">
             <td>
               <span class="label-row">
                 ${cssV ? `<span class="swatch" style="background: var(${cssV})"></span>` : ""}
@@ -1315,7 +1626,7 @@
             ${p.colKeys.map(ck => {
               const v = r.get(ck) || 0;
               const ct = p.colTotals.get(ck) || 0;
-              return `<td class="cell ${v?"":"empty"}" data-row="${escapeHTML(rk)}" data-col="${escapeHTML(ck)}" style="${heatStyle(state.norm==="pctcol" ? (ct?v/ct*100:0) : state.norm==="pctrow" ? (rt?v/rt*100:0) : v, max)}">${fmt(v, rt, ct)}</td>`;
+              return `<td class="cell ${v?"":"empty"}" data-row="${escapeHTML(rk)}" data-col="${escapeHTML(ck)}" style="${heatStyle(state.norm==="pctcol" ? (ct?v/ct*100:0) : state.norm==="pctrow" ? (rt?v/rt*100:0) : v, max)}">${fmt(v, rt, ct, rk, ck)}</td>`;
             }).join("")}
             <td class="cell col-total">${state.norm==="count" ? rt : ""}</td>
           </tr>
@@ -1337,12 +1648,64 @@
     tbl.innerHTML = head + `<tbody>${bodyRows.join("")}</tbody>` + footer;
   }
 
+  // ---------- View dispatcher ----------
   function renderAll() {
+    syncControlAvailability();
+
+    const root = $("#viewRoot");
+
+    if (state.view === "trajectory") {
+      const p = pivot();
+      renderCount(p.items);
+      renderChips();
+      renderTrajectoryShell(root);
+      renderTrajectoryMeta(p.items);
+      renderTrajectory(p.items, $("#trajTable"));
+      return;
+    }
+
+    if (state.splitByArm) {
+      const pAll = pivot();         // for the count strip + meta
+      renderCount(pAll.items);
+      renderChips();
+      renderMeta(pAll);
+      // Build (or reuse) split shell
+      root.innerHTML = `
+        <div class="matrix-split" id="splitWrap">
+          <section class="split-pane">
+            <div class="split-head">
+              <span class="arm-tag DXM"><span class="dot"></span>DXM <em style="font-style:normal; color:var(--ink-3); font-size:13px; margin-left:2px;">Dexmedetomidine</em></span>
+              <span class="arm-sub" id="splitCountDXM"></span>
+            </div>
+            <div class="matrix-wrap"><table class="matrix" id="matrixDXM"></table></div>
+          </section>
+          <section class="split-pane">
+            <div class="split-head">
+              <span class="arm-tag MDZ"><span class="dot"></span>MDZ <em style="font-style:normal; color:var(--ink-3); font-size:13px; margin-left:2px;">Midazolam</em></span>
+              <span class="arm-sub" id="splitCountMDZ"></span>
+            </div>
+            <div class="matrix-wrap"><table class="matrix" id="matrixMDZ"></table></div>
+          </section>
+        </div>
+      `;
+      const pDXM = pivot("DXM");
+      const pMDZ = pivot("MDZ");
+      $("#splitCountDXM").textContent = `${pDXM.grand} coded · ${pDXM.rowKeys.length} × ${pDXM.colKeys.length}`;
+      $("#splitCountMDZ").textContent = `${pMDZ.grand} coded · ${pMDZ.rowKeys.length} × ${pMDZ.colKeys.length}`;
+      renderMatrix(pDXM, $("#matrixDXM"));
+      renderMatrix(pMDZ, $("#matrixMDZ"));
+      return;
+    }
+
+    // Single matrix
+    if (root.querySelector("#matrix") == null) {
+      root.innerHTML = `<div class="matrix-wrap"><table class="matrix" id="matrix"></table></div>`;
+    }
     const p = pivot();
     renderCount(p.items);
     renderMeta(p);
     renderChips();
-    renderMatrix(p);
+    renderMatrix(p, $("#matrix"));
   }
 
   // ---------- Drawer ----------
@@ -1551,6 +1914,344 @@
     return out;
   }
 
+  // ---------- E4: Day-trajectory view ----------
+  const TRAJ_DAYS = ["DayMinus1", "Day0", "Day1", "Day2"];
+
+  function domainSlug(domain) {
+    return (domain || "OutsideFramework").replace(/[^A-Za-z]/g, "");
+  }
+
+  function renderTrajectoryShell(root) {
+    root.innerHTML = `
+      <div class="traj-legend" id="trajLegend"></div>
+      <div class="matrix-wrap">
+        <table class="trajectory" id="trajTable"></table>
+      </div>
+    `;
+    // Legend = the five domain colours
+    const items = DOMAIN_ORDER.map(d => `
+      <span><span class="swatch" style="background:var(${DOMAIN_VAR[d]})"></span>${escapeHTML(d)}</span>
+    `).join("");
+    $("#trajLegend").innerHTML = `
+      ${items}
+      <span class="note">An empty cell means no coded quote for that day (may also mean off-trial — day availability isn't tracked yet).</span>
+    `;
+  }
+
+  function renderTrajectoryMeta(items) {
+    const meta = $("#matrixMeta");
+    meta.className = "matrix-meta";
+    const patients = new Set(items.map(it => it.patient).filter(Boolean));
+    meta.innerHTML = `
+      <span><strong>${patients.size}</strong> patient${patients.size===1?"":"s"} × <strong>${TRAJ_DAYS.length}</strong> days</span>
+      <span><strong>${items.length}</strong> coded quotes</span>
+    `;
+  }
+
+  function renderTrajectory(items, tbl) {
+    // Bucket by patient → day → Map<subcode, count>
+    const buckets = new Map();
+    for (const it of items) {
+      if (!it.patient || !it.day) continue;
+      let pMap = buckets.get(it.patient);
+      if (!pMap) { pMap = new Map(); buckets.set(it.patient, pMap); }
+      let dMap = pMap.get(it.day);
+      if (!dMap) { dMap = new Map(); pMap.set(it.day, dMap); }
+      const sc = it.subcode || "—";
+      dMap.set(sc, (dMap.get(sc) || 0) + 1);
+    }
+
+    const patients = naturalOrder("patient", new Set([...buckets.keys()]));
+    if (patients.length === 0) {
+      tbl.innerHTML = `<tbody><tr><td><div class="empty"><div class="title">No data in this scope.</div></div></td></tr></tbody>`;
+      return;
+    }
+
+    const head = `
+      <thead>
+        <tr>
+          <th>Patient</th>
+          ${TRAJ_DAYS.map(d => `<th>${escapeHTML(labelDay(d))}</th>`).join("")}
+        </tr>
+      </thead>
+    `;
+
+    const body = patients.map(p => {
+      const armCls = state.patientArm[p] ? ` arm-${state.patientArm[p]}` : "";
+      const cells = TRAJ_DAYS.map(d => {
+        const dMap = (buckets.get(p) || new Map()).get(d);
+        if (!dMap || dMap.size === 0) {
+          return `<td class="tr-cell empty" data-patient="${escapeHTML(p)}" data-day="${escapeHTML(d)}">&nbsp;</td>`;
+        }
+        // Order chips by domain, then by count desc, then alphabetical
+        const arr = [...dMap.entries()].map(([sc, n]) => ({
+          sc, n, dom: state.subcodeDomain[sc] || "Outside Framework"
+        }));
+        arr.sort((a, b) => {
+          const ai = DOMAIN_ORDER.indexOf(a.dom); const bi = DOMAIN_ORDER.indexOf(b.dom);
+          return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi)
+              || b.n - a.n
+              || a.sc.localeCompare(b.sc);
+        });
+        const chips = arr.map(({ sc, n, dom }) => `
+          <span class="tr-chip d-${domainSlug(dom)}" data-subcode="${escapeHTML(sc)}" title="${escapeHTML(sc)} — ${n} coded">
+            ${escapeHTML(sc)}${n > 1 ? `<span class="n">${n}</span>` : ""}
+          </span>
+        `).join("");
+        return `<td class="tr-cell" data-patient="${escapeHTML(p)}" data-day="${escapeHTML(d)}"><div class="tr-chips">${chips}</div></td>`;
+      }).join("");
+      return `<tr class="${armCls.trim()}" data-patient="${escapeHTML(p)}">
+        <td>${escapeHTML(p)}</td>
+        ${cells}
+      </tr>`;
+    }).join("");
+
+    tbl.innerHTML = head + `<tbody>${body}</tbody>`;
+  }
+
+  // Open the drawer scoped to (patient, day) — optionally further by subcode
+  function openTrajectoryDrawer(patient, day, subcode) {
+    const matched = state.data.filter(it => {
+      if (!inScope(it)) return false;
+      if (it.patient !== patient) return false;
+      if (it.day !== day) return false;
+      if (subcode && it.subcode !== subcode) return false;
+      return true;
+    });
+
+    $("#drawerMeta").textContent = `Patient × Day${subcode ? " × Sub-code" : ""}`;
+    $("#drawerTitle").innerHTML = `${escapeHTML(patient)} <span class="x-mark">×</span> ${escapeHTML(labelDay(day))}${subcode ? ` <span class="x-mark">×</span> ${escapeHTML(subcode)}` : ""}`;
+    $("#drawerSub").textContent = `${matched.length} quote${matched.length===1?"":"s"}`;
+    $("#drawerSearch").value = "";
+    $("#drawerSearchWrap").classList.remove("has-value");
+
+    if (matched.length === 0) {
+      $("#drawerSearchWrap").style.display = "none";
+      $("#drawerBody").innerHTML = `<div class="empty"><div class="title">No quotes here.</div></div>`;
+    } else {
+      $("#drawerSearchWrap").style.display = "";
+      $("#drawerBody").innerHTML = matched.map(it => `
+        <article class="drawer-card" data-code="${escapeHTML(it.code || "Outside Framework")}"
+                 data-quote="${escapeHTML(it.quote || "")}"
+                 data-note="${escapeHTML(it.note || "")}">
+          <div class="head">
+            <div class="domain">${escapeHTML(it.code || "—")}</div>
+            <div class="id">#${it.id}</div>
+          </div>
+          <p class="quote">${escapeHTML(it.quote || "")}</p>
+          ${it.note ? `<div class="note">${escapeHTML(it.note)}</div>` : ""}
+          <div class="meta">
+            ${it.subcode ? `<span class="pill subcode">${escapeHTML(it.subcode)}</span>` : ""}
+            <span class="pill arm ${escapeHTML(it.arm || "")}">${escapeHTML(it.arm || "—")}</span>
+            <span class="pill">${escapeHTML(it.patient || "—")}</span>
+            <span class="pill">${escapeHTML(labelDay(it.day) || "—")}</span>
+            <span class="pill">${escapeHTML(it.discipline || "—")}</span>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    document.body.classList.add("drawer-open");
+    $("#drawer").classList.add("open");
+    $("#drawer").setAttribute("aria-hidden", "false");
+    $("#drawerBackdrop").classList.add("open");
+  }
+
+  // ---------- Sync control availability ----------
+  function syncControlAvailability() {
+    // groupToggle only makes sense when rowDim=subcode in matrix view
+    const grp = $("#groupToggle");
+    if (grp) {
+      const ok = state.view === "matrix" && state.rowDim === "subcode";
+      grp.classList.toggle("is-disabled", !ok);
+      grp.disabled = !ok;
+    }
+    // Row/col dim, sort, norm: hide/grey in trajectory view (they don't apply)
+    const trajMode = state.view === "trajectory";
+    document.querySelectorAll("#rowDim, #colDim, #normSeg, #sortSeg").forEach(el => {
+      el.closest(".ctl")?.classList.toggle("is-disabled", trajMode);
+    });
+    // Split toggle disabled in trajectory view (trajectory already shows arm via row tint)
+    $("#splitToggle")?.classList.toggle("is-disabled", trajMode);
+    if (trajMode && state.splitByArm) state.splitByArm = false;
+    $("#splitToggle")?.setAttribute("aria-pressed", state.splitByArm ? "true" : "false");
+    // View seg
+    $$("#viewSeg button").forEach(b => {
+      b.setAttribute("aria-pressed", b.dataset.view === state.view ? "true" : "false");
+    });
+  }
+
+  // ---------- E3: Export ----------
+  function todayStamp() {
+    const d = new Date();
+    const z = (n) => String(n).padStart(2, "0");
+    return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`;
+  }
+
+  function csvEscape(s) {
+    const v = String(s == null ? "" : s);
+    if (/[",\n]/.test(v)) return `"${v.replace(/"/g, '""')}"`;
+    return v;
+  }
+
+  function downloadBlob(content, filename, mime) {
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 0);
+  }
+
+  function pivotToRows(p, armLabel) {
+    // Returns { header: [...], rows: [[...], ...], filenamePart }
+    const rowLbl = FACET_LABEL[state.rowDim] + (armLabel ? ` (${armLabel})` : "");
+    const header = [rowLbl, ...p.colKeys.map(ck => valueLabel(state.colDim, ck)), "Total"];
+    const isPresence = state.norm === "presence";
+    const rows = p.rowKeys.map(rk => {
+      const r = p.rows.get(rk) || new Map();
+      const rt = p.rowTotals.get(rk) || 0;
+      const cells = p.colKeys.map(ck => {
+        const v = r.get(ck) || 0;
+        const ct = p.colTotals.get(ck) || 0;
+        if (isPresence) return v ? "●" : "";
+        if (state.norm === "pctcol") return v && ct ? (v/ct*100).toFixed(0) + "%" : (v ? String(v) : "");
+        if (state.norm === "pctrow") return v && rt ? (v/rt*100).toFixed(0) + "%" : (v ? String(v) : "");
+        return v ? String(v) : "";
+      });
+      return [valueLabel(state.rowDim, rk), ...cells, isPresence ? "" : String(rt)];
+    });
+    // Totals footer
+    const totals = ["Total", ...p.colKeys.map(ck => isPresence ? "" : String(p.colTotals.get(ck) || 0)), isPresence ? "" : String(p.grand)];
+    rows.push(totals);
+    return { header, rows };
+  }
+
+  function exportCSV() {
+    const lines = [];
+    const meta = [`# DREAMS code matrix · exported ${todayStamp()}`];
+    meta.push(`# Rows: ${FACET_LABEL[state.rowDim]} · Columns: ${FACET_LABEL[state.colDim]} · Show: ${state.norm}`);
+    if (activeScope() > 0) {
+      const scopeBits = [];
+      for (const f of FACETS) if (state.scope[f.key].size) scopeBits.push(`${f.label}=${[...state.scope[f.key]].join("|")}`);
+      meta.push(`# Scope: ${scopeBits.join(" · ")}`);
+    }
+    lines.push(...meta);
+
+    if (state.view === "trajectory") {
+      // Patient × Day, cell = comma-separated subcode list
+      const items = state.data.filter(inScope);
+      const buckets = new Map();
+      for (const it of items) {
+        if (!it.patient || !it.day) continue;
+        const k = it.patient + "|" + it.day;
+        let m = buckets.get(k);
+        if (!m) { m = new Map(); buckets.set(k, m); }
+        m.set(it.subcode || "—", (m.get(it.subcode || "—") || 0) + 1);
+      }
+      const patients = naturalOrder("patient", new Set(items.map(i => i.patient).filter(Boolean)));
+      lines.push(["Patient", "Arm", ...TRAJ_DAYS.map(d => labelDay(d))].map(csvEscape).join(","));
+      for (const p of patients) {
+        const arm = state.patientArm[p] || "";
+        const cells = TRAJ_DAYS.map(d => {
+          const m = buckets.get(p + "|" + d);
+          if (!m) return "";
+          return [...m.entries()].map(([sc, n]) => n > 1 ? `${sc} (${n})` : sc).join("; ");
+        });
+        lines.push([p, arm, ...cells].map(csvEscape).join(","));
+      }
+      downloadBlob(lines.join("\n") + "\n", `dreams-trajectory-${todayStamp()}.csv`, "text/csv");
+      return;
+    }
+
+    if (state.splitByArm) {
+      const pDXM = pivot("DXM");
+      const pMDZ = pivot("MDZ");
+      [["DXM", pDXM], ["MDZ", pMDZ]].forEach(([arm, p]) => {
+        lines.push("");
+        lines.push(`# Arm: ${arm}`);
+        const { header, rows } = pivotToRows(p, arm);
+        lines.push(header.map(csvEscape).join(","));
+        for (const r of rows) lines.push(r.map(csvEscape).join(","));
+      });
+    } else {
+      const p = pivot();
+      const { header, rows } = pivotToRows(p);
+      lines.push(header.map(csvEscape).join(","));
+      for (const r of rows) lines.push(r.map(csvEscape).join(","));
+    }
+    const fname = `dreams-matrix-${state.rowDim}-x-${state.colDim}-${state.norm}-${todayStamp()}.csv`;
+    downloadBlob(lines.join("\n") + "\n", fname, "text/csv");
+  }
+
+  function mdEscape(s) { return String(s == null ? "" : s).replace(/\|/g, "\\|"); }
+
+  function mdTable(header, rows) {
+    const out = [];
+    out.push("| " + header.map(mdEscape).join(" | ") + " |");
+    out.push("|" + header.map(() => " --- ").join("|") + "|");
+    for (const r of rows) out.push("| " + r.map(mdEscape).join(" | ") + " |");
+    return out.join("\n");
+  }
+
+  function exportMarkdown() {
+    const parts = [];
+    parts.push(`# DREAMS code matrix\n_Exported ${todayStamp()}_\n`);
+    parts.push(`- **Rows:** ${FACET_LABEL[state.rowDim]}`);
+    parts.push(`- **Columns:** ${FACET_LABEL[state.colDim]}`);
+    parts.push(`- **Show:** ${state.norm}`);
+    if (activeScope() > 0) {
+      const scopeBits = [];
+      for (const f of FACETS) if (state.scope[f.key].size) scopeBits.push(`${f.label}: ${[...state.scope[f.key]].join(", ")}`);
+      parts.push(`- **Scope:** ${scopeBits.join(" · ")}`);
+    }
+    parts.push("");
+
+    if (state.view === "trajectory") {
+      const items = state.data.filter(inScope);
+      const buckets = new Map();
+      for (const it of items) {
+        if (!it.patient || !it.day) continue;
+        const k = it.patient + "|" + it.day;
+        let m = buckets.get(k);
+        if (!m) { m = new Map(); buckets.set(k, m); }
+        m.set(it.subcode || "—", (m.get(it.subcode || "—") || 0) + 1);
+      }
+      const patients = naturalOrder("patient", new Set(items.map(i => i.patient).filter(Boolean)));
+      const header = ["Patient", "Arm", ...TRAJ_DAYS.map(d => labelDay(d))];
+      const rows = patients.map(p => {
+        const arm = state.patientArm[p] || "";
+        const cells = TRAJ_DAYS.map(d => {
+          const m = buckets.get(p + "|" + d);
+          if (!m) return "";
+          return [...m.entries()].map(([sc, n]) => n > 1 ? `${sc} (${n})` : sc).join("; ");
+        });
+        return [p, arm, ...cells];
+      });
+      parts.push("## Day-trajectory view\n");
+      parts.push(mdTable(header, rows));
+      downloadBlob(parts.join("\n") + "\n", `dreams-trajectory-${todayStamp()}.md`, "text/markdown");
+      return;
+    }
+
+    if (state.splitByArm) {
+      for (const arm of ["DXM", "MDZ"]) {
+        const p = pivot(arm);
+        parts.push(`## Arm: ${arm}\n`);
+        const { header, rows } = pivotToRows(p, arm);
+        parts.push(mdTable(header, rows));
+        parts.push("");
+      }
+    } else {
+      const p = pivot();
+      const { header, rows } = pivotToRows(p);
+      parts.push(mdTable(header, rows));
+    }
+    const fname = `dreams-matrix-${state.rowDim}-x-${state.colDim}-${state.norm}-${todayStamp()}.md`;
+    downloadBlob(parts.join("\n") + "\n", fname, "text/markdown");
+  }
+
   // ---------- Bootstrap ----------
   async function loadData() {
     try {
@@ -1567,6 +2268,7 @@
   async function init() {
     state.data = await loadData();
     buildSubcodeDomainMap();
+    buildPatientArmMap();
     renderAll();
 
     // Dim pickers
@@ -1620,9 +2322,9 @@
       renderAll();
     });
 
-    // Domain row click → collapse/expand
-    $("#matrix").addEventListener("click", (e) => {
-      // Heading click: collapse/expand
+    // Delegated table click — works for #matrix, split panes, and trajectory
+    $("#viewRoot").addEventListener("click", (e) => {
+      // Domain heading: collapse/expand
       const headingCell = e.target.closest(".row-domain td:first-child");
       if (headingCell) {
         const tr = headingCell.closest("tr");
@@ -1632,13 +2334,63 @@
         renderAll();
         return;
       }
-      // Cell click → drawer
+      // Trajectory chip click: drawer scoped to patient × day × subcode
+      const chip = e.target.closest(".tr-chip");
+      if (chip) {
+        const cell = chip.closest(".tr-cell");
+        if (cell) {
+          openTrajectoryDrawer(cell.dataset.patient, cell.dataset.day, chip.dataset.subcode);
+        }
+        return;
+      }
+      // Trajectory cell click (anywhere not on a chip): drawer for whole patient × day
+      const tcell = e.target.closest(".tr-cell");
+      if (tcell && !tcell.classList.contains("empty")) {
+        openTrajectoryDrawer(tcell.dataset.patient, tcell.dataset.day, null);
+        return;
+      }
+      // Regular matrix cell click → drawer
       const cell = e.target.closest("td.cell");
       if (cell && !cell.classList.contains("empty") && !cell.classList.contains("col-total")) {
         const row = cell.dataset.row;
         const col = cell.dataset.col;
         const isDomainRow = cell.dataset.domainRow === "1";
         openDrawer(row, col, isDomainRow);
+      }
+    });
+
+    // View toggle (Matrix / Trajectory)
+    $("#viewSeg").addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-view]");
+      if (!b) return;
+      state.view = b.dataset.view;
+      renderAll();
+    });
+
+    // Split-by-arm toggle
+    $("#splitToggle").addEventListener("click", () => {
+      if (state.view === "trajectory") return;   // disabled in trajectory mode
+      state.splitByArm = !state.splitByArm;
+      $("#splitToggle").setAttribute("aria-pressed", state.splitByArm ? "true" : "false");
+      renderAll();
+    });
+
+    // Download menu
+    const dlWrap = $("#downloadMenu");
+    $("#downloadBtn").addEventListener("click", (e) => {
+      e.stopPropagation();
+      dlWrap.classList.toggle("open");
+    });
+    dlWrap.addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-export]");
+      if (!b) return;
+      dlWrap.classList.remove("open");
+      if (b.dataset.export === "csv") exportCSV();
+      else if (b.dataset.export === "md") exportMarkdown();
+    });
+    document.addEventListener("click", (e) => {
+      if (dlWrap.classList.contains("open") && !e.target.closest("#downloadMenu")) {
+        dlWrap.classList.remove("open");
       }
     });
 
