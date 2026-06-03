@@ -116,7 +116,7 @@
     "discipline": "Nursing",
     "quote": "Appears settled. Nil tenderness to left hip/flank when touching. Breakthrough morphine effect. Patient appears settled and sleeping at time of report.",
     "code": "Patient-Centred Care",
-    "subcode": "Apparent comfort",
+    "subcode": "Comfort - Apparent",
     "note": ""
   },
   {
@@ -608,7 +608,7 @@
     "discipline": "Nursing",
     "quote": "Settled evening. Nil distress observed.",
     "code": "Patient-Centred Care",
-    "subcode": "Apparent comfort",
+    "subcode": "Comfort - Apparent",
     "note": ""
   },
   {
@@ -752,7 +752,7 @@
     "discipline": "PCA",
     "quote": "Seems to be at ease.",
     "code": "Patient-Centred Care",
-    "subcode": "Apparent comfort",
+    "subcode": "Comfort - Apparent",
     "note": ""
   },
   {
@@ -764,7 +764,7 @@
     "discipline": "Medical",
     "quote": "Sleeping soundly, RASS -5.",
     "code": "Patient-Centred Care",
-    "subcode": "Apparent comfort",
+    "subcode": "Comfort - Apparent",
     "note": ""
   },
   {
@@ -812,7 +812,7 @@
     "discipline": "Medical",
     "quote": "They feel he has been majority comfortable.",
     "code": "Patient-Centred Care",
-    "subcode": "Apparent comfort",
+    "subcode": "Comfort - Apparent",
     "note": ""
   },
   {
@@ -932,7 +932,7 @@
     "discipline": "Nursing",
     "quote": "Very settled evening.",
     "code": "Patient-Centred Care",
-    "subcode": "Apparent comfort",
+    "subcode": "Comfort - Apparent",
     "note": ""
   },
   {
@@ -944,7 +944,7 @@
     "discipline": "Nursing",
     "quote": "Resting comfortably at time of report.",
     "code": "Patient-Centred Care",
-    "subcode": "Apparent comfort",
+    "subcode": "Comfort - Apparent",
     "note": ""
   },
   {
@@ -1280,7 +1280,7 @@
     "discipline": "Nursing",
     "quote": "Looks comfortable at time of report",
     "code": "Patient-Centred Care",
-    "subcode": "Apparent comfort",
+    "subcode": "Comfort - Apparent",
     "note": ""
   },
   {
@@ -1364,7 +1364,7 @@
     "discipline": "Nursing",
     "quote": "Has been very settled",
     "code": "Patient-Centred Care",
-    "subcode": "Apparent comfort",
+    "subcode": "Comfort - Apparent",
     "note": ""
   },
   {
@@ -1592,7 +1592,7 @@
     "discipline": "Nursing",
     "quote": "Appears comfortable at time of report",
     "code": "Patient-Centred Care",
-    "subcode": "Apparent comfort",
+    "subcode": "Comfort - Apparent",
     "note": ""
   },
   {
@@ -1640,7 +1640,7 @@
     "discipline": "Nursing",
     "quote": "settled no issues voiced",
     "code": "Patient-Centred Care",
-    "subcode": "Apparent comfort",
+    "subcode": "Comfort - Apparent",
     "note": ""
   },
   {
@@ -1712,7 +1712,7 @@
     "discipline": "Medical",
     "quote": "Outside of grimacing appears very comfortable",
     "code": "Patient-Centred Care",
-    "subcode": "Apparent comfort",
+    "subcode": "Comfort - Apparent",
     "note": ""
   },
   {
@@ -1808,7 +1808,7 @@
     "discipline": "PCA",
     "quote": "When sleeping, very comfortable, raising eyebrows now and then",
     "code": "Patient-Centred Care",
-    "subcode": "Apparent comfort",
+    "subcode": "Comfort - Apparent",
     "note": ""
   },
   {
@@ -2240,7 +2240,7 @@
     "discipline": "PCA",
     "quote": "No pain when not moving",
     "code": "Patient-Centred Care",
-    "subcode": "Apparent comfort",
+    "subcode": "Comfort - Apparent",
     "note": ""
   },
   {
@@ -2408,7 +2408,7 @@
     "discipline": "Nursing",
     "quote": "pt not distressed; reassurance provided",
     "code": "Patient-Centred Care",
-    "subcode": "Apparent comfort",
+    "subcode": "Comfort - Apparent",
     "note": ""
   },
   {
@@ -2589,6 +2589,174 @@
     "quote": "10mg of SC morphine given with good effect",
     "code": "Symptom Control",
     "subcode": "Breakthrough medication",
+    "note": ""
+  },
+  {
+    "id": 215,
+    "source_file": "MDZ16-Medical-002-2022-08-05-1709.txt",
+    "patient": "MDZ16",
+    "arm": "MDZ",
+    "day": "DayMinus1",
+    "discipline": "Medical",
+    "quote": "Daughter reports that secretions/moist breathing improved from yesterday",
+    "code": "Family",
+    "subcode": "Family discussion",
+    "note": ""
+  },
+  {
+    "id": 216,
+    "source_file": "MDZ16-Medical-002-2022-08-05-1709.txt",
+    "patient": "MDZ16",
+    "arm": "MDZ",
+    "day": "DayMinus1",
+    "discipline": "Medical",
+    "quote": "Feeling well. Denies pain. Denies SOB. Denies nausea",
+    "code": "Patient-Centred Care",
+    "subcode": "Comfort - Self Report",
+    "note": ""
+  },
+  {
+    "id": 217,
+    "source_file": "DXM11-Medical-005-2022-05-09-1632.txt",
+    "patient": "DXM11",
+    "arm": "DXM",
+    "day": "Day1",
+    "discipline": "Medical",
+    "quote": "Unresponsive. Currently appears comfortable",
+    "code": "Communication",
+    "subcode": "Non-responsive",
+    "note": ""
+  },
+  {
+    "id": 218,
+    "source_file": "DXM11-Medical-005-2022-05-09-1632.txt",
+    "patient": "DXM11",
+    "arm": "DXM",
+    "day": "Day1",
+    "discipline": "Medical",
+    "quote": "Shallow breathing with apnea",
+    "code": "Symptom Control",
+    "subcode": "Terminal phase breathing",
+    "note": ""
+  },
+  {
+    "id": 219,
+    "source_file": "DXM11-Medical-005-2022-05-09-1632.txt",
+    "patient": "DXM11",
+    "arm": "DXM",
+    "day": "Day1",
+    "discipline": "Medical",
+    "quote": "Counselled wife extensively. Informed her that the syringe driver is not meant to expedite process of death but solely for symptoms and comfort. Wife is accepting of trial. I explained that his prognosis is very poor and expected that he will die in the next few hours to days",
+    "code": "Family",
+    "subcode": "Family discussion",
+    "note": ""
+  },
+  {
+    "id": 220,
+    "source_file": "DXM11-Medical-005-2022-05-09-1632.txt",
+    "patient": "DXM11",
+    "arm": "DXM",
+    "day": "Day1",
+    "discipline": "Medical",
+    "quote": "She states that she often gets very emotion and loses her temper, she apologizes for this (this has happened multiple times during the admission)",
+    "code": "Family",
+    "subcode": "Family distress witnessed",
+    "note": ""
+  },
+  {
+    "id": 221,
+    "source_file": "MDZ13_PCA_Day_0_Form_1.txt",
+    "patient": "MDZ13",
+    "arm": "MDZ",
+    "day": "Day0",
+    "discipline": "PCA",
+    "quote": "did indicate slight back pain this morning",
+    "code": "Symptom Control",
+    "subcode": "Pain",
+    "note": ""
+  },
+  {
+    "id": 222,
+    "source_file": "MDZ13_PCA_Day_0_Form_1.txt",
+    "patient": "MDZ13",
+    "arm": "MDZ",
+    "day": "Day0",
+    "discipline": "PCA",
+    "quote": "did indicate slight back pain this morning",
+    "code": "Communication",
+    "subcode": "Communicating needs",
+    "note": ""
+  },
+  {
+    "id": 223,
+    "source_file": "DXM23-Nursing-006-2023-05-17-1818.txt",
+    "patient": "DXM23",
+    "arm": "DXM",
+    "day": "DayMinus1",
+    "discipline": "Nursing",
+    "quote": "pt c/o nausea",
+    "code": "Symptom Control",
+    "subcode": "Nausea",
+    "note": ""
+  },
+  {
+    "id": 224,
+    "source_file": "DXM23-Nursing-006-2023-05-17-1818.txt",
+    "patient": "DXM23",
+    "arm": "DXM",
+    "day": "DayMinus1",
+    "discipline": "Nursing",
+    "quote": "daughter came and found staff - pt c/o nausea",
+    "code": "Family",
+    "subcode": "Family concern",
+    "note": ""
+  },
+  {
+    "id": 225,
+    "source_file": "DXM23-Nursing-006-2023-05-17-1818.txt",
+    "patient": "DXM23",
+    "arm": "DXM",
+    "day": "DayMinus1",
+    "discipline": "Nursing",
+    "quote": "0.5mg haloperidol given subcut",
+    "code": "Symptom Control",
+    "subcode": "Breakthrough medication",
+    "note": ""
+  },
+  {
+    "id": 226,
+    "source_file": "MDZ11-Nursing-003-2022-05-02-1933.txt",
+    "patient": "MDZ11",
+    "arm": "MDZ",
+    "day": "DayMinus1",
+    "discipline": "Nursing",
+    "quote": "pt remains alert and orientated",
+    "code": "Communication",
+    "subcode": "Verbal",
+    "note": ""
+  },
+  {
+    "id": 227,
+    "source_file": "MDZ11-Nursing-003-2022-05-02-1933.txt",
+    "patient": "MDZ11",
+    "arm": "MDZ",
+    "day": "DayMinus1",
+    "discipline": "Nursing",
+    "quote": "visitor this shift",
+    "code": "Family",
+    "subcode": "Family present",
+    "note": ""
+  },
+  {
+    "id": 228,
+    "source_file": "MDZ11-Nursing-003-2022-05-02-1933.txt",
+    "patient": "MDZ11",
+    "arm": "MDZ",
+    "day": "DayMinus1",
+    "discipline": "Nursing",
+    "quote": "settled in good spirits",
+    "code": "Patient-Centred Care",
+    "subcode": "Comfort - Apparent",
     "note": ""
   }
 ]
