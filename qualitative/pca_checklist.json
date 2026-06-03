@@ -1,0 +1,72 @@
+[
+  {
+    "source_file": "DXM23_PCA_Day_2_Form_1.txt",
+    "patient": "DXM23",
+    "arm": "DXM",
+    "day": "Day2",
+    "form": 1,
+    "overall_score": 3,
+    "suspected_reasons": [
+      "Pain"
+    ]
+  },
+  {
+    "source_file": "DXM3_PCA_Day_1_Form_1.txt",
+    "patient": "DXM3",
+    "arm": "DXM",
+    "day": "Day1",
+    "form": 1,
+    "overall_score": 2,
+    "suspected_reasons": [
+      "Discomfort",
+      "emotional distress",
+      "dizziness"
+    ]
+  },
+  {
+    "source_file": "MDZ24_PCA_Day_0_Form_1.txt",
+    "patient": "MDZ24",
+    "arm": "MDZ",
+    "day": "Day0",
+    "form": 1,
+    "overall_score": 0,
+    "suspected_reasons": []
+  },
+  {
+    "source_file": "DXM1_PCA_Day_1_Form_1.txt",
+    "patient": "DXM1",
+    "arm": "DXM",
+    "day": "Day1",
+    "form": 1,
+    "overall_score": 6,
+    "suspected_reasons": [
+      "Emotional distress",
+      "confusion/restlessness"
+    ]
+  },
+  {
+    "source_file": "MDZ14_PCA_Day_0_Form_1.txt",
+    "patient": "MDZ14",
+    "arm": "MDZ",
+    "day": "Day0",
+    "form": 1,
+    "overall_score": 4,
+    "suspected_reasons": [
+      "Restlessness when awake"
+    ]
+  },
+  {
+    "source_file": "DXM3_PCA_Day_-1_Form_1.txt",
+    "patient": "DXM3",
+    "arm": "DXM",
+    "day": "DayMinus1",
+    "form": 1,
+    "overall_score": 3,
+    "suspected_reasons": [
+      "Pain",
+      "emotional distress",
+      "confusion",
+      "restlessness"
+    ]
+  }
+]
