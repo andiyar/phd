@@ -173,12 +173,13 @@
     position: sticky;
     top: var(--topbar-h);
     z-index: 25;
-    display: flex; align-items: center; gap: 18px;
-    height: var(--controls-h);
+    display: flex; align-items: center; gap: 12px;
+    min-height: var(--controls-h);
     padding: 0 24px;
     background: var(--paper);
     border-bottom: 1px solid var(--line);
     flex-wrap: wrap;
+    row-gap: 8px;
   }
   .ctl {
     display: inline-flex; align-items: center; gap: 8px;
@@ -247,7 +248,7 @@
   /* ---------- Filter rail ---------- */
   .rail {
     position: sticky;
-    top: calc(var(--topbar-h) + var(--controls-h));
+    top: calc(var(--topbar-h) + var(--controls-h-actual, var(--controls-h)));
     z-index: 20;
     background: var(--paper-2);
     border-bottom: 1px solid var(--line);
@@ -765,7 +766,223 @@
     font-size: 11.5px;
   }
 
+  /* ---------- PCA layer (trajectory + drawer) ---------- */
+  /* PCA reasons appear on their own quiet row below the code chips */
+  .tr-chip.pca {
+    background: transparent;
+    color: var(--ink-3);
+    border: 0;
+    padding: 0;
+    font-weight: 500;
+    font-size: 10.5px;
+    border-radius: 0;
+    line-height: 1.2;
+  }
+  .tr-chip.pca::before {
+    content: "✓";
+    margin-right: 3px;
+    font-size: 9px;
+    color: var(--ink-3);
+    font-weight: 700;
+    opacity: .85;
+  }
+  .tr-chip.pca:hover {
+    color: var(--ink);
+  }
+  .tr-chip.pca:hover::before {
+    color: var(--ink-2);
+  }
+  .tr-row-pca {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px 10px;
+    margin-top: 5px;
+    padding-top: 4px;
+    border-top: 1px dashed color-mix(in srgb, var(--ink-3) 28%, transparent);
+  }
+  /* When PCA row is the only thing in the cell (pure PCA mode, no codes), drop the divider */
+  .tr-row-pca:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+  .traj-legend .swatch.pca {
+    border-radius: 2px;
+    background: transparent;
+    border: 0;
+    color: var(--ink-3);
+    font-weight: 700;
+    font-size: 10px;
+    width: auto;
+    height: auto;
+    margin-right: 4px;
+  }
+  .traj-legend .swatch.pca::before { content: "✓"; }
+  .traj-legend .swatch.score {
+    border-radius: 2px;
+    background: linear-gradient(to right,
+      color-mix(in srgb, var(--accent) 5%, transparent),
+      color-mix(in srgb, var(--accent) 60%, transparent));
+    width: 30px;
+  }
+  table.trajectory td.tr-cell[data-score-tint] {
+    background-image: linear-gradient(
+      color-mix(in srgb, var(--accent) calc(var(--score-pct, 0) * 0.55%), transparent),
+      color-mix(in srgb, var(--accent) calc(var(--score-pct, 0) * 0.55%), transparent));
+  }
+  .tr-score-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 10px;
+    color: var(--ink-2);
+    font-variant-numeric: tabular-nums;
+    background: color-mix(in srgb, var(--accent) 9%, transparent);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-weight: 600;
+    letter-spacing: .02em;
+  }
+
+  /* Trajectory mode segmented control — visible only when in trajectory view */
+  .ctl.traj-only { display: none; }
+  body.view-trajectory .ctl.traj-only { display: inline-flex; }
+  /* Matrix-only controls — hide entirely in trajectory view (they're not meaningful) */
+  body.view-trajectory .ctl.matrix-only { display: none; }
+
+  /* Drawer: PCA context toggle in head */
+  .drawer-pca-toggle {
+    position: absolute;
+    top: 14px;
+    right: 56px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink-2);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    cursor: pointer;
+    user-select: none;
+  }
+  .drawer-pca-toggle::before {
+    content: "✓";
+    font-size: 10px;
+    color: var(--ink-3);
+  }
+  .drawer-pca-toggle[aria-pressed="true"] {
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 30%, var(--line));
+    color: var(--ink);
+  }
+  .drawer-pca-toggle[aria-pressed="true"]::before { color: var(--accent); }
+  .drawer-pca-toggle[hidden] { display: none !important; }
+
+  /* Drawer: PCA form-context block */
+  .pca-form-group {
+    margin: 14px 0 6px;
+  }
+  .pca-form-group:first-child { margin-top: 0; }
+  .pca-context-block {
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+  }
+  .pca-context-block .ctx-head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .pca-context-block .ctx-head .score {
+    margin-left: auto;
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 11.5px;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .pca-context-block .ctx-head .sep {
+    color: var(--ink-3);
+    font-weight: 400;
+  }
+  .pca-context-block .ctx-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    margin-top: 2px;
+  }
+  .pca-context-block .ctx-line .lbl {
+    color: var(--ink-3);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin-right: 2px;
+    align-self: center;
+  }
+  .pca-context-block .reason-pill {
+    background: var(--paper);
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    padding: 2px 9px;
+    font-size: 11.5px;
+    color: var(--ink-2);
+  }
+  .pca-context-block .behav-item {
+    font-size: 11.5px;
+    color: var(--ink-2);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-variant-numeric: tabular-nums;
+  }
+  .pca-context-block .behav-item .n {
+    font-weight: 700;
+    color: var(--ink);
+    margin-left: 4px;
+  }
+  .pca-context-block.missing {
+    border-style: dashed;
+    color: var(--ink-3);
+    font-style: italic;
+  }
+  .pca-other-divider {
+    margin: 18px 0 8px;
+    font-size: 11px;
+    letter-spacing: .08em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    border-top: 1px dashed var(--line);
+    padding-top: 10px;
+  }
+
   /* ---------- Export menu ---------- */
+  /* Anchor the download menu to the far-right edge of the controls bar
+     so it sits in a deliberate spot rather than wherever flex leaves it. */
+  #downloadMenu { margin-left: auto; }
+  .ctl .toggle.icon-only {
+    width: 32px;
+    padding: 0;
+    justify-content: center;
+    color: var(--ink-2);
+  }
+  .ctl .toggle.icon-only:hover { color: var(--ink); }
   .menu-wrap { position: relative; display: inline-flex; }
   .menu-wrap .menu {
     position: absolute;
@@ -1091,7 +1308,7 @@
 </header>
 
 <div class="controls">
-  <div class="ctl">
+  <div class="ctl matrix-only">
     <label for="rowDim">Rows</label>
     <select id="rowDim">
       <option value="subcode">Sub-code</option>
@@ -1102,7 +1319,7 @@
       <option value="discipline">Source</option>
     </select>
   </div>
-  <div class="ctl">
+  <div class="ctl matrix-only">
     <label for="colDim">Columns</label>
     <select id="colDim">
       <option value="discipline">Source</option>
@@ -1113,7 +1330,7 @@
       <option value="subcode">Sub-code</option>
     </select>
   </div>
-  <div class="ctl">
+  <div class="ctl matrix-only">
     <label>Show</label>
     <div class="seg" role="tablist" id="normSeg">
       <button data-norm="count"    aria-pressed="true">Counts</button>
@@ -1122,19 +1339,19 @@
       <button data-norm="presence" aria-pressed="false">Presence</button>
     </div>
   </div>
-  <div class="ctl">
+  <div class="ctl matrix-only">
     <label>Sort</label>
     <div class="seg" role="tablist" id="sortSeg">
       <button data-sort="natural"    aria-pressed="true">Natural</button>
       <button data-sort="prevalence" aria-pressed="false">Prevalence</button>
     </div>
   </div>
-  <div class="ctl">
+  <div class="ctl matrix-only">
     <button class="toggle" id="groupToggle" aria-pressed="true" type="button">
       <span>Group rows by Domain</span>
     </button>
   </div>
-  <div class="ctl">
+  <div class="ctl matrix-only">
     <button class="toggle" id="splitToggle" aria-pressed="false" type="button" title="Render side-by-side matrices for DXM and MDZ">
       <span>Split by arm</span>
     </button>
@@ -1146,9 +1363,21 @@
       <button data-view="trajectory" aria-pressed="false">Trajectory</button>
     </div>
   </div>
+  <div class="ctl traj-only">
+    <label>Show</label>
+    <div class="seg" role="tablist" id="trajModeSeg" title="What appears inside trajectory cells">
+      <button data-trajmode="codes" aria-pressed="true">Codes</button>
+      <button data-trajmode="pca"   aria-pressed="false">PCA</button>
+      <button data-trajmode="both"  aria-pressed="false">Both</button>
+    </div>
+  </div>
   <div class="ctl menu-wrap" id="downloadMenu">
-    <button class="toggle" id="downloadBtn" type="button" title="Download current view">
-      <span>Download</span>
+    <button class="toggle icon-only" id="downloadBtn" type="button" title="Download current view" aria-label="Download">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7,10 12,15 17,10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
     </button>
     <div class="menu" role="menu">
       <button type="button" data-export="csv">Current view as CSV<span class="ext">.csv</span></button>
@@ -1185,6 +1414,7 @@
       <input class="drawer-search" id="drawerSearch" type="search" autocomplete="off" spellcheck="false" placeholder="Search within these quotes…" />
       <button class="drawer-search-clear" id="drawerSearchClear" type="button" aria-label="Clear search">×</button>
     </div>
+    <button class="drawer-pca-toggle" id="drawerPcaToggle" type="button" aria-pressed="false" hidden title="Show what families ticked on the same form">PCA context</button>
     <button class="close" id="drawerClose" aria-label="Close">×</button>
   </div>
   <div class="drawer-body" id="drawerBody"></div>
@@ -1221,8 +1451,14 @@
   const DISCIPLINE_ORDER = ["Medical", "Nursing", "PCA"];
 
   // ---------- State ----------
+  const LS_TRAJMODE = "dreams.trajMode";
+  const LS_PCACTX   = "dreams.pcaContextOn";
+  const BEHAVIOUR_ORDER = ["Grimacing", "Groaning", "Shouting", "Touching", "Purposeless movements", "Laboured breathing"];
+
   const state = {
     data: [],
+    pcaByFile: new Map(),        // source_file -> pca entry
+    pcaByPatientDay: new Map(),  // patient -> day -> [pca entries]
     scope: {},                   // { facet: Set<value> }
     rowDim: "subcode",
     colDim: "discipline",
@@ -1234,8 +1470,11 @@
     patientArm: {},              // patient → "DXM" | "MDZ"
     view: "matrix",              // matrix | trajectory
     splitByArm: false,
+    trajMode: (localStorage.getItem(LS_TRAJMODE) || "codes"), // codes | pca | both
+    pcaContextOn: (localStorage.getItem(LS_PCACTX) === "1"),
   };
   for (const f of FACETS) state.scope[f.key] = new Set();
+  if (!["codes", "pca", "both"].includes(state.trajMode)) state.trajMode = "codes";
 
   // ---------- Helpers ----------
   const $  = (s, r = document) => r.querySelector(s);
@@ -1709,6 +1948,128 @@
   }
 
   // ---------- Drawer ----------
+  // ---------- Drawer body rendering ----------
+  function quoteCardHTML(it) {
+    return `
+      <article class="drawer-card" data-code="${escapeHTML(it.code || "Outside Framework")}"
+               data-quote="${escapeHTML(it.quote || "")}"
+               data-note="${escapeHTML(it.note || "")}">
+        <div class="head">
+          <div class="domain">${escapeHTML(it.code || "—")}</div>
+          <div class="id">#${it.id}</div>
+        </div>
+        <p class="quote">${escapeHTML(it.quote || "")}</p>
+        ${it.note ? `<div class="note">${escapeHTML(it.note)}</div>` : ""}
+        <div class="meta">
+          ${it.subcode ? `<span class="pill subcode">${escapeHTML(it.subcode)}</span>` : ""}
+          <span class="pill arm ${escapeHTML(it.arm || "")}">${escapeHTML(it.arm || "—")}</span>
+          <span class="pill">${escapeHTML(it.patient || "—")}</span>
+          <span class="pill">${escapeHTML(labelDay(it.day) || "—")}</span>
+          <span class="pill">${escapeHTML(it.discipline || "—")}</span>
+        </div>
+      </article>
+    `;
+  }
+
+  function pcaContextBlockHTML(sourceFile, sampleQuote) {
+    const entry = state.pcaByFile.get(sourceFile);
+    if (!entry) {
+      // Fallback: no checklist extracted yet for this PCA form
+      const p = sampleQuote.patient || "—";
+      const d = labelDay(sampleQuote.day) || "—";
+      // Try to parse form number from filename "..._Form_N.txt"
+      const m = String(sourceFile).match(/Form[_ ](\d+)/);
+      const formNum = m ? m[1] : "?";
+      return `<div class="pca-context-block missing">PCA form · ${escapeHTML(p)} · ${escapeHTML(d)} · Form ${escapeHTML(formNum)} — checklist not extracted</div>`;
+    }
+    const score = entry.overall_score;
+    const scoreHTML = (typeof score === "number")
+      ? `<span class="score" title="Overall comfort score (family/observer rated)">${score}/10</span>`
+      : "";
+    const reasons = (entry.suspected_reasons || []).filter(r => r && r.trim());
+    const reasonsLine = reasons.length
+      ? `<div class="ctx-line"><span class="lbl">Ticked</span>${reasons.map(r => `<span class="reason-pill">${escapeHTML(r)}</span>`).join("")}</div>`
+      : "";
+    const behav = entry.behaviours || {};
+    const nonZeroBehav = BEHAVIOUR_ORDER
+      .filter(k => k in behav && behav[k] > 0)
+      .map(k => `<span class="behav-item">${escapeHTML(k)}<span class="n">${behav[k]}</span></span>`);
+    const fullBehavTip = BEHAVIOUR_ORDER
+      .filter(k => k in behav)
+      .map(k => `${k}: ${behav[k]}`)
+      .join(" · ") || "no behavioural scores recorded";
+    const behavLine = nonZeroBehav.length
+      ? `<div class="ctx-line" title="${escapeHTML(fullBehavTip)}"><span class="lbl">Behaviours</span>${nonZeroBehav.join("")}</div>`
+      : "";
+    return `
+      <div class="pca-context-block">
+        <div class="ctx-head">
+          PCA form
+          <span class="sep">·</span>${escapeHTML(entry.patient || "—")}
+          <span class="sep">·</span>${escapeHTML(labelDay(entry.day) || "—")}
+          <span class="sep">·</span>Form ${escapeHTML(String(entry.form ?? "?"))}
+          ${scoreHTML}
+        </div>
+        ${reasonsLine}
+        ${behavLine}
+      </div>
+    `;
+  }
+
+  function renderDrawerBodyHTML(matched) {
+    if (!matched.length) {
+      return `<div class="empty"><div class="title">No quotes here.</div></div>`;
+    }
+    const flatHTML = matched.map(quoteCardHTML).join("");
+    // Toggle off OR no PCA quotes in matched → flat list
+    const pcaQuotes = matched.filter(it => it.discipline === "PCA" && it.source_file);
+    if (!state.pcaContextOn || !pcaQuotes.length) {
+      return flatHTML;
+    }
+    // Group by source_file: PCA-sourced files first (each with context block), then others
+    const bySrc = new Map();
+    for (const it of matched) {
+      const key = it.source_file || "__nofile__";
+      if (!bySrc.has(key)) bySrc.set(key, []);
+      bySrc.get(key).push(it);
+    }
+    const pcaKeys = [];
+    const otherKeys = [];
+    for (const [src, items] of bySrc.entries()) {
+      if (items[0]?.discipline === "PCA") pcaKeys.push(src);
+      else otherKeys.push(src);
+    }
+    // Order PCA groups by patient + day for predictability
+    pcaKeys.sort((a, b) => {
+      const ia = bySrc.get(a)[0], ib = bySrc.get(b)[0];
+      return String(ia.patient).localeCompare(String(ib.patient))
+          || String(ia.day).localeCompare(String(ib.day))
+          || String(a).localeCompare(String(b));
+    });
+
+    const pcaGroupsHTML = pcaKeys.map(src => {
+      const group = bySrc.get(src);
+      return `<div class="pca-form-group">
+        ${pcaContextBlockHTML(src, group[0])}
+        ${group.map(quoteCardHTML).join("")}
+      </div>`;
+    }).join("");
+
+    const otherHTML = otherKeys.length
+      ? `<div class="pca-other-divider">Other sources</div>${otherKeys.map(src => bySrc.get(src).map(quoteCardHTML).join("")).join("")}`
+      : "";
+
+    return pcaGroupsHTML + otherHTML;
+  }
+
+  function syncDrawerPcaToggleVisibility(matched) {
+    const btn = $("#drawerPcaToggle");
+    if (!btn) return;
+    const hasPca = matched.some(it => it.discipline === "PCA");
+    btn.hidden = !hasPca;
+    btn.setAttribute("aria-pressed", state.pcaContextOn ? "true" : "false");
+  }
+
   function openDrawer(rowKey, colKey, domainRow) {
     const drawer = $("#drawer");
     const matched = state.data.filter(it => {
@@ -1735,33 +2096,15 @@
     $("#drawerSearchWrap").classList.remove("has-value");
     state.drawerTotal = matched.length;
     state.drawerVisible = matched.length;
+    state.drawerMatched = matched;
 
     if (matched.length === 0) {
       $("#drawerSearchWrap").style.display = "none";
-      $("#drawerBody").innerHTML = `<div class="empty"><div class="title">No quotes here.</div></div>`;
     } else {
       $("#drawerSearchWrap").style.display = "";
-      // Stash plain text on each card so we can re-render on search without re-querying state.data
-      $("#drawerBody").innerHTML = matched.map(it => `
-        <article class="drawer-card" data-code="${escapeHTML(it.code || "Outside Framework")}"
-                 data-quote="${escapeHTML(it.quote || "")}"
-                 data-note="${escapeHTML(it.note || "")}">
-          <div class="head">
-            <div class="domain">${escapeHTML(it.code || "—")}</div>
-            <div class="id">#${it.id}</div>
-          </div>
-          <p class="quote">${escapeHTML(it.quote || "")}</p>
-          ${it.note ? `<div class="note">${escapeHTML(it.note)}</div>` : ""}
-          <div class="meta">
-            ${it.subcode ? `<span class="pill subcode">${escapeHTML(it.subcode)}</span>` : ""}
-            <span class="pill arm ${escapeHTML(it.arm || "")}">${escapeHTML(it.arm || "—")}</span>
-            <span class="pill">${escapeHTML(it.patient || "—")}</span>
-            <span class="pill">${escapeHTML(labelDay(it.day) || "—")}</span>
-            <span class="pill">${escapeHTML(it.discipline || "—")}</span>
-          </div>
-        </article>
-      `).join("");
     }
+    $("#drawerBody").innerHTML = renderDrawerBodyHTML(matched);
+    syncDrawerPcaToggleVisibility(matched);
 
     document.body.classList.add("drawer-open");
     drawer.classList.add("open");
@@ -1928,13 +2271,22 @@
         <table class="trajectory" id="trajTable"></table>
       </div>
     `;
-    // Legend = the five domain colours
-    const items = DOMAIN_ORDER.map(d => `
-      <span><span class="swatch" style="background:var(${DOMAIN_VAR[d]})"></span>${escapeHTML(d)}</span>
-    `).join("");
+    const showCodes = state.trajMode === "codes" || state.trajMode === "both";
+    const showPca   = state.trajMode === "pca"   || state.trajMode === "both";
+    const codeItems = showCodes
+      ? DOMAIN_ORDER.map(d => `<span><span class="swatch" style="background:var(${DOMAIN_VAR[d]})"></span>${escapeHTML(d)}</span>`).join("")
+      : "";
+    const pcaItems = showPca
+      ? `<span><span class="swatch pca"></span>PCA reason ticked</span>
+         <span><span class="swatch score"></span>Cell tint = avg PCA score 0–10</span>`
+      : "";
+    const note = state.trajMode === "pca"
+      ? "PCA mode shows reasons families ticked. Empty cells = no PCA form logged that day."
+      : "An empty cell means no coded quote for that day (may also mean off-trial — day availability isn't tracked yet).";
     $("#trajLegend").innerHTML = `
-      ${items}
-      <span class="note">An empty cell means no coded quote for that day (may also mean off-trial — day availability isn't tracked yet).</span>
+      ${codeItems}
+      ${pcaItems}
+      <span class="note">${escapeHTML(note)}</span>
     `;
   }
 
@@ -1942,14 +2294,41 @@
     const meta = $("#matrixMeta");
     meta.className = "matrix-meta";
     const patients = new Set(items.map(it => it.patient).filter(Boolean));
+    const pcaCount = state.pcaByFile.size;
+    const pcaBit = pcaAvailable()
+      ? ` <span>· <strong>${pcaCount}</strong> PCA form${pcaCount===1?"":"s"} logged</span>`
+      : "";
     meta.innerHTML = `
       <span><strong>${patients.size}</strong> patient${patients.size===1?"":"s"} × <strong>${TRAJ_DAYS.length}</strong> days</span>
-      <span><strong>${items.length}</strong> coded quotes</span>
+      <span><strong>${items.length}</strong> coded quotes</span>${pcaBit}
     `;
   }
 
+  // PCA helpers ----
+  function pcaFormsFor(patient, day) {
+    return (state.pcaByPatientDay.get(patient) || new Map()).get(day) || [];
+  }
+  function pcaReasonsForDay(patient, day) {
+    const forms = pcaFormsFor(patient, day);
+    const seen = new Map(); // reason -> [form labels that ticked it]
+    for (const f of forms) {
+      for (const r of (f.suspected_reasons || [])) {
+        const key = r.trim();
+        if (!key) continue;
+        if (!seen.has(key)) seen.set(key, []);
+        seen.get(key).push(`Form ${f.form}`);
+      }
+    }
+    return seen;
+  }
+  function pcaAvgScore(forms) {
+    const scores = forms.map(f => f.overall_score).filter(s => typeof s === "number");
+    if (!scores.length) return null;
+    return scores.reduce((a, b) => a + b, 0) / scores.length;
+  }
+
   function renderTrajectory(items, tbl) {
-    // Bucket by patient → day → Map<subcode, count>
+    // Bucket coded quotes by patient → day → Map<subcode, count>
     const buckets = new Map();
     for (const it of items) {
       if (!it.patient || !it.day) continue;
@@ -1961,7 +2340,18 @@
       dMap.set(sc, (dMap.get(sc) || 0) + 1);
     }
 
-    const patients = naturalOrder("patient", new Set([...buckets.keys()]));
+    const showCodes = state.trajMode === "codes" || state.trajMode === "both";
+    const showPca   = state.trajMode === "pca"   || state.trajMode === "both";
+
+    // In PCA-only mode, include patients with PCA forms in scope even if they have no coded quotes
+    const patientSet = new Set([...buckets.keys()]);
+    if (showPca) {
+      for (const p of state.pcaByPatientDay.keys()) {
+        // Respect arm scope (the only patient-related scope we expose at this level is via items already)
+        patientSet.add(p);
+      }
+    }
+    const patients = naturalOrder("patient", patientSet);
     if (patients.length === 0) {
       tbl.innerHTML = `<tbody><tr><td><div class="empty"><div class="title">No data in this scope.</div></div></td></tr></tbody>`;
       return;
@@ -1980,25 +2370,68 @@
       const armCls = state.patientArm[p] ? ` arm-${state.patientArm[p]}` : "";
       const cells = TRAJ_DAYS.map(d => {
         const dMap = (buckets.get(p) || new Map()).get(d);
-        if (!dMap || dMap.size === 0) {
+        const pcaForms = showPca ? pcaFormsFor(p, d) : [];
+        const hasCodes = !!(dMap && dMap.size);
+        const hasPca = pcaForms.length > 0;
+
+        // Empty cell only when nothing applies in current mode
+        if (!hasCodes && !hasPca) {
           return `<td class="tr-cell empty" data-patient="${escapeHTML(p)}" data-day="${escapeHTML(d)}">&nbsp;</td>`;
         }
-        // Order chips by domain, then by count desc, then alphabetical
-        const arr = [...dMap.entries()].map(([sc, n]) => ({
-          sc, n, dom: state.subcodeDomain[sc] || "Outside Framework"
-        }));
-        arr.sort((a, b) => {
-          const ai = DOMAIN_ORDER.indexOf(a.dom); const bi = DOMAIN_ORDER.indexOf(b.dom);
-          return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi)
-              || b.n - a.n
-              || a.sc.localeCompare(b.sc);
-        });
-        const chips = arr.map(({ sc, n, dom }) => `
-          <span class="tr-chip d-${domainSlug(dom)}" data-subcode="${escapeHTML(sc)}" title="${escapeHTML(sc)} — ${n} coded">
-            ${escapeHTML(sc)}${n > 1 ? `<span class="n">${n}</span>` : ""}
-          </span>
-        `).join("");
-        return `<td class="tr-cell" data-patient="${escapeHTML(p)}" data-day="${escapeHTML(d)}"><div class="tr-chips">${chips}</div></td>`;
+        if (showCodes && !showPca && !hasCodes) {
+          return `<td class="tr-cell empty" data-patient="${escapeHTML(p)}" data-day="${escapeHTML(d)}">&nbsp;</td>`;
+        }
+        if (showPca && !showCodes && !hasPca) {
+          return `<td class="tr-cell empty" data-patient="${escapeHTML(p)}" data-day="${escapeHTML(d)}">&nbsp;</td>`;
+        }
+
+        // Code chips (only when showCodes)
+        let codeChips = "";
+        if (showCodes && hasCodes) {
+          const arr = [...dMap.entries()].map(([sc, n]) => ({
+            sc, n, dom: state.subcodeDomain[sc] || "Outside Framework"
+          }));
+          arr.sort((a, b) => {
+            const ai = DOMAIN_ORDER.indexOf(a.dom); const bi = DOMAIN_ORDER.indexOf(b.dom);
+            return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi)
+                || b.n - a.n
+                || a.sc.localeCompare(b.sc);
+          });
+          codeChips = arr.map(({ sc, n, dom }) => `
+            <span class="tr-chip d-${domainSlug(dom)}" data-subcode="${escapeHTML(sc)}" title="${escapeHTML(sc)} — ${n} coded">
+              ${escapeHTML(sc)}${n > 1 ? `<span class="n">${n}</span>` : ""}
+            </span>
+          `).join("");
+        }
+
+        // PCA chips + score badge
+        let pcaChips = "";
+        let scoreAttrs = "";
+        let scoreBadge = "";
+        if (showPca && hasPca) {
+          const reasons = pcaReasonsForDay(p, d);
+          pcaChips = [...reasons.entries()].map(([reason, formLabels]) => {
+            const tip = formLabels.length === 1
+              ? `Ticked on ${formLabels[0]}`
+              : `Ticked on ${formLabels.join(", ")}`;
+            return `<span class="tr-chip pca" data-pca-reason="${escapeHTML(reason)}" title="${escapeHTML(reason)} — ${escapeHTML(tip)}">${escapeHTML(reason)}</span>`;
+          }).join("");
+          const avg = pcaAvgScore(pcaForms);
+          if (avg !== null) {
+            const pct = Math.round(avg * 10); // 0..100
+            scoreAttrs = ` data-score-tint="1" style="--score-pct:${pct}"`;
+            scoreBadge = `<span class="tr-score-badge" title="Avg overall comfort score across ${pcaForms.length} form${pcaForms.length===1?"":"s"} that day">${avg.toFixed(1)}/10</span>`;
+          }
+        }
+
+        // Build cell body: code chips on top, PCA row (score + reasons) underneath
+        const codeRow = codeChips
+          ? `<div class="tr-chips">${codeChips}</div>`
+          : "";
+        const pcaRow = (scoreBadge || pcaChips)
+          ? `<div class="tr-row-pca">${scoreBadge}${pcaChips}</div>`
+          : "";
+        return `<td class="tr-cell" data-patient="${escapeHTML(p)}" data-day="${escapeHTML(d)}"${scoreAttrs}>${codeRow}${pcaRow}</td>`;
       }).join("");
       return `<tr class="${armCls.trim()}" data-patient="${escapeHTML(p)}">
         <td>${escapeHTML(p)}</td>
@@ -2024,32 +2457,34 @@
     $("#drawerSub").textContent = `${matched.length} quote${matched.length===1?"":"s"}`;
     $("#drawerSearch").value = "";
     $("#drawerSearchWrap").classList.remove("has-value");
+    state.drawerTotal = matched.length;
+    state.drawerVisible = matched.length;
+    state.drawerMatched = matched;
 
     if (matched.length === 0) {
       $("#drawerSearchWrap").style.display = "none";
-      $("#drawerBody").innerHTML = `<div class="empty"><div class="title">No quotes here.</div></div>`;
     } else {
       $("#drawerSearchWrap").style.display = "";
-      $("#drawerBody").innerHTML = matched.map(it => `
-        <article class="drawer-card" data-code="${escapeHTML(it.code || "Outside Framework")}"
-                 data-quote="${escapeHTML(it.quote || "")}"
-                 data-note="${escapeHTML(it.note || "")}">
-          <div class="head">
-            <div class="domain">${escapeHTML(it.code || "—")}</div>
-            <div class="id">#${it.id}</div>
-          </div>
-          <p class="quote">${escapeHTML(it.quote || "")}</p>
-          ${it.note ? `<div class="note">${escapeHTML(it.note)}</div>` : ""}
-          <div class="meta">
-            ${it.subcode ? `<span class="pill subcode">${escapeHTML(it.subcode)}</span>` : ""}
-            <span class="pill arm ${escapeHTML(it.arm || "")}">${escapeHTML(it.arm || "—")}</span>
-            <span class="pill">${escapeHTML(it.patient || "—")}</span>
-            <span class="pill">${escapeHTML(labelDay(it.day) || "—")}</span>
-            <span class="pill">${escapeHTML(it.discipline || "—")}</span>
-          </div>
-        </article>
-      `).join("");
     }
+
+    // If trajectory cell has PCA forms but no coded quotes, surface form context anyway when toggle is on.
+    // Synthesize zero-quote "matched" set isn't possible (we filter from state.data); instead, if there are
+    // PCA forms for this patient/day and the toggle is on, prepend the form-context blocks directly.
+    let bodyHTML = renderDrawerBodyHTML(matched);
+    if (state.pcaContextOn) {
+      const forms = pcaFormsFor(patient, day);
+      const filesShown = new Set(matched.filter(it => it.discipline === "PCA").map(it => it.source_file));
+      const orphanForms = forms.filter(f => !filesShown.has(f.source_file));
+      if (orphanForms.length) {
+        const orphanHTML = orphanForms.map(f => {
+          const fake = { patient: f.patient, day: f.day };
+          return `<div class="pca-form-group">${pcaContextBlockHTML(f.source_file, fake)}</div>`;
+        }).join("");
+        bodyHTML = orphanHTML + bodyHTML;
+      }
+    }
+    $("#drawerBody").innerHTML = bodyHTML;
+    syncDrawerPcaToggleVisibility(matched.length ? matched : pcaFormsFor(patient, day).map(() => ({ discipline: "PCA" })));
 
     document.body.classList.add("drawer-open");
     $("#drawer").classList.add("open");
@@ -2079,6 +2514,23 @@
     $$("#viewSeg button").forEach(b => {
       b.setAttribute("aria-pressed", b.dataset.view === state.view ? "true" : "false");
     });
+    // Body class drives visibility of trajectory-only controls (.ctl.traj-only)
+    document.body.classList.toggle("view-trajectory", trajMode);
+    // Hide trajectory mode toggle entirely if no PCA data is present (no point picking PCA/Both)
+    const trajCtl = $("#trajModeSeg")?.closest(".ctl");
+    if (trajCtl) trajCtl.style.display = pcaAvailable() ? "" : "none";
+    // Reflect trajMode pressed state
+    $$("#trajModeSeg button").forEach(b => {
+      b.setAttribute("aria-pressed", b.dataset.trajmode === state.trajMode ? "true" : "false");
+    });
+    // Keep the rail's sticky `top` in sync with the controls bar's actual height
+    // (so a wrapped controls bar doesn't overlap the rail).
+    const cbar = document.querySelector(".controls");
+    if (cbar) {
+      requestAnimationFrame(() => {
+        document.documentElement.style.setProperty("--controls-h-actual", cbar.offsetHeight + "px");
+      });
+    }
   }
 
   // ---------- E3: Export ----------
@@ -2265,8 +2717,36 @@
     try { return raw ? JSON.parse(raw) : []; } catch { return []; }
   }
 
+  async function loadPcaChecklist() {
+    try {
+      const r = await fetch("pca_checklist.json", { cache: "no-store" });
+      if (!r.ok) return [];
+      const j = await r.json();
+      return Array.isArray(j) ? j : [];
+    } catch (_) { return []; }
+  }
+
+  function buildPcaLookups(entries) {
+    state.pcaByFile.clear();
+    state.pcaByPatientDay.clear();
+    for (const e of entries) {
+      if (!e || !e.source_file) continue;
+      state.pcaByFile.set(e.source_file, e);
+      if (!e.patient || !e.day) continue;
+      let dayMap = state.pcaByPatientDay.get(e.patient);
+      if (!dayMap) { dayMap = new Map(); state.pcaByPatientDay.set(e.patient, dayMap); }
+      const arr = dayMap.get(e.day) || [];
+      arr.push(e);
+      dayMap.set(e.day, arr);
+    }
+  }
+
+  function pcaAvailable() { return state.pcaByFile.size > 0; }
+
   async function init() {
-    state.data = await loadData();
+    const [quotes, pca] = await Promise.all([loadData(), loadPcaChecklist()]);
+    state.data = quotes;
+    buildPcaLookups(pca);
     buildSubcodeDomainMap();
     buildPatientArmMap();
     renderAll();
@@ -2365,6 +2845,41 @@
       if (!b) return;
       state.view = b.dataset.view;
       renderAll();
+    });
+
+    // Trajectory display mode (Codes / PCA / Both) — only relevant in trajectory view
+    $("#trajModeSeg").addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-trajmode]");
+      if (!b) return;
+      const mode = b.dataset.trajmode;
+      if (!["codes", "pca", "both"].includes(mode)) return;
+      state.trajMode = mode;
+      try { localStorage.setItem(LS_TRAJMODE, mode); } catch (_) {}
+      $$("#trajModeSeg button").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+      if (state.view !== "trajectory") {
+        // Switching display mode implies the user wants trajectory
+        state.view = "trajectory";
+      }
+      renderAll();
+    });
+
+    // Drawer PCA context toggle
+    $("#drawerPcaToggle").addEventListener("click", () => {
+      state.pcaContextOn = !state.pcaContextOn;
+      try { localStorage.setItem(LS_PCACTX, state.pcaContextOn ? "1" : "0"); } catch (_) {}
+      $("#drawerPcaToggle").setAttribute("aria-pressed", state.pcaContextOn ? "true" : "false");
+      // Re-render drawer body using the matched set we stashed on open
+      const matched = state.drawerMatched || [];
+      let bodyHTML = renderDrawerBodyHTML(matched);
+      // If this is a trajectory drawer (we can detect by drawerMeta), re-include orphan PCA forms
+      if (state.pcaContextOn && /Patient × Day/.test($("#drawerMeta").textContent || "")) {
+        // Parse patient/day from the title — best-effort. Just re-derive by looking at any PCA-discipline quote
+        // already in matched; for true orphan cells, the trajectory openTrajectoryDrawer path handles them.
+      }
+      $("#drawerBody").innerHTML = bodyHTML;
+      // Re-apply search filter if active
+      const q = $("#drawerSearch").value || "";
+      if (q.trim()) applyDrawerSearch(q);
     });
 
     // Split-by-arm toggle

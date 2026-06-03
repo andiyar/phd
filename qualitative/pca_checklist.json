@@ -8,7 +8,15 @@
     "overall_score": 3,
     "suspected_reasons": [
       "Pain"
-    ]
+    ],
+    "behaviours": {
+      "Grimacing": 2,
+      "Groaning": 2,
+      "Shouting": 0,
+      "Touching": 2,
+      "Purposeless movements": 0,
+      "Laboured breathing": 0
+    }
   },
   {
     "source_file": "DXM3_PCA_Day_1_Form_1.txt",
@@ -21,7 +29,15 @@
       "Discomfort",
       "emotional distress",
       "dizziness"
-    ]
+    ],
+    "behaviours": {
+      "Grimacing": 1,
+      "Groaning": 0,
+      "Shouting": 0,
+      "Touching": 2,
+      "Purposeless movements": 2,
+      "Laboured breathing": 0
+    }
   },
   {
     "source_file": "MDZ24_PCA_Day_0_Form_1.txt",
@@ -30,7 +46,15 @@
     "day": "Day0",
     "form": 1,
     "overall_score": 0,
-    "suspected_reasons": []
+    "suspected_reasons": [],
+    "behaviours": {
+      "Grimacing": 0,
+      "Groaning": 0,
+      "Shouting": 0,
+      "Touching": 0,
+      "Purposeless movements": 0,
+      "Laboured breathing": 2
+    }
   },
   {
     "source_file": "DXM1_PCA_Day_1_Form_1.txt",
@@ -42,7 +66,15 @@
     "suspected_reasons": [
       "Emotional distress",
       "confusion/restlessness"
-    ]
+    ],
+    "behaviours": {
+      "Grimacing": 1,
+      "Groaning": 2,
+      "Shouting": 0,
+      "Touching": 2,
+      "Purposeless movements": 2,
+      "Laboured breathing": 2
+    }
   },
   {
     "source_file": "MDZ14_PCA_Day_0_Form_1.txt",
@@ -53,7 +85,15 @@
     "overall_score": 4,
     "suspected_reasons": [
       "Restlessness when awake"
-    ]
+    ],
+    "behaviours": {
+      "Grimacing": 2,
+      "Groaning": 0,
+      "Shouting": 0,
+      "Touching": 2,
+      "Purposeless movements": 2,
+      "Laboured breathing": 0
+    }
   },
   {
     "source_file": "DXM3_PCA_Day_-1_Form_1.txt",
@@ -67,6 +107,14 @@
       "emotional distress",
       "confusion",
       "restlessness"
-    ]
+    ],
+    "behaviours": {
+      "Grimacing": 1,
+      "Groaning": 1,
+      "Shouting": 0,
+      "Touching": 2,
+      "Purposeless movements": 3,
+      "Laboured breathing": 0
+    }
   }
 ]
