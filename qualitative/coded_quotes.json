@@ -3286,5 +3286,41 @@
     "code": "Symptom Control",
     "subcode": "Breakthrough medication",
     "note": ""
+  },
+  {
+    "id": 273,
+    "source_file": "DXM15-Nursing-012-2022-07-13-0613.txt",
+    "patient": "DXM15",
+    "arm": "DXM",
+    "day": "Day2",
+    "discipline": "Nursing",
+    "quote": "Many questions asked and nursing staff answered their questions as well as possible. Family concerned that the Dexmeditomidine in not the best fit for Kevin and would like to speak to the medical team as soon as possible this morning",
+    "code": "Family",
+    "subcode": "Family discussion",
+    "note": ""
+  },
+  {
+    "id": 274,
+    "source_file": "DXM15-Nursing-012-2022-07-13-0613.txt",
+    "patient": "DXM15",
+    "arm": "DXM",
+    "day": "Day2",
+    "discipline": "Nursing",
+    "quote": "Kevin having ongoing restlessness",
+    "code": "Symptom Control",
+    "subcode": "Agitation",
+    "note": ""
+  },
+  {
+    "id": 275,
+    "source_file": "DXM15-Nursing-012-2022-07-13-0613.txt",
+    "patient": "DXM15",
+    "arm": "DXM",
+    "day": "Day2",
+    "discipline": "Nursing",
+    "quote": "relaxing and looks as though he is drifting off to sleep then awakes, startled",
+    "code": "Symptom Control",
+    "subcode": "Myoclonus",
+    "note": ""
   }
 ]
