@@ -3478,5 +3478,77 @@
     "code": "Symptom Control",
     "subcode": "Delirium",
     "note": ""
+  },
+  {
+    "id": 289,
+    "source_file": "DXM6-Medical-002-2021-08-29-1414.txt",
+    "patient": "DXM6",
+    "arm": "DXM",
+    "day": "Day0",
+    "discipline": "Medical",
+    "quote": "Deterioration in condition today.",
+    "code": "Outside Framework",
+    "subcode": "Deterioration",
+    "note": ""
+  },
+  {
+    "id": 290,
+    "source_file": "DXM6-Medical-002-2021-08-29-1414.txt",
+    "patient": "DXM6",
+    "arm": "DXM",
+    "day": "Day0",
+    "discipline": "Medical",
+    "quote": "Very distressed with breathlessness, settled with morphine prior to me seeing her.",
+    "code": "Symptom Control",
+    "subcode": "Breathing distress",
+    "note": ""
+  },
+  {
+    "id": 291,
+    "source_file": "DXM6-Medical-002-2021-08-29-1414.txt",
+    "patient": "DXM6",
+    "arm": "DXM",
+    "day": "Day0",
+    "discipline": "Medical",
+    "quote": "Opening eyes and answering, but confused.",
+    "code": "Symptom Control",
+    "subcode": "Delirium",
+    "note": ""
+  },
+  {
+    "id": 292,
+    "source_file": "DXM6-Medical-002-2021-08-29-1414.txt",
+    "patient": "DXM6",
+    "arm": "DXM",
+    "day": "Day0",
+    "discipline": "Medical",
+    "quote": "Opening eyes and answering.",
+    "code": "Communication",
+    "subcode": "Responsive to voice",
+    "note": ""
+  },
+  {
+    "id": 293,
+    "source_file": "DXM6-Medical-002-2021-08-29-1414.txt",
+    "patient": "DXM6",
+    "arm": "DXM",
+    "day": "Day0",
+    "discipline": "Medical",
+    "quote": "Daughter present",
+    "code": "Family",
+    "subcode": "Family present",
+    "note": ""
+  },
+  {
+    "id": 294,
+    "source_file": "DXM6-Medical-002-2021-08-29-1414.txt",
+    "patient": "DXM6",
+    "arm": "DXM",
+    "day": "Day0",
+    "discipline": "Medical",
+    "quote": "Daughter present and aware of situation and commencement of dexmedetomidine in second syringe driver. Daughter has PCS form to complete for today",
+    "code": "Family",
+    "subcode": "Family discussion",
+    "note": ""
   }
 ]
