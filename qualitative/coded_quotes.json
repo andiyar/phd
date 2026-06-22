@@ -3874,5 +3874,77 @@
     "code": "Symptom Control",
     "subcode": "Pain",
     "note": ""
+  },
+  {
+    "id": 322,
+    "source_file": "DXM22-Nursing-007-2023-05-16-0406.txt",
+    "patient": "DXM22",
+    "arm": "DXM",
+    "day": "DayMinus1",
+    "discipline": "Nursing",
+    "quote": "nil visitors overnight",
+    "code": "Family",
+    "subcode": "No family present",
+    "note": ""
+  },
+  {
+    "id": 323,
+    "source_file": "MDZ8-Medical-006-2022-03-16-0953.txt",
+    "patient": "MDZ8",
+    "arm": "MDZ",
+    "day": "Day0",
+    "discipline": "Medical",
+    "quote": "Interactive with MO",
+    "code": "Communication",
+    "subcode": "Verbal",
+    "note": ""
+  },
+  {
+    "id": 324,
+    "source_file": "MDZ8-Medical-006-2022-03-16-0953.txt",
+    "patient": "MDZ8",
+    "arm": "MDZ",
+    "day": "Day0",
+    "discipline": "Medical",
+    "quote": "?Terminal agitation",
+    "code": "Symptom Control",
+    "subcode": "Delirium",
+    "note": ""
+  },
+  {
+    "id": 325,
+    "source_file": "MDZ8-Medical-006-2022-03-16-0953.txt",
+    "patient": "MDZ8",
+    "arm": "MDZ",
+    "day": "Day0",
+    "discipline": "Medical",
+    "quote": "Updated on progress. Pt has required multiple PRN use. Explained morphine + midaz useage. Behaviours have settled. Explained DREAMs trial. Explained symptoms that pt may experience (Hallucinations/Breathing difficulties). Precidex vs midazolam. Precidex has shown potential benefit for terminal agitation / delirium. Study's aim is to assess benefit of precidex in end-of-life setting against current mainstay regime of midazolam. Explained 50% pts will be randomized to precidex and 50% randomized to midazolam. Explained participation is voluntary. Explained participation can be withdrawn at any time.",
+    "code": "Family",
+    "subcode": "Family discussion",
+    "note": ""
+  },
+  {
+    "id": 326,
+    "source_file": "DXM2-Nursing-007-2021-06-02-0422.txt",
+    "patient": "DXM2",
+    "arm": "DXM",
+    "day": "Day1",
+    "discipline": "Nursing",
+    "quote": "Arthur is having periods of apnoea.",
+    "code": "Symptom Control",
+    "subcode": "Terminal phase breathing",
+    "note": ""
+  },
+  {
+    "id": 327,
+    "source_file": "DXM2-Nursing-007-2021-06-02-0422.txt",
+    "patient": "DXM2",
+    "arm": "DXM",
+    "day": "Day1",
+    "discipline": "Nursing",
+    "quote": "Arthur has been sleeping all shift, I have not seen him awake.",
+    "code": "Communication",
+    "subcode": "Non-responsive",
+    "note": ""
   }
 ]
