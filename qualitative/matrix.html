@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#FAF7F2">
 <title>DREAMS — Code Matrix</title>
+<link rel="stylesheet" href="progress-widget.css">
+<script defer src="progress-widget.js"></script>
 <script>
   // Mobile redirect — matrix is a desktop-only view.
   (function () {
@@ -1305,6 +1307,13 @@
   <a class="nav-back" href="index.html"><span class="arrow"></span>Quote viewer</a>
   <div class="spacer"></div>
   <div class="count" id="count">— quotes</div>
+  <button id="progressBtn" class="pw-btn" type="button" aria-haspopup="dialog" aria-expanded="false" title="Corpus progress" style="margin-left:10px">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M3 12h4l3-9 4 18 3-9h4"/>
+    </svg>
+    <span class="pw-btn-pct">—</span>
+    <span class="pw-caret" aria-hidden="true"></span>
+  </button>
 </header>
 
 <div class="controls">

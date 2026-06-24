@@ -1,0 +1,151 @@
+/* DREAMS Corpus Progress widget — shared by index.html and matrix.html.
+   Theme via CSS variables defined on the host page (--paper, --ink, --arm-*). */
+
+.pw-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  background: var(--paper-2);
+  color: var(--ink-2);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background .12s, color .12s, border-color .12s;
+}
+.pw-btn:hover {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--line-2);
+}
+.pw-btn[aria-expanded="true"] {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.pw-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+.pw-btn .pw-btn-pct {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--ink);
+  margin-left: 2px;
+}
+.pw-btn[aria-expanded="true"] .pw-btn-pct { color: var(--paper); }
+.pw-btn .pw-caret {
+  width: 9px; height: 9px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translate(-1px, -1px);
+  transition: transform .15s;
+  opacity: .7;
+  margin-left: 1px;
+}
+.pw-btn[aria-expanded="true"] .pw-caret {
+  transform: rotate(-135deg) translate(-1px, -1px);
+}
+
+.pw-panel {
+  position: fixed;
+  top: 60px;
+  right: 16px;
+  z-index: 9999;
+  width: 320px;
+  padding: 14px 16px 13px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 18px 40px rgba(28,29,34,.10), 0 4px 10px rgba(28,29,34,.05);
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity .14s ease, transform .14s ease;
+}
+.pw-panel.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.pw-title {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 8px;
+  margin: 0 0 10px;
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+.pw-pct {
+  font-size: 12px;
+  letter-spacing: .02em;
+  text-transform: none;
+  color: var(--ink);
+  font-weight: 700;
+}
+.pw-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.pw-table th, .pw-table td {
+  padding: 3px 0;
+  text-align: right;
+  font-weight: 500;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+.pw-table th:first-child, .pw-table td:first-child {
+  text-align: left;
+  color: var(--ink-3);
+  font-size: 11.5px;
+  font-weight: 500;
+  padding-right: 8px;
+}
+.pw-table thead th {
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ink-3);
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+}
+.pw-table thead th.arm-DXM { color: var(--arm-dxm); }
+.pw-table thead th.arm-MDZ { color: var(--arm-mdz); }
+.pw-table td .num { color: var(--ink); font-weight: 600; }
+.pw-table td .frac {
+  color: var(--ink-3);
+  font-size: 10.5px;
+  margin-left: 1px;
+}
+.pw-table tr.divider td {
+  border-top: 1px dashed var(--line);
+  padding-top: 6px;
+}
+.pw-bar {
+  margin-top: 10px;
+  height: 4px;
+  background: var(--line);
+  border-radius: 999px;
+  overflow: hidden;
+  display: flex;
+}
+.pw-bar .pw-seg-dxm { background: var(--arm-dxm); }
+.pw-bar .pw-seg-mdz { background: var(--arm-mdz); }
+.pw-foot {
+  margin-top: 6px;
+  font-size: 10.5px;
+  color: var(--ink-3);
+  display: flex; justify-content: space-between;
+}
+
+@media (max-width: 720px) {
+  .pw-panel { right: 8px; left: 8px; width: auto; }
+}

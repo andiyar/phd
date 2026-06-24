@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>DREAMS — Coded Quotes</title>
+<link rel="stylesheet" href="progress-widget.css">
+<script defer src="progress-widget.js"></script>
 <script>
   // Mobile redirect — bounces narrow viewports to mobile.html.
   // Skipped if user explicitly chose desktop via the mobile footer link.
@@ -891,49 +893,7 @@
 
   /* Group-by select reuses .sort select styles */
 
-  /* ---------- Stats footer ---------- */
-  .stats {
-    position: fixed;
-    left: 18px;
-    bottom: 14px;
-    z-index: 20;
-    display: inline-flex; align-items: center;
-    gap: 12px;
-    padding: 8px 14px;
-    background: color-mix(in srgb, var(--paper) 92%, transparent);
-    backdrop-filter: saturate(1.2) blur(10px);
-    -webkit-backdrop-filter: saturate(1.2) blur(10px);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    box-shadow: var(--shadow-sm);
-    font-size: 11.5px;
-    letter-spacing: .04em;
-    color: var(--ink-3);
-    font-variant-numeric: tabular-nums;
-    user-select: none;
-    transition: opacity .15s, transform .15s;
-  }
-  .stats .stat {
-    display: inline-flex; align-items: baseline; gap: 5px;
-  }
-  .stats .stat .num {
-    color: var(--ink);
-    font-weight: 700;
-    font-size: 13px;
-  }
-  .stats .stat .lab {
-    text-transform: uppercase;
-    letter-spacing: .14em;
-    font-size: 10.5px;
-  }
-  .stats .of {
-    color: var(--ink-3);
-    font-size: 10.5px;
-  }
-  .stats .sep { width: 1px; height: 14px; background: var(--line); }
-  @media (max-width: 720px) {
-    .stats { left: 10px; right: 10px; bottom: 10px; justify-content: center; }
-  }
+  /* Corpus progress now lives in the shared header widget — see progress-widget.css */
 
   /* Loading flicker */
   .skeleton .grid { opacity: .35; }
@@ -1050,6 +1010,13 @@
         </select>
       </div>
       <div class="count" id="count">— of —</div>
+      <button id="progressBtn" class="pw-btn" type="button" aria-haspopup="dialog" aria-expanded="false" title="Corpus progress">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 12h4l3-9 4 18 3-9h4"/>
+        </svg>
+        <span class="pw-btn-pct">—</span>
+        <span class="pw-caret" aria-hidden="true"></span>
+      </button>
     </div>
   </header>
 
@@ -1078,7 +1045,6 @@
     <div id="grid"></div>
   </main>
 
-  <div id="stats" class="stats" aria-live="polite"></div>
 </div>
 
 <!-- ===== Embedded data (fallback when fetch fails) ===== -->
@@ -1448,7 +1414,6 @@
         <div class="small">Try clearing a filter or refining your search.</div>
       </div></div>`;
       $("#count").innerHTML = `<strong>0</strong> of ${total}`;
-      renderStats(filtered);
       renderActiveChips();
       const active0 = hasActiveFilters();
       $("#reset").disabled = !active0;
@@ -1480,7 +1445,6 @@
 
     $("#count").innerHTML = `<strong>${filtered.length}</strong> of ${total}` +
       (remaining > 0 ? ` <span style="color:var(--ink-3)">· showing ${capped.length}</span>` : "");
-    renderStats(filtered);
     renderActiveChips();
     const active = hasActiveFilters();
     $("#reset").disabled = !active;
@@ -1492,34 +1456,6 @@
     if (state.groupBy.length) return true;
     for (const f of FACETS) if (state.filters[f.key].size) return true;
     return false;
-  }
-
-  function uniqueCount(items, key) {
-    const s = new Set();
-    for (const it of items) { const v = it[key]; if (v) s.add(v); }
-    return s.size;
-  }
-
-  function renderStats(filtered) {
-    const el = $("#stats");
-    if (!el) return;
-    const totalNotes = uniqueCount(state.data, "source_file");
-    const totalCodes = state.data.length;
-    const filteredNotes = uniqueCount(filtered, "source_file");
-    const filteredCodes = filtered.length;
-    const isFiltered = filteredCodes !== totalCodes;
-    el.innerHTML = `
-      <div class="stat">
-        <span class="num">${filteredNotes}</span>
-        ${isFiltered ? `<span class="of">/ ${totalNotes}</span>` : ""}
-        <span class="lab">notes</span>
-      </div>
-      <div class="sep"></div>
-      <div class="stat">
-        <span class="num">${filteredCodes}</span>
-        ${isFiltered ? `<span class="of">/ ${totalCodes}</span>` : ""}
-        <span class="lab">codes</span>
-      </div>`;
   }
 
   function renderGroupPills() {
