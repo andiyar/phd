@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#FAF7F2">
-<title>DREAMS — Code Matrix</title>
+<title>DREAMS — Theme Matrix</title>
 <link rel="stylesheet" href="progress-widget.css">
 <script defer src="progress-widget.js"></script>
 <script>
@@ -43,6 +43,14 @@
     --d-fam:        #4F7A4E;  --d-fam-bg:     #DEE9D9;  --d-fam-soft:   #ECF2E7;
     --d-pcc:        #6B5391;  --d-pcc-bg:     #E1D9EB;  --d-pcc-soft:   #EFE9F4;
     --d-out:        #6E6F77;  --d-out-bg:     #DEDED9;  --d-out-soft:   #ECECE7;
+
+    /* Theme palette (codebook v2) — t1..t4 themes, t0 deprecated/unthemed.
+       Slugs key the CSS, so renaming a theme never touches this stylesheet. */
+    --t1:  var(--d-comm);  --t1-bg:  var(--d-comm-bg);  --t1-soft:  var(--d-comm-soft);
+    --t2:  var(--d-pcc);   --t2-bg:  var(--d-pcc-bg);   --t2-soft:  var(--d-pcc-soft);
+    --t3:  var(--d-symp);  --t3-bg:  var(--d-symp-bg);  --t3-soft:  var(--d-symp-soft);
+    --t4:  var(--d-fam);   --t4-bg:  var(--d-fam-bg);   --t4-soft:  var(--d-fam-soft);
+    --t0:  var(--d-out);   --t0-bg:  var(--d-out-bg);   --t0-soft:  var(--d-out-soft);
 
     --arm-dxm:      #2F5D8B;  --arm-dxm-bg:   #DAE5EE;
     --arm-mdz:      #8B5A2F;  --arm-mdz-bg:   #EFE3D5;
@@ -498,43 +506,16 @@
     background: var(--paper-2);
     border-left: 1px solid var(--line-2);
   }
-  table.matrix .row-domain {
-    background: var(--paper-2);
-    font-weight: 700;
-    color: var(--ink);
-    cursor: pointer;
-    user-select: none;
-  }
-  table.matrix .row-domain td:first-child {
-    background: var(--paper-2);
-  }
-  table.matrix .row-domain td {
-    background: var(--paper-2);
-  }
-  table.matrix .row-domain .caret {
-    display: inline-block;
-    width: 10px; height: 10px;
-    border-right: 1.5px solid currentColor;
-    border-bottom: 1.5px solid currentColor;
-    transform: rotate(45deg);
-    margin-right: 8px;
-    vertical-align: 1px;
-    transition: transform .15s;
-  }
-  table.matrix .row-domain[data-collapsed="true"] .caret { transform: rotate(-45deg); }
-  table.matrix .row-domain .domain-label {
-    text-transform: uppercase;
-    letter-spacing: .12em;
-    font-size: 11.5px;
-  }
-  table.matrix .row-subcode td:first-child { padding-left: 32px; }
-  table.matrix .row-subcode .label-row {
+  table.matrix .row-label .label-row {
     display: flex; align-items: center; gap: 8px;
   }
-  table.matrix .row-subcode .label-row .swatch {
-    width: 6px; height: 6px; border-radius: 50%;
+  table.matrix .row-label .label-row .swatch {
+    width: 8px; height: 8px; border-radius: 50%;
     flex-shrink: 0;
   }
+  /* Deprecated/unthemed row — the audit bucket, visibly demoted */
+  table.matrix tr.row-deprecated td:first-child { color: var(--ink-3); font-style: italic; }
+  table.matrix tr.row-deprecated td { color: var(--ink-3); }
   table.matrix tbody tr:hover td { background: color-mix(in srgb, var(--ink) 4%, transparent); }
   table.matrix tbody tr:hover td:first-child {
     background: color-mix(in srgb, var(--ink) 4%, var(--paper));
@@ -743,11 +724,12 @@
     font-variant-numeric: tabular-nums;
     font-size: 10px;
   }
-  .tr-chip.d-Communication       { --c: var(--d-comm); --c-bg: var(--d-comm-bg); }
-  .tr-chip.d-SymptomControl      { --c: var(--d-symp); --c-bg: var(--d-symp-bg); }
-  .tr-chip.d-Family              { --c: var(--d-fam);  --c-bg: var(--d-fam-bg);  }
-  .tr-chip.d-PatientCentredCare  { --c: var(--d-pcc);  --c-bg: var(--d-pcc-bg);  }
-  .tr-chip.d-OutsideFramework    { --c: var(--d-out);  --c-bg: var(--d-out-bg);  }
+  .tr-chip.t1 { --c: var(--t1); --c-bg: var(--t1-bg); }
+  .tr-chip.t2 { --c: var(--t2); --c-bg: var(--t2-bg); }
+  .tr-chip.t3 { --c: var(--t3); --c-bg: var(--t3-bg); }
+  .tr-chip.t4 { --c: var(--t4); --c-bg: var(--t4-bg); }
+  .tr-chip.t0 { --c: var(--t0); --c-bg: var(--t0-bg); }
+  .tr-chip.t0.is-deprecated { border-style: dashed; text-decoration: line-through; }
 
   .traj-legend {
     display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
@@ -1024,12 +1006,12 @@
     pointer-events: none;
   }
 
-  /* Domain-coloured headers when col=code */
-  table.matrix thead th.col-d-Communication       { color: var(--d-comm); }
-  table.matrix thead th.col-d-SymptomControl      { color: var(--d-symp); }
-  table.matrix thead th.col-d-Family              { color: var(--d-fam); }
-  table.matrix thead th.col-d-PatientCentredCare  { color: var(--d-pcc); }
-  table.matrix thead th.col-d-OutsideFramework    { color: var(--d-out); }
+  /* Theme-coloured headers when columns = theme */
+  table.matrix thead th.col-t1 { color: var(--t1); }
+  table.matrix thead th.col-t2 { color: var(--t2); }
+  table.matrix thead th.col-t3 { color: var(--t3); }
+  table.matrix thead th.col-t4 { color: var(--t4); }
+  table.matrix thead th.col-t0 { color: var(--t0); }
 
   /* Empty / loading */
   .empty {
@@ -1166,11 +1148,46 @@
     margin-bottom: 10px;
     box-shadow: var(--shadow-sm);
   }
-  .drawer-card[data-code="Communication"]       { --c: var(--d-comm); --c-bg: var(--d-comm-bg); --c-soft: var(--d-comm-soft); }
-  .drawer-card[data-code="Symptom Control"]     { --c: var(--d-symp); --c-bg: var(--d-symp-bg); --c-soft: var(--d-symp-soft); }
-  .drawer-card[data-code="Family"]              { --c: var(--d-fam);  --c-bg: var(--d-fam-bg);  --c-soft: var(--d-fam-soft);  }
-  .drawer-card[data-code="Patient-Centred Care"]{ --c: var(--d-pcc);  --c-bg: var(--d-pcc-bg);  --c-soft: var(--d-pcc-soft);  }
-  .drawer-card[data-code="Outside Framework"]   { --c: var(--d-out);  --c-bg: var(--d-out-bg);  --c-soft: var(--d-out-soft);  }
+  .drawer-card[data-theme="t1"] { --c: var(--t1); --c-bg: var(--t1-bg); --c-soft: var(--t1-soft); }
+  .drawer-card[data-theme="t2"] { --c: var(--t2); --c-bg: var(--t2-bg); --c-soft: var(--t2-soft); }
+  .drawer-card[data-theme="t3"] { --c: var(--t3); --c-bg: var(--t3-bg); --c-soft: var(--t3-soft); }
+  .drawer-card[data-theme="t4"] { --c: var(--t4); --c-bg: var(--t4-bg); --c-soft: var(--t4-soft); }
+  .drawer-card[data-theme="t0"] { --c: var(--t0); --c-bg: var(--t0-bg); --c-soft: var(--t0-soft); }
+  /* Deprecated quote — retained for audit (D12/D13), never deleted */
+  .drawer-card.deprecated {
+    --c: var(--t0); --c-bg: var(--t0-bg); --c-soft: var(--t0-soft);
+    background: color-mix(in srgb, var(--paper-2) 70%, var(--paper));
+    border-style: dashed;
+    border-left-style: solid;
+    box-shadow: none;
+  }
+  .drawer-card.deprecated .quote {
+    color: var(--ink-3);
+    text-decoration: line-through;
+    text-decoration-thickness: from-font;
+    text-decoration-color: color-mix(in srgb, var(--ink-3) 45%, transparent);
+  }
+  .drawer-card.deprecated .domain { color: var(--ink-3); }
+  .drawer-card .meta .pill.prov {
+    background: transparent;
+    border-style: dashed;
+    border-color: var(--line-2);
+    color: var(--ink-3);
+  }
+  .drawer-card .meta .pill.prov::before {
+    content: "v1 ";
+    font-family: var(--mono);
+    font-size: 9px;
+    opacity: .8;
+  }
+  .drawer-card .meta .pill.dep {
+    background: var(--t0-bg);
+    color: var(--ink-2);
+    border-color: color-mix(in srgb, var(--ink-3) 35%, transparent);
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
   .drawer-card .head {
     display: flex; align-items: baseline; justify-content: space-between;
     margin-bottom: 6px;
@@ -1219,7 +1236,7 @@
     color: var(--ink-2);
     border: 1px solid var(--line);
   }
-  .drawer-card .meta .pill.subcode {
+  .drawer-card .meta .pill.stream {
     background: var(--c-bg);
     color: var(--c);
     border-color: color-mix(in srgb, var(--c) 22%, transparent);
@@ -1302,7 +1319,7 @@
 <header class="topbar">
   <div class="brand">
     <div class="mark">DREAMS</div>
-    <div class="sub">Code Matrix</div>
+    <div class="sub">Theme Matrix</div>
   </div>
   <a class="nav-back" href="index.html"><span class="arrow"></span>Quote viewer</a>
   <div class="spacer"></div>
@@ -1318,10 +1335,17 @@
 
 <div class="controls">
   <div class="ctl matrix-only">
+    <label>Quick view</label>
+    <div class="seg" role="tablist" id="quickSeg" title="The two framework matrices">
+      <button data-quick="theme|arm"    aria-pressed="true">Theme × Arm</button>
+      <button data-quick="theme|stream" aria-pressed="false">Theme × Stream</button>
+    </div>
+  </div>
+  <div class="ctl matrix-only">
     <label for="rowDim">Rows</label>
     <select id="rowDim">
-      <option value="subcode">Sub-code</option>
-      <option value="code">Domain</option>
+      <option value="theme">Theme</option>
+      <option value="stream">Stream</option>
       <option value="patient">Patient</option>
       <option value="arm">Arm</option>
       <option value="day">Day</option>
@@ -1331,12 +1355,12 @@
   <div class="ctl matrix-only">
     <label for="colDim">Columns</label>
     <select id="colDim">
-      <option value="discipline">Source</option>
       <option value="arm">Arm</option>
+      <option value="stream">Stream</option>
+      <option value="theme">Theme</option>
       <option value="day">Day</option>
-      <option value="code">Domain</option>
+      <option value="discipline">Source</option>
       <option value="patient">Patient</option>
-      <option value="subcode">Sub-code</option>
     </select>
   </div>
   <div class="ctl matrix-only">
@@ -1356,13 +1380,13 @@
     </div>
   </div>
   <div class="ctl matrix-only">
-    <button class="toggle" id="groupToggle" aria-pressed="true" type="button">
-      <span>Group rows by Domain</span>
-    </button>
-  </div>
-  <div class="ctl matrix-only">
     <button class="toggle" id="splitToggle" aria-pressed="false" type="button" title="Render side-by-side matrices for DXM and MDZ">
       <span>Split by arm</span>
+    </button>
+  </div>
+  <div class="ctl">
+    <button class="toggle" id="depToggle" aria-pressed="false" type="button" title="Include deprecated rows — out of scope under the v3 question, retained for audit">
+      <span>Include deprecated</span>
     </button>
   </div>
   <div class="ctl">
@@ -1375,7 +1399,7 @@
   <div class="ctl traj-only">
     <label>Show</label>
     <div class="seg" role="tablist" id="trajModeSeg" title="What appears inside trajectory cells">
-      <button data-trajmode="codes" aria-pressed="true">Codes</button>
+      <button data-trajmode="codes" aria-pressed="true">Themes</button>
       <button data-trajmode="pca"   aria-pressed="false">PCA</button>
       <button data-trajmode="both"  aria-pressed="false">Both</button>
     </div>
@@ -1429,35 +1453,68 @@
   <div class="drawer-body" id="drawerBody"></div>
 </aside>
 
-<script id="embedded-data" type="application/json">[]</script>
+<script id="embedded-data" type="application/json">[{"id":1,"source_file":"MDZ23-Medical-003-2023-06-02-1834.txt","patient":"MDZ23","arm":"MDZ","day":"Day0","discipline":"Medical","quote":"Substantial deterioration with [patient] experiencing some breathing distress, asking for help","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Breathing distress"},{"id":2,"source_file":"MDZ23-Medical-003-2023-06-02-1834.txt","patient":"MDZ23","arm":"MDZ","day":"Day0","discipline":"Medical","quote":"Substantial deterioration with [patient] experiencing some breathing distress, asking for help","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Communicating needs"},{"id":3,"source_file":"MDZ23-Medical-003-2023-06-02-1834.txt","patient":"MDZ23","arm":"MDZ","day":"Day0","discipline":"Medical","quote":"Was normal earlier today without evidence of delirium, now fixated with some mild hyperactivity","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":5,"source_file":"MDZ9-Nursing-011-2022-03-30-1446.txt","patient":"MDZ9","arm":"MDZ","day":"Day1","discipline":"Nursing","quote":"Cognition: responding to voice, alert at times","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Responsive to voice"},{"id":10,"source_file":"MDZ25-Nursing-018-2023-07-16-1929.txt","patient":"MDZ25","arm":"MDZ","day":"Day2","discipline":"Nursing","quote":"Appears settled. Nil tenderness to left hip/flank when touching. Breakthrough morphine effect. Patient appears settled and sleeping at time of report.","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":13,"source_file":"DXM23_PCA_Day_2_Form_1.txt","patient":"DXM23","arm":"DXM","day":"Day2","discipline":"PCA","quote":"She was frustrated with not being able to verbalise what she wanted, which was for her knees to be up. We got it in the end with slight nods or shaking the head.","theme":"Rousable or Responsive Communication","stream":"family (PCA)","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Difficulty communicating"},{"id":14,"source_file":"DXM23_PCA_Day_2_Form_1.txt","patient":"DXM23","arm":"DXM","day":"Day2","discipline":"PCA","quote":"She pointed/rubbed her throat and confirmed she was sore.","theme":"Rousable or Responsive Communication","stream":"family (PCA)","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Communicating needs"},{"id":15,"source_file":"DXM23_PCA_Day_2_Form_1.txt","patient":"DXM23","arm":"DXM","day":"Day2","discipline":"PCA","quote":"She had two small periods of agitation, both due to discomfort.","theme":"Nature of Distress Observed","stream":"family (PCA)","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Agitation"},{"id":16,"source_file":"DXM23_PCA_Day_2_Form_1.txt","patient":"DXM23","arm":"DXM","day":"Day2","discipline":"PCA","quote":"Mum had a mostly restful day.","theme":"Comfort through Deep Settling","stream":"family (PCA)","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Comfort achieved"},{"id":17,"source_file":"DXM23_PCA_Day_2_Form_1.txt","patient":"DXM23","arm":"DXM","day":"Day2","discipline":"PCA","quote":"She had tears in her eyes and looked sad.","theme":"Comfort through Preserved Awareness","stream":"family (PCA)","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Psychological distress"},{"id":18,"source_file":"DXM23_PCA_Day_2_Form_1.txt","patient":"DXM23","arm":"DXM","day":"Day2","discipline":"PCA","quote":"I offered a wet swab for her to suck and it helped a lot.","theme":"Comfort through Preserved Awareness","stream":"family (PCA)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family providing care"},{"id":19,"source_file":"MDZ16-Nursing-013-2022-08-07-0354.txt","patient":"MDZ16","arm":"MDZ","day":"Day0","discipline":"Nursing","quote":"RASS-PAL score = -5 (Not Rousable). No response to voice or stimulation by light touch.","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-responsive"},{"id":20,"source_file":"MDZ16-Nursing-013-2022-08-07-0354.txt","patient":"MDZ16","arm":"MDZ","day":"Day0","discipline":"Nursing","quote":"[patient] appears comfortable.","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Comfort achieved"},{"id":23,"source_file":"MDZ21-Nursing-015-2023-03-01-0509.txt","patient":"MDZ21","arm":"MDZ","day":"Day1","discipline":"Nursing","quote":"Patient is in terminal stage, unconscious","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-responsive"},{"id":27,"source_file":"DXM3_PCA_Day_1_Form_1.txt","patient":"DXM3","arm":"DXM","day":"Day1","discipline":"PCA","quote":"Shaking rapidly for 5 minutes, legs and body.","theme":"Nature of Distress Observed","stream":"family (PCA)","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Agitation"},{"id":33,"source_file":"DXM19-Nursing-013-2022-12-22-1134.txt","patient":"DXM19","arm":"DXM","day":"Day2","discipline":"Nursing","quote":"Eyes open to gentle touch, however eyes closed quickly back. Pt not engaging with staff verbally.","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Responsive to touch"},{"id":34,"source_file":"DXM19-Nursing-013-2022-12-22-1134.txt","patient":"DXM19","arm":"DXM","day":"Day2","discipline":"Nursing","quote":"Pt appeared comfortable and settled. Nil breakthrough required at time of report. Nil facial grimacing, nil signs of pain or agitation. Pt settled.","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Comfort achieved"},{"id":36,"source_file":"DXM3-Nursing-009-2021-06-05-1227.txt","patient":"DXM3","arm":"DXM","day":"Day1","discipline":"Nursing","quote":"Rousable to voice and/or touch. Able to answer short yes/no questions only.","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Responsive to voice"},{"id":37,"source_file":"DXM3-Nursing-009-2021-06-05-1227.txt","patient":"DXM3","arm":"DXM","day":"Day1","discipline":"Nursing","quote":"Able to answer short yes/no questions only. Occasional whispering of words.","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Limited verbal"},{"id":38,"source_file":"DXM3-Nursing-009-2021-06-05-1227.txt","patient":"DXM3","arm":"DXM","day":"Day1","discipline":"Nursing","quote":"Resting comfortably in bed ATOR.","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Comfort achieved"},{"id":43,"source_file":"DXM19-Nursing-005-2022-12-20-2006.txt","patient":"DXM19","arm":"DXM","day":"DayMinus1","discipline":"Nursing","quote":"Pt alert, at times answering questions appropriately.","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Verbal"},{"id":44,"source_file":"DXM19-Nursing-005-2022-12-20-2006.txt","patient":"DXM19","arm":"DXM","day":"DayMinus1","discipline":"Nursing","quote":"Pt orientated to person, not orientated to place or time. Pt pleasantly confused, cooperative with care.","theme":"Comfort through Preserved Awareness","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":47,"source_file":"DXM19-Nursing-005-2022-12-20-2006.txt","patient":"DXM19","arm":"DXM","day":"DayMinus1","discipline":"Nursing","quote":"Pt in good spirits this evening, happy to see all their family.","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Emotional wellbeing"},{"id":48,"source_file":"DXM11-Nursing-023-2022-05-09-1833.txt","patient":"DXM11","arm":"DXM","day":"Day1","discipline":"Nursing","quote":"Pt unresponsive to verbal stimuli or when repositioned in bed.","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-responsive"},{"id":51,"source_file":"DXM11-Nursing-023-2022-05-09-1833.txt","patient":"DXM11","arm":"DXM","day":"Day1","discipline":"Nursing","quote":"Settled evening. Nil distress observed.","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":53,"source_file":"DXM8-Nursing-012-2021-12-31-0502.txt","patient":"DXM8","arm":"DXM","day":"Day0","discipline":"Nursing","quote":"Remains unresponsive.","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-responsive"},{"id":58,"source_file":"DXM23-Nursing-007-2023-05-17-1931.txt","patient":"DXM23","arm":"DXM","day":"DayMinus1","discipline":"Nursing","quote":"Pt c/o pain waving hand over throat and stating she feels terrible.","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Communicating needs"},{"id":60,"source_file":"DXM4-Medical-008-2021-07-09-1546.txt","patient":"DXM4","arm":"DXM","day":"Day2","discipline":"Medical","quote":"Nil response to verbal stimuli.","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-responsive"},{"id":61,"source_file":"DXM4-Medical-008-2021-07-09-1546.txt","patient":"DXM4","arm":"DXM","day":"Day2","discipline":"Medical","quote":"[patient] resting comfortably. No breakthroughs required.","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Comfort achieved"},{"id":63,"source_file":"MDZ24_PCA_Day_0_Form_1.txt","patient":"MDZ24","arm":"MDZ","day":"Day0","discipline":"PCA","quote":"Seems to be at ease.","theme":"Comfort through Deep Settling","stream":"family (PCA)","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":64,"source_file":"MDZ5-Medical-006-2021-07-01-0919.txt","patient":"MDZ5","arm":"MDZ","day":"Day1","discipline":"Medical","quote":"Sleeping soundly, RASS -5.","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":65,"source_file":"MDZ5-Medical-006-2021-07-01-0919.txt","patient":"MDZ5","arm":"MDZ","day":"Day1","discipline":"Medical","quote":"Some intermittent rousability reported by family with eye flickering to conversation which they find comforting.","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Responsive to voice"},{"id":66,"source_file":"MDZ5-Medical-006-2021-07-01-0919.txt","patient":"MDZ5","arm":"MDZ","day":"Day1","discipline":"Medical","quote":"Report they are very happy with his care and that they feel he has been majority comfortable.","theme":"Comfort through Deep Settling","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family satisfaction with care"},{"id":68,"source_file":"MDZ5-Medical-006-2021-07-01-0919.txt","patient":"MDZ5","arm":"MDZ","day":"Day1","discipline":"Medical","quote":"They feel he has been majority comfortable.","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":69,"source_file":"MDZ2-Nursing-003-2021-05-24-1423.txt","patient":"MDZ2","arm":"MDZ","day":"DayMinus1","discipline":"Nursing","quote":"Speaking in small sentences.","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Verbal"},{"id":70,"source_file":"MDZ2-Nursing-003-2021-05-24-1423.txt","patient":"MDZ2","arm":"MDZ","day":"DayMinus1","discipline":"Nursing","quote":"Pt alert orientated to time place and person and cooperative with care.","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Cognition intact"},{"id":72,"source_file":"MDZ2-Nursing-003-2021-05-24-1423.txt","patient":"MDZ2","arm":"MDZ","day":"DayMinus1","discipline":"Nursing","quote":"Pt visited by family and cats this shift.","theme":"Comfort through Preserved Awareness","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family present"},{"id":73,"source_file":"MDZ2-Nursing-003-2021-05-24-1423.txt","patient":"MDZ2","arm":"MDZ","day":"DayMinus1","discipline":"Nursing","quote":"Pt remains in good spirits, nil concerns ATOR.","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Emotional wellbeing"},{"id":74,"source_file":"DXM16-Nursing-010-2022-11-05-0522.txt","patient":"DXM16","arm":"DXM","day":"DayMinus1","discipline":"Nursing","quote":"No longer orientated to time or place.","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":76,"source_file":"DXM23-Nursing-013-2023-05-18-2110.txt","patient":"DXM23","arm":"DXM","day":"Day1","discipline":"Nursing","quote":"Sleeping on and off but easy rousable.","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Responsive to voice"},{"id":78,"source_file":"DXM23-Nursing-013-2023-05-18-2110.txt","patient":"DXM23","arm":"DXM","day":"Day1","discipline":"Nursing","quote":"Very settled evening.","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":79,"source_file":"MDZ10-Nursing-006-2022-04-18-1752.txt","patient":"MDZ10","arm":"MDZ","day":"Day1","discipline":"Nursing","quote":"Resting comfortably at time of report.","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":80,"source_file":"MDZ26-Nursing-005-2023-08-18-0911.txt","patient":"MDZ26","arm":"MDZ","day":"DayMinus1","discipline":"Nursing","quote":"unsettled throughout bed wash, grimacing and not comfortable","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Pain"},{"id":84,"source_file":"DXM23-Medical-005-2023-05-19-0727.txt","patient":"DXM23","arm":"DXM","day":"Day1","discipline":"Medical","quote":"Settled at time of call","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Comfort achieved"},{"id":90,"source_file":"MDZ6-Nursing-009-2021-07-03-1443.txt","patient":"MDZ6","arm":"MDZ","day":"Day2","discipline":"Nursing","quote":"Becoming restless and on asking states has pain","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Agitation"},{"id":93,"source_file":"DXM1_PCA_Day_1_Form_1.txt","patient":"DXM1","arm":"DXM","day":"Day1","discipline":"PCA","quote":"still confused when waking, but a bit better","theme":"Comfort through Preserved Awareness","stream":"family (PCA)","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":99,"source_file":"DXM16-Nursing-017-2022-11-05-1831.txt","patient":"DXM16","arm":"DXM","day":"Day1","discipline":"Nursing","quote":"Asking staff what do I have to do","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Psychological distress"},{"id":101,"source_file":"DXM10-Nursing-006-2022-04-19-0320.txt","patient":"DXM10","arm":"DXM","day":"DayMinus1","discipline":"Nursing","quote":"has been very vague when awake and communicating little with staff","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Confused"},{"id":105,"source_file":"MDZ23-Nursing-004-2023-06-02-0326.txt","patient":"MDZ23","arm":"MDZ","day":"DayMinus1","discipline":"Nursing","quote":"can be vague at times. mostly orientated","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Confused"},{"id":107,"source_file":"MDZ23-Nursing-004-2023-06-02-0326.txt","patient":"MDZ23","arm":"MDZ","day":"DayMinus1","discipline":"Nursing","quote":"Looks comfortable at time of report","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":109,"source_file":"DXM11-Nursing-013-2022-05-08-2258.txt","patient":"DXM11","arm":"DXM","day":"Day0","discipline":"Nursing","quote":"alert - eyes open, able to nod and shake head to answer question","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Communicating needs"},{"id":114,"source_file":"MDZ18-Nursing-009-2022-10-14-1813.txt","patient":"MDZ18","arm":"MDZ","day":"Day0","discipline":"Nursing","quote":"Has been very settled","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":116,"source_file":"DXM1-Nursing-003-2021-05-03-2136.txt","patient":"DXM1","arm":"DXM","day":"DayMinus1","discipline":"Nursing","quote":"continued to become extremely distressed and agitated. calling out and screaming. pt was distress by seeing things in his room pt seeing a little girl in his room and saying he was going to drown","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Agitation"},{"id":117,"source_file":"DXM1-Nursing-003-2021-05-03-2136.txt","patient":"DXM1","arm":"DXM","day":"DayMinus1","discipline":"Nursing","quote":"continued to become extremely distressed and agitated. calling out and screaming. pt was distress by seeing things in his room pt seeing a little girl in his room and saying he was going to drown","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":119,"source_file":"DXM19-Nursing-004-2022-12-20-1810.txt","patient":"DXM19","arm":"DXM","day":"DayMinus1","discipline":"Nursing","quote":"pt trying to climb out of bed - could hear family trying to talk to pt from nurses station","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Agitation"},{"id":120,"source_file":"DXM19-Nursing-004-2022-12-20-1810.txt","patient":"DXM19","arm":"DXM","day":"DayMinus1","discipline":"Nursing","quote":"pt trying to climb out of bed - could hear family trying to talk to pt from nurses station","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":126,"source_file":"MDZ22-Nursing-010-2023-05-02-2041.txt","patient":"MDZ22","arm":"MDZ","day":"DayMinus1","discipline":"Nursing","quote":"alert to voice at times","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Responsive to voice"},{"id":127,"source_file":"MDZ22-Nursing-010-2023-05-02-2041.txt","patient":"MDZ22","arm":"MDZ","day":"DayMinus1","discipline":"Nursing","quote":"plucking air/ agitated intervention required, very unsettled plucking the air moaning","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":129,"source_file":"MDZ22-Nursing-010-2023-05-02-2041.txt","patient":"MDZ22","arm":"MDZ","day":"DayMinus1","discipline":"Nursing","quote":"has become more settled towards end of evening","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Comfort achieved"},{"id":130,"source_file":"MDZ24-Nursing-015-2023-06-13-1632.txt","patient":"MDZ24","arm":"MDZ","day":"Day1","discipline":"Nursing","quote":"unconscious","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-responsive"},{"id":131,"source_file":"MDZ24-Nursing-015-2023-06-13-1632.txt","patient":"MDZ24","arm":"MDZ","day":"Day1","discipline":"Nursing","quote":"Appears comfortable at time of report","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":133,"source_file":"DXM26-Nursing-018-2023-10-24-2057.txt","patient":"DXM26","arm":"DXM","day":"Day2","discipline":"Nursing","quote":"pleasant interactions with staff","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Verbal"},{"id":135,"source_file":"DXM26-Nursing-018-2023-10-24-2057.txt","patient":"DXM26","arm":"DXM","day":"Day2","discipline":"Nursing","quote":"settled no issues voiced","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":136,"source_file":"DXM15-Nursing-006-2022-07-11-2157.txt","patient":"DXM15","arm":"DXM","day":"Day1","discipline":"Nursing","quote":"family is present able to pass on his need, Son staying tonight","theme":"Rousable or Responsive Communication","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family present"},{"id":137,"source_file":"DXM15-Nursing-006-2022-07-11-2157.txt","patient":"DXM15","arm":"DXM","day":"Day1","discipline":"Nursing","quote":"Patient was alert on the early shift but has been unresponsive in the evening","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Change in responsiveness"},{"id":138,"source_file":"DXM24-Nursing-008-2023-06-13-1639.txt","patient":"DXM24","arm":"DXM","day":"Day1","discipline":"Nursing","quote":"Intermittently waking for short periods","theme":"Comfort through Preserved Awareness","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Minimally responsive"},{"id":141,"source_file":"MDZ18-Medical-004-2022-10-15-0912.txt","patient":"MDZ18","arm":"MDZ","day":"Day0","discipline":"Medical","quote":"Outside of grimacing appears very comfortable","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":143,"source_file":"DXM6-Medical-006-2021-08-30-1529.txt","patient":"DXM6","arm":"DXM","day":"Day1","discipline":"Medical","quote":"particularly distressed overnight. Fear behaviour w/r/t dark?","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Anxiety"},{"id":145,"source_file":"DXM6-Medical-006-2021-08-30-1529.txt","patient":"DXM6","arm":"DXM","day":"Day1","discipline":"Medical","quote":"happy with [patient]'s comfort at the moment","theme":"Comfort through Deep Settling","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family satisfaction with care"},{"id":148,"source_file":"MDZ14_PCA_Day_0_Form_1.txt","patient":"MDZ14","arm":"MDZ","day":"Day0","discipline":"PCA","quote":"Restlessness when awake","theme":"Comfort through Preserved Awareness","stream":"family (PCA)","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Agitation"},{"id":149,"source_file":"MDZ14_PCA_Day_0_Form_1.txt","patient":"MDZ14","arm":"MDZ","day":"Day0","discipline":"PCA","quote":"When sleeping, very comfortable, raising eyebrows now and then","theme":"Comfort through Preserved Awareness","stream":"family (PCA)","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":150,"source_file":"MDZ14_PCA_Day_0_Form_1.txt","patient":"MDZ14","arm":"MDZ","day":"Day0","discipline":"PCA","quote":"raising and lowering of eyebrows","theme":"Rousable or Responsive Communication","stream":"family (PCA)","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-verbal"},{"id":151,"source_file":"DXM23-Nursing-020-2023-05-19-0549.txt","patient":"DXM23","arm":"DXM","day":"Day1","discipline":"Nursing","quote":"M expressed concern her mother was unsettled and frowning. felt [patient] had woken in a panic but had since settled","theme":"Nature of Distress Observed","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family concern"},{"id":152,"source_file":"DXM23-Nursing-020-2023-05-19-0549.txt","patient":"DXM23","arm":"DXM","day":"Day1","discipline":"Nursing","quote":"when asked if she was fearful she nodded her head","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Anxiety"},{"id":154,"source_file":"DXM23-Nursing-020-2023-05-19-0549.txt","patient":"DXM23","arm":"DXM","day":"Day1","discipline":"Nursing","quote":"staff in agreement during time in room [patient] appeared to be comfortable and showed nil signs of any distress","theme":"Comfort through Deep Settling","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family supported"},{"id":155,"source_file":"MDZ6-Nursing-004-2021-07-02-0406.txt","patient":"MDZ6","arm":"MDZ","day":"DayMinus1","discipline":"Nursing","quote":"confused overnight and constantly trying to climb out of bed","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":156,"source_file":"DXM26-Nursing-017-2023-10-24-1300.txt","patient":"DXM26","arm":"DXM","day":"Day2","discipline":"Nursing","quote":"pleasant interactions with staff","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Verbal"},{"id":158,"source_file":"MDZ15-Medical-004-2022-07-22-0944.txt","patient":"MDZ15","arm":"MDZ","day":"Day0","discipline":"Medical","quote":"Inattentive and unresponsive. Unable to obey commands","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-responsive"},{"id":160,"source_file":"MDZ15-Medical-004-2022-07-22-0944.txt","patient":"MDZ15","arm":"MDZ","day":"Day0","discipline":"Medical","quote":"R hasn't witnessed any visual hallucinations, delusions or agitation this morning or yesterday afternoon","theme":"Comfort through Preserved Awareness","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family present"},{"id":161,"source_file":"MDZ15-Medical-004-2022-07-22-0944.txt","patient":"MDZ15","arm":"MDZ","day":"Day0","discipline":"Medical","quote":"Terminal agitation and delirium","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":162,"source_file":"MDZ4-Nursing-008-2021-06-25-1516.txt","patient":"MDZ4","arm":"MDZ","day":"Day2","discipline":"Nursing","quote":"Patient is drowsy, confused and disorientated at times during the shift but was easily redirected. Conversation at times showed that [patient]'s thoughts were confused, although he was easily redirected to the present","theme":"Comfort through Preserved Awareness","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":163,"source_file":"MDZ4-Nursing-008-2021-06-25-1516.txt","patient":"MDZ4","arm":"MDZ","day":"Day2","discipline":"Nursing","quote":"drowsy but waking to voice","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Responsive to voice"},{"id":164,"source_file":"MDZ4-Nursing-008-2021-06-25-1516.txt","patient":"MDZ4","arm":"MDZ","day":"Day2","discipline":"Nursing","quote":"settled and rested this shift","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Comfort achieved"},{"id":166,"source_file":"DXM15-Nursing-009-2022-07-12-2109.txt","patient":"DXM15","arm":"DXM","day":"Day2","discipline":"Nursing","quote":"settled in this evening no indication of distress or agitation since last breakthrough","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Comfort achieved"},{"id":168,"source_file":"DXM15-Nursing-009-2022-07-12-2109.txt","patient":"DXM15","arm":"DXM","day":"Day2","discipline":"Nursing","quote":"Patient continue to be unresponsive","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-responsive"},{"id":169,"source_file":"DXM6-Medical-011-2021-08-31-1955.txt","patient":"DXM6","arm":"DXM","day":"Day2","discipline":"Medical","quote":"patient agitated, request for clonazepam on prn in order to give sooner than 8pm","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Agitation"},{"id":171,"source_file":"MDZ2-Nursing-013-2021-05-27-1818.txt","patient":"MDZ2","arm":"MDZ","day":"Day2","discipline":"Nursing","quote":"Pt unresponsive not orientated to time place and person","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-responsive"},{"id":174,"source_file":"MDZ20-Nursing-010-2023-02-27-0321.txt","patient":"MDZ20","arm":"MDZ","day":"Day1","discipline":"Nursing","quote":"Nil verbal interaction. Assumed pt is not orientated","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-responsive"},{"id":176,"source_file":"MDZ20-Nursing-010-2023-02-27-0321.txt","patient":"MDZ20","arm":"MDZ","day":"Day1","discipline":"Nursing","quote":"Pt not in distress. Appears settled and comfortable at time of report","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Comfort achieved"},{"id":181,"source_file":"DXM8-Nursing-006-2021-12-29-1750.txt","patient":"DXM8","arm":"DXM","day":"DayMinus1","discipline":"Nursing","quote":"Pt alert and cooperative with care, when spoken too","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Responsive to voice"},{"id":183,"source_file":"MDZ14-Nursing-011-2022-07-19-1828.txt","patient":"MDZ14","arm":"MDZ","day":"Day1","discipline":"Nursing","quote":"non-responsive","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-responsive"},{"id":186,"source_file":"DXM3_PCA_Day_-1_Form_1.txt","patient":"DXM3","arm":"DXM","day":"DayMinus1","discipline":"PCA","quote":"not being able to communicate well","theme":"Rousable or Responsive Communication","stream":"family (PCA)","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Difficulty communicating"},{"id":187,"source_file":"DXM3_PCA_Day_-1_Form_1.txt","patient":"DXM3","arm":"DXM","day":"DayMinus1","discipline":"PCA","quote":"confusion/hallucinating","theme":"Nature of Distress Observed","stream":"family (PCA)","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":188,"source_file":"DXM3_PCA_Day_-1_Form_1.txt","patient":"DXM3","arm":"DXM","day":"DayMinus1","discipline":"PCA","quote":"Frustration at being so tired","theme":"Rousable or Responsive Communication","stream":"family (PCA)","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Fatigue"},{"id":189,"source_file":"DXM5-Nursing-012-2021-08-23-1832.txt","patient":"DXM5","arm":"DXM","day":"Day1","discipline":"Nursing","quote":"unresponsive, eyes open at times","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-responsive"},{"id":192,"source_file":"DXM8-Nursing-010-2021-12-30-1410.txt","patient":"DXM8","arm":"DXM","day":"Day0","discipline":"Nursing","quote":"Non rousable, sleeping with eyes open","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-responsive"},{"id":195,"source_file":"DXM10-Nursing-009-2022-04-19-1326.txt","patient":"DXM10","arm":"DXM","day":"DayMinus1","discipline":"Nursing","quote":"pt alert and confused","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":199,"source_file":"DXM10-Nursing-009-2022-04-19-1326.txt","patient":"DXM10","arm":"DXM","day":"DayMinus1","discipline":"Nursing","quote":"pt not distressed; reassurance provided","theme":"Comfort through Preserved Awareness","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":202,"source_file":"DXM12-Medical-013-2022-06-17-1611.txt","patient":"DXM12","arm":"DXM","day":"Day0","discipline":"Medical","quote":"able to respond briefly to questions","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Responsive to voice"},{"id":203,"source_file":"DXM3-Nursing-016-2021-06-06-2020.txt","patient":"DXM3","arm":"DXM","day":"Day2","discipline":"Nursing","quote":"Wife in attendance until after lunch, happy IDC is back in","theme":"Comfort through Deep Settling","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family present"},{"id":204,"source_file":"DXM3-Nursing-016-2021-06-06-2020.txt","patient":"DXM3","arm":"DXM","day":"Day2","discipline":"Nursing","quote":"Non responsive this afternoon, non purposeful movements when repositioned","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-responsive"},{"id":207,"source_file":"DXM16-Nursing-007-2022-11-04-1335.txt","patient":"DXM16","arm":"DXM","day":"DayMinus1","discipline":"Nursing","quote":"patient awake when staff were with the patient","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Responsive to voice"},{"id":208,"source_file":"DXM16-Nursing-007-2022-11-04-1335.txt","patient":"DXM16","arm":"DXM","day":"DayMinus1","discipline":"Nursing","quote":"patient confused in conversation and drifted back off to sleep within the conversation","theme":"Comfort through Preserved Awareness","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":209,"source_file":"MDZ20-Nursing-012-2023-02-27-1341.txt","patient":"MDZ20","arm":"MDZ","day":"Day2","discipline":"Nursing","quote":"Patient was reaching his hands in the air and grimacing on his face","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Agitation"},{"id":211,"source_file":"MDZ13-Nursing-005-2022-07-01-1232.txt","patient":"MDZ13","arm":"MDZ","day":"Day0","discipline":"Nursing","quote":"Pt becoming more unresponsive and talking much less","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Change in responsiveness"},{"id":215,"source_file":"MDZ16-Medical-002-2022-08-05-1709.txt","patient":"MDZ16","arm":"MDZ","day":"DayMinus1","discipline":"Medical","quote":"Daughter reports that secretions/moist breathing improved from yesterday","theme":"Comfort through Deep Settling","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family discussion"},{"id":216,"source_file":"MDZ16-Medical-002-2022-08-05-1709.txt","patient":"MDZ16","arm":"MDZ","day":"DayMinus1","discipline":"Medical","quote":"Feeling well. Denies pain. Denies SOB. Denies nausea","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Self Report"},{"id":217,"source_file":"DXM11-Medical-005-2022-05-09-1632.txt","patient":"DXM11","arm":"DXM","day":"Day1","discipline":"Medical","quote":"Unresponsive. Currently appears comfortable","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-responsive"},{"id":222,"source_file":"MDZ13_PCA_Day_0_Form_1.txt","patient":"MDZ13","arm":"MDZ","day":"Day0","discipline":"PCA","quote":"did indicate slight back pain this morning","theme":"Rousable or Responsive Communication","stream":"family (PCA)","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Communicating needs"},{"id":226,"source_file":"MDZ11-Nursing-003-2022-05-02-1933.txt","patient":"MDZ11","arm":"MDZ","day":"DayMinus1","discipline":"Nursing","quote":"pt remains alert and orientated","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Verbal"},{"id":228,"source_file":"MDZ11-Nursing-003-2022-05-02-1933.txt","patient":"MDZ11","arm":"MDZ","day":"DayMinus1","discipline":"Nursing","quote":"settled in good spirits","theme":"Comfort through Preserved Awareness","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":230,"source_file":"MDZ26-Medical-006-2023-08-19-1007.txt","patient":"MDZ26","arm":"MDZ","day":"Day0","discipline":"Medical","quote":"reports [patient] seems very comfortable this am","theme":"Comfort through Deep Settling","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family satisfaction with care"},{"id":231,"source_file":"MDZ26-Medical-006-2023-08-19-1007.txt","patient":"MDZ26","arm":"MDZ","day":"Day0","discipline":"Medical","quote":"Breathing calm and well regulated. Face unlined. Does seem comfortable to external","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":232,"source_file":"MDZ26-Medical-006-2023-08-19-1007.txt","patient":"MDZ26","arm":"MDZ","day":"Day0","discipline":"Medical","quote":"No rousability to voice or light touch noted","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-responsive"},{"id":233,"source_file":"MDZ26-Medical-006-2023-08-19-1007.txt","patient":"MDZ26","arm":"MDZ","day":"Day0","discipline":"Medical","quote":"Saw priest prior to deterioration and rapid decompensation post - potential psychological relax per son","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Emotional wellbeing"},{"id":234,"source_file":"MDZ10-Nursing-008-2022-04-19-0325.txt","patient":"MDZ10","arm":"MDZ","day":"Day1","discipline":"Nursing","quote":"Resting with eyes closed for long periods. Rouses to voice","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Responsive to voice"},{"id":236,"source_file":"DXM16-Nursing-006-2022-11-04-1241.txt","patient":"DXM16","arm":"DXM","day":"DayMinus1","discipline":"Nursing","quote":"patient attempting to climb out of bed, very agitated and distressed and confused in conversation","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":237,"source_file":"DXM16-Nursing-006-2022-11-04-1241.txt","patient":"DXM16","arm":"DXM","day":"DayMinus1","discipline":"Nursing","quote":"wife present and concerned about the patient","theme":"Nature of Distress Observed","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family concern"},{"id":241,"source_file":"MDZ18-Nursing-011-2022-10-15-0328.txt","patient":"MDZ18","arm":"MDZ","day":"Day0","discipline":"Nursing","quote":"RASS -3 Moderate sedation","theme":"Comfort through Preserved Awareness","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Minimally responsive"},{"id":245,"source_file":"DXM17-Medical-001-2022-11-29-1202.txt","patient":"DXM17","arm":"DXM","day":"DayMinus1","discipline":"Medical","quote":"Unsettled overnight with confusion, poor sleep","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":246,"source_file":"DXM17-Medical-001-2022-11-29-1202.txt","patient":"DXM17","arm":"DXM","day":"DayMinus1","discipline":"Medical","quote":"Alert but drowsy, falling to sleep during review","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Change in responsiveness"},{"id":249,"source_file":"MDZ16-Nursing-015-2022-08-07-0458.txt","patient":"MDZ16","arm":"MDZ","day":"Day0","discipline":"Nursing","quote":"agitated and distressed post personal care","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Agitation"},{"id":253,"source_file":"MDZ7-Medical-007-2021-09-16-1000.txt","patient":"MDZ7","arm":"MDZ","day":"Day1","discipline":"Medical","quote":"Comfortable","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":254,"source_file":"MDZ7-Medical-007-2021-09-16-1000.txt","patient":"MDZ7","arm":"MDZ","day":"Day1","discipline":"Medical","quote":"Non responsive","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-responsive"},{"id":256,"source_file":"DXM4-Medical-005-2021-07-08-1115.txt","patient":"DXM4","arm":"DXM","day":"Day1","discipline":"Medical","quote":"Explained to M that as [patient] is at the end of life, [patient] seems very relaxed and comfortable, good that he is not agitated and there's no laboured breathing. M asking about mouth being open - Dr L explained that it's the natural position of the mouth. Explained that the body and brain are shutting down. Explained that we will continue the syringe driver as is to keep [patient] comfortable","theme":"Comfort through Deep Settling","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family discussion"},{"id":257,"source_file":"DXM4-Medical-005-2021-07-08-1115.txt","patient":"DXM4","arm":"DXM","day":"Day1","discipline":"Medical","quote":"Resting comfortably","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":258,"source_file":"DXM4-Medical-005-2021-07-08-1115.txt","patient":"DXM4","arm":"DXM","day":"Day1","discipline":"Medical","quote":"became really tense, seemed to be in pain","theme":"Nature of Distress Observed","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family concern"},{"id":260,"source_file":"DXM4-Medical-005-2021-07-08-1115.txt","patient":"DXM4","arm":"DXM","day":"Day1","discipline":"Medical","quote":"between 4:30PM and 7:30PM last night, [patient] opened his eyes for a brief moment about 4 times","theme":"Comfort through Preserved Awareness","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Minimally responsive"},{"id":261,"source_file":"DXM7-Nursing-005-2021-11-24-2107.txt","patient":"DXM7","arm":"DXM","day":"Day0","discipline":"Nursing","quote":"became increasingly agitated and distressed at 2010hrs this evening. distressed and agitated pulling at syringe driver liners/bed rails","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Agitation"},{"id":264,"source_file":"DXM7-Nursing-005-2021-11-24-2107.txt","patient":"DXM7","arm":"DXM","day":"Day0","discipline":"Nursing","quote":"Waited 15 minutes, [patient] still significantly distressed trying to pull himself up in bed. Very fearful, continuously saying help me, help me. reassurance given to both [patient] and daughter K","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Agitation"},{"id":268,"source_file":"DXM7-Nursing-005-2021-11-24-2107.txt","patient":"DXM7","arm":"DXM","day":"Day0","discipline":"Nursing","quote":"continuously saying help me, help me","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Communicating needs"},{"id":273,"source_file":"DXM15-Nursing-012-2022-07-13-0613.txt","patient":"DXM15","arm":"DXM","day":"Day2","discipline":"Nursing","quote":"Many questions asked and nursing staff answered their questions as well as possible. Family concerned that the Dexmeditomidine in not the best fit for [patient] and would like to speak to the medical team as soon as possible this morning","theme":"Nature of Distress Observed","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family discussion"},{"id":275,"source_file":"DXM15-Nursing-012-2022-07-13-0613.txt","patient":"DXM15","arm":"DXM","day":"Day2","discipline":"Nursing","quote":"relaxing and looks as though he is drifting off to sleep then awakes, startled","theme":"Comfort through Preserved Awareness","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Myoclonus"},{"id":277,"source_file":"MDZ25-Nursing-011-2023-07-15-1312.txt","patient":"MDZ25","arm":"MDZ","day":"Day1","discipline":"Nursing","quote":"pt comfortable in a regency chair. pt's mood has been pleasant and talkative.","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":278,"source_file":"MDZ25-Nursing-011-2023-07-15-1312.txt","patient":"MDZ25","arm":"MDZ","day":"Day1","discipline":"Nursing","quote":"some confusion following directions when transferring or when staff needing pt to move. at times pt asking where she is and when she going home.","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":279,"source_file":"MDZ25-Nursing-011-2023-07-15-1312.txt","patient":"MDZ25","arm":"MDZ","day":"Day1","discipline":"Nursing","quote":"pt has been calm and co-operartive this shift.","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Verbal"},{"id":280,"source_file":"DXM25-Medical-004-2023-06-25-1050.txt","patient":"DXM25","arm":"DXM","day":"Day2","discipline":"Medical","quote":"Staff reporting good level of comfort and RASS.","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":281,"source_file":"DXM25-Medical-004-2023-06-25-1050.txt","patient":"DXM25","arm":"DXM","day":"Day2","discipline":"Medical","quote":"On review [patient] was a little distressed but rapidly settling with reassurance.","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Psychological distress"},{"id":282,"source_file":"DXM25-Medical-004-2023-06-25-1050.txt","patient":"DXM25","arm":"DXM","day":"Day2","discipline":"Medical","quote":"rapidly settling with reassurance from her daughters","theme":"Comfort through Deep Settling","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family providing care"},{"id":283,"source_file":"DXM25-Medical-004-2023-06-25-1050.txt","patient":"DXM25","arm":"DXM","day":"Day2","discipline":"Medical","quote":"they report first episode of panic and reassurance settling without pharmacology - like waking up with a bad dream?","theme":"Nature of Distress Observed","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family discussion"},{"id":284,"source_file":"DXM25-Medical-004-2023-06-25-1050.txt","patient":"DXM25","arm":"DXM","day":"Day2","discipline":"Medical","quote":"Settled within 2-3 minutes during observation.","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","note":"RASS DR -2; interaction documented","code":"Communication","subcode":"Responsive to voice"},{"id":286,"source_file":"DXM25-Medical-004-2023-06-25-1050.txt","patient":"DXM25","arm":"DXM","day":"Day2","discipline":"Medical","quote":"Family happy with comfort at this stage.","theme":"Comfort through Deep Settling","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family satisfaction with care"},{"id":288,"source_file":"DXM14-Medical-002-2022-07-05-1129.txt","patient":"DXM14","arm":"DXM","day":"DayMinus1","discipline":"Medical","quote":"disturbed sleep and visual hallucinations","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":291,"source_file":"DXM6-Medical-002-2021-08-29-1414.txt","patient":"DXM6","arm":"DXM","day":"Day0","discipline":"Medical","quote":"Opening eyes and answering, but confused.","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":292,"source_file":"DXM6-Medical-002-2021-08-29-1414.txt","patient":"DXM6","arm":"DXM","day":"Day0","discipline":"Medical","quote":"Opening eyes and answering.","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Responsive to voice"},{"id":297,"source_file":"DXM26-Nursing-004-2023-10-22-1447.txt","patient":"DXM26","arm":"DXM","day":"DayMinus1","discipline":"Nursing","quote":"Patient pleasant and co operative with all nursing cares.","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":299,"source_file":"DXM20-Nursing-010-2023-01-22-0910.txt","patient":"DXM20","arm":"DXM","day":"Day0","discipline":"Nursing","quote":"currently still responding to voice and speaking occasional words in Croatian native language. not fully awake but has sustained awakening and is stimulated by voice","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Responsive to voice"},{"id":300,"source_file":"DXM20-Nursing-010-2023-01-22-0910.txt","patient":"DXM20","arm":"DXM","day":"Day0","discipline":"Nursing","quote":"she is not agitated or distress","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":311,"source_file":"MDZ19-Nursing-010-2022-12-05-0523.txt","patient":"MDZ19","arm":"MDZ","day":"Day0","discipline":"Nursing","quote":"no visitors overnight - daughter called ward twice and was informed [patient] was very settled","theme":"Comfort through Deep Settling","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"No family present"},{"id":312,"source_file":"MDZ19-Nursing-010-2022-12-05-0523.txt","patient":"MDZ19","arm":"MDZ","day":"Day0","discipline":"Nursing","quote":"[patient] remains settled. [patient] was very settled.","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":313,"source_file":"MDZ19-Nursing-010-2022-12-05-0523.txt","patient":"MDZ19","arm":"MDZ","day":"Day0","discipline":"Nursing","quote":"restless at times, calling out for staff, saying he needs to go home and wanting us to call his daughter to pick him up","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Psychological distress"},{"id":319,"source_file":"MDZ1-Medical-006-2021-05-13-1848.txt","patient":"MDZ1","arm":"MDZ","day":"Day0","discipline":"Medical","quote":"d/w patient's brother. advised we were starting medication to help settle [patient], midazolam, and that she had already had several doses yesterday. advised he was aware she was deteriorating and that all the family are on board with keeping her comfortable.","theme":"Comfort through Deep Settling","stream":"family (reported)","status":"in_scope","theme_date":"2026-07-23","code":"Family","subcode":"Family discussion"},{"id":320,"source_file":"DXM21-Medical-001-2023-05-10-1102.txt","patient":"DXM21","arm":"DXM","day":"DayMinus1","discipline":"Medical","quote":"Appears otherwise comfortable","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Patient-Centred Care","subcode":"Comfort - Apparent"},{"id":321,"source_file":"DXM21-Medical-001-2023-05-10-1102.txt","patient":"DXM21","arm":"DXM","day":"DayMinus1","discipline":"Medical","quote":"Pain generalised - [patient] says she doens't want to \"be a sook\" re pain","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Pain"},{"id":323,"source_file":"MDZ8-Medical-006-2022-03-16-0953.txt","patient":"MDZ8","arm":"MDZ","day":"Day0","discipline":"Medical","quote":"Interactive with MO","theme":"Rousable or Responsive Communication","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Verbal"},{"id":324,"source_file":"MDZ8-Medical-006-2022-03-16-0953.txt","patient":"MDZ8","arm":"MDZ","day":"Day0","discipline":"Medical","quote":"?Terminal agitation","theme":"Nature of Distress Observed","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Symptom Control","subcode":"Delirium"},{"id":327,"source_file":"DXM2-Nursing-007-2021-06-02-0422.txt","patient":"DXM2","arm":"DXM","day":"Day1","discipline":"Nursing","quote":"[patient] has been sleeping all shift, I have not seen him awake.","theme":"Comfort through Deep Settling","stream":"staff","status":"in_scope","theme_date":"2026-07-23","code":"Communication","subcode":"Non-responsive"}]</script>
 
 <script>
 (() => {
   "use strict";
 
+  // ================= THEME FRAMEWORK CONFIG =================
+  // Codebook v2 · DECISIONS D14 (23-Jul-2026). These are WORKING labels —
+  // supervisor lock pending at the 26-Aug-2026 meeting.
+  //
+  // `key`   must equal the `theme` value stored in coded_quotes.json
+  // `label` is what this viewer displays (matrix rows/cols, drawer, exports)
+  // `short` is used where horizontal space is tight (trajectory chips)
+  // `slug`  keys the CSS colour (t1..t4, t0 = no theme) — never a label, so a
+  //         rename is a one-line edit here and nothing else in this file.
+  const THEMES = [
+    { key: "Comfort through Preserved Awareness",  label: "Comfort through Preserved Awareness",  short: "Awareness",      slug: "t1" },
+    { key: "Comfort through Deep Settling",        label: "Comfort through Deep Settling",        short: "Deep Settling",  slug: "t2" },
+    { key: "Nature of Distress Observed",          label: "Nature of Distress Observed",          short: "Distress",       slug: "t3" },
+    { key: "Rousable or Responsive Communication", label: "Rousable or Responsive Communication", short: "Rousable comms", slug: "t4" },
+  ];
+  // Every deprecated row lands here: themes were only assigned to the in-scope
+  // corpus at the D14 sort.
+  const NO_THEME = { key: "— no theme", label: "— no theme (deprecated)", short: "no theme", slug: "t0" };
+  // Stream = cross-cutting voice, derived not coded (codebook v2)
+  const STREAMS = [
+    { key: "staff",             label: "Staff (clinical documentation)" },
+    { key: "family (reported)", label: "Family (reported in notes)" },
+    { key: "family (PCA)",      label: "Family (PCA form)" },
+  ];
+  const NO_STREAM = { key: "— no stream", label: "— no stream" };
+  // ==========================================================
+
+  const THEME_BY_KEY = new Map(THEMES.map(t => [t.key, t]));
+  const themeMeta    = (v) => THEME_BY_KEY.get(v) || NO_THEME;
+  const THEME_ORDER  = [...THEMES.map(t => t.key), NO_THEME.key];
+  const STREAM_ORDER = [...STREAMS.map(s => s.key), NO_STREAM.key];
+  const STREAM_LABEL = new Map(STREAMS.map(s => [s.key, s.label]));
+
   // ---------- Config ----------
   const FACETS = [
-    { key: "code",       label: "Domain",   coloured: true },
-    { key: "subcode",    label: "Sub-code"  },
-    { key: "arm",        label: "Arm"       },
-    { key: "day",        label: "Day"       },
-    { key: "discipline", label: "Source"    },
-    { key: "patient",    label: "Patient"   },
+    { key: "theme",      label: "Theme",  coloured: true },
+    { key: "arm",        label: "Arm"     },
+    { key: "stream",     label: "Stream"  },
+    { key: "day",        label: "Day"     },
+    { key: "discipline", label: "Source"  },
+    { key: "patient",    label: "Patient" },
   ];
   const FACET_LABEL = Object.fromEntries(FACETS.map(f => [f.key, f.label]));
 
-  const DOMAIN_VAR = {
-    "Communication":          "--d-comm",
-    "Symptom Control":        "--d-symp",
-    "Family":                 "--d-fam",
-    "Patient-Centred Care":   "--d-pcc",
-    "Outside Framework":      "--d-out",
-  };
-
   const DAY_ORDER = ["DayMinus1", "Day0", "Day1", "Day2", "Day3", "Day4", "Day5"];
-  const DOMAIN_ORDER = ["Communication", "Symptom Control", "Family", "Patient-Centred Care", "Outside Framework"];
   const ARM_ORDER = ["DXM", "MDZ"];
   const DISCIPLINE_ORDER = ["Medical", "Nursing", "PCA"];
+
+  // Dimension value for an item — theme and stream are normalised so rows that
+  // carry neither (deprecated ones) still pivot somewhere honest.
+  function facetValue(it, key) {
+    if (key === "theme")  return it.theme  || NO_THEME.key;
+    if (key === "stream") return it.stream || NO_STREAM.key;
+    return it[key];
+  }
+  const isDeprecated = (it) => it.status === "deprecated";
 
   // ---------- State ----------
   const LS_TRAJMODE = "dreams.trajMode";
@@ -1469,13 +1526,11 @@
     pcaByFile: new Map(),        // source_file -> pca entry
     pcaByPatientDay: new Map(),  // patient -> day -> [pca entries]
     scope: {},                   // { facet: Set<value> }
-    rowDim: "subcode",
-    colDim: "discipline",
+    rowDim: "theme",             // framework default: theme × arm
+    colDim: "arm",
     norm: "count",               // count | pctcol | pctrow | presence
     sort: "natural",             // natural | prevalence
-    groupByDomain: true,
-    collapsed: new Set(),        // collapsed domain group keys
-    subcodeDomain: {},           // subcode → modal domain
+    showDeprecated: false,       // default view = in_scope only
     patientArm: {},              // patient → "DXM" | "MDZ"
     view: "matrix",              // matrix | trajectory
     splitByArm: false,
@@ -1506,7 +1561,10 @@
 
   function naturalOrder(key, values) {
     const arr = Array.from(values);
-    const map = { day: DAY_ORDER, code: DOMAIN_ORDER, arm: ARM_ORDER, discipline: DISCIPLINE_ORDER };
+    const map = {
+      day: DAY_ORDER, theme: THEME_ORDER, stream: STREAM_ORDER,
+      arm: ARM_ORDER, discipline: DISCIPLINE_ORDER,
+    };
     if (map[key]) {
       const idx = (v) => { const i = map[key].indexOf(v); return i === -1 ? 999 : i; };
       arr.sort((a, b) => idx(a) - idx(b) || a.localeCompare(b));
@@ -1515,15 +1573,6 @@
         const aArm = a.startsWith("DXM") ? 0 : 1;
         const bArm = b.startsWith("DXM") ? 0 : 1;
         return aArm - bArm || patientNum(a) - patientNum(b);
-      });
-    } else if (key === "subcode") {
-      // Group by domain order, then alphabetical within domain
-      arr.sort((a, b) => {
-        const da = state.subcodeDomain[a] || "";
-        const db = state.subcodeDomain[b] || "";
-        const di = DOMAIN_ORDER.indexOf(da);
-        const dj = DOMAIN_ORDER.indexOf(db);
-        return (di === -1 ? 999 : di) - (dj === -1 ? 999 : dj) || a.localeCompare(b);
       });
     } else {
       arr.sort((a, b) => a.localeCompare(b));
@@ -1534,14 +1583,21 @@
   function valueLabel(key, v) {
     if (v == null || v === "") return "—";
     if (key === "day") return labelDay(v);
+    if (key === "theme") return themeMeta(v).label;
+    if (key === "stream") return STREAM_LABEL.get(v) || (v === NO_STREAM.key ? NO_STREAM.label : v);
     return v;
   }
 
   // ---------- Filtering (scope) ----------
-  function inScope(item) {
+  // Status gate: in-scope only unless the audit toggle is on. Deprecated rows
+  // are never removed from the database — this only hides them (D12/D13).
+  const passesStatus = (item) => state.showDeprecated || !isDeprecated(item);
+
+  function passesScope(item) {
+    if (!passesStatus(item)) return false;
     for (const f of FACETS) {
       const sel = state.scope[f.key];
-      if (sel.size && !sel.has(item[f.key])) return false;
+      if (sel.size && !sel.has(facetValue(item, f.key))) return false;
     }
     return true;
   }
@@ -1550,24 +1606,6 @@
     let n = 0;
     for (const f of FACETS) n += state.scope[f.key].size;
     return n;
-  }
-
-  // ---------- Subcode → Domain map ----------
-  function buildSubcodeDomainMap() {
-    const counts = new Map();
-    for (const it of state.data) {
-      if (!it.subcode || !it.code) continue;
-      let m = counts.get(it.subcode);
-      if (!m) { m = new Map(); counts.set(it.subcode, m); }
-      m.set(it.code, (m.get(it.code) || 0) + 1);
-    }
-    const out = {};
-    for (const [sc, m] of counts) {
-      let best = null, bestN = -1;
-      for (const [code, n] of m) if (n > bestN) { best = code; bestN = n; }
-      out[sc] = best;
-    }
-    state.subcodeDomain = out;
   }
 
   // ---------- Patient → Arm map (used for E1 row tinting) ----------
@@ -1591,14 +1629,10 @@
     return arm ? ` arm-${arm}` : "";
   }
 
-  // Domain colour CSS var for a cell, used by presence dots
-  function cellDomainVar(rk, ck) {
-    if (state.rowDim === "code" && DOMAIN_VAR[rk]) return DOMAIN_VAR[rk];
-    if (state.rowDim === "subcode" && state.subcodeDomain[rk] && DOMAIN_VAR[state.subcodeDomain[rk]])
-      return DOMAIN_VAR[state.subcodeDomain[rk]];
-    if (state.colDim === "code" && DOMAIN_VAR[ck]) return DOMAIN_VAR[ck];
-    if (state.colDim === "subcode" && state.subcodeDomain[ck] && DOMAIN_VAR[state.subcodeDomain[ck]])
-      return DOMAIN_VAR[state.subcodeDomain[ck]];
+  // Theme colour CSS var for a cell, used by presence dots
+  function cellThemeVar(rk, ck) {
+    if (state.rowDim === "theme") return `--${themeMeta(rk).slug}`;
+    if (state.colDim === "theme") return `--${themeMeta(ck).slug}`;
     return null;
   }
 
@@ -1612,11 +1646,11 @@
 
     const items = [];
     for (const it of state.data) {
-      if (!inScope(it)) continue;
+      if (!passesScope(it)) continue;
       if (armFilter && it.arm !== armFilter) continue;
       items.push(it);
-      const rk = it[state.rowDim];
-      const ck = it[state.colDim];
+      const rk = facetValue(it, state.rowDim);
+      const ck = facetValue(it, state.colDim);
       if (rk == null || ck == null) continue;
       let r = rows.get(rk);
       if (!r) { r = new Map(); rows.set(rk, r); }
@@ -1630,21 +1664,9 @@
     const colKeys = naturalOrder(state.colDim, colTotals.keys());
 
     if (state.sort === "prevalence") {
-      // Sort rows by total desc; preserve domain grouping if applicable
-      if (state.rowDim === "subcode" && state.groupByDomain) {
-        rowKeys.sort((a, b) => {
-          const da = state.subcodeDomain[a] || "";
-          const db = state.subcodeDomain[b] || "";
-          const di = DOMAIN_ORDER.indexOf(da);
-          const dj = DOMAIN_ORDER.indexOf(db);
-          if (di !== dj) return (di === -1 ? 999 : di) - (dj === -1 ? 999 : dj);
-          return (rowTotals.get(b) || 0) - (rowTotals.get(a) || 0);
-        });
-      } else {
-        rowKeys.sort((a, b) => (rowTotals.get(b) || 0) - (rowTotals.get(a) || 0));
-      }
-      // Cols by total desc, but keep code/day/arm/discipline natural
-      if (!["code","day","arm","discipline"].includes(state.colDim)) {
+      rowKeys.sort((a, b) => (rowTotals.get(b) || 0) - (rowTotals.get(a) || 0));
+      // Cols by total desc, but keep the fixed-order dimensions natural
+      if (!["theme","stream","day","arm","discipline"].includes(state.colDim)) {
         colKeys.sort((a, b) => (colTotals.get(b) || 0) - (colTotals.get(a) || 0));
       }
     }
@@ -1654,9 +1676,14 @@
 
   // ---------- Render: counts strip ----------
   function renderCount(items) {
-    const all = state.data.length;
-    const inScopeN = items.length;
-    $("#count").innerHTML = `<strong>${inScopeN}</strong> of ${all} quotes`;
+    // Denominator = current status universe, so the count never implies the
+    // scope filters are hiding deprecated rows (the status toggle does that).
+    const universe = state.data.filter(passesStatus).length;
+    const depN = state.data.filter(isDeprecated).length;
+    const suffix = state.showDeprecated
+      ? ` <span style="color:var(--ink-3)">· incl. ${depN} deprecated</span>`
+      : "";
+    $("#count").innerHTML = `<strong>${items.length}</strong> of ${universe} quotes${suffix}`;
   }
 
   function renderMeta(p) {
@@ -1715,7 +1742,7 @@
   function fmt(value, rowTotal, colTotal, rk, ck) {
     if (state.norm === "presence") {
       if (!value) return "";
-      const v = cellDomainVar(rk, ck);
+      const v = cellThemeVar(rk, ck);
       const colour = v ? `var(${v})` : "var(--heat)";
       return `<span class="pdot" style="background:${colour}" title="${value} coded"></span>`;
     }
@@ -1731,9 +1758,8 @@
   }
 
   function colHeaderClass(colKey) {
-    if (state.colDim !== "code") return "";
-    const slug = colKey.replace(/[^A-Za-z]/g, "");
-    return ` col-d-${slug}`;
+    if (state.colDim !== "theme") return "";
+    return ` col-${themeMeta(colKey).slug}`;
   }
 
   function renderMatrix(p, tbl) {
@@ -1781,105 +1807,32 @@
       </thead>
     `;
 
-    // Build body
-    const useGrouping = state.groupByDomain && state.rowDim === "subcode";
+    // Build body — one row per row-dimension value (the retired domain/sub-code
+    // grouping went with codebook v1; themes are a flat four-value dimension).
     const bodyRows = [];
-
-    if (useGrouping) {
-      // Group subcodes by their domain
-      const groups = new Map();   // domain → [subcodeKeys]
-      for (const rk of p.rowKeys) {
-        const dom = state.subcodeDomain[rk] || "Outside Framework";
-        if (!groups.has(dom)) groups.set(dom, []);
-        groups.get(dom).push(rk);
-      }
-      // Iterate in DOMAIN_ORDER, plus any leftover at end
-      const domains = [...groups.keys()].sort((a, b) => {
-        const ai = DOMAIN_ORDER.indexOf(a); const bi = DOMAIN_ORDER.indexOf(b);
-        return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
-      });
-
-      for (const dom of domains) {
-        const subs = groups.get(dom);
-        // Domain row totals (sum of its subcode rows for each col)
-        const domColTotals = new Map();
-        let domRowTotal = 0;
-        for (const sc of subs) {
-          const r = p.rows.get(sc);
-          if (!r) continue;
-          for (const [ck, v] of r) {
-            domColTotals.set(ck, (domColTotals.get(ck) || 0) + v);
-            domRowTotal += v;
-          }
-        }
-
-        const collapsed = state.collapsed.has(dom);
-        const cssVar = DOMAIN_VAR[dom];
-
-        bodyRows.push(`
-          <tr class="row-domain" data-domain="${escapeHTML(dom)}" data-collapsed="${collapsed}">
-            <td>
-              <span class="caret" style="${cssVar?`color: var(${cssVar})`:""}"></span>
-              <span class="domain-label" style="${cssVar?`color: var(${cssVar})`:""}">${escapeHTML(dom)}</span>
-              <span style="color:var(--ink-3); font-weight:500; margin-left:8px; font-size:11px;">(${subs.length})</span>
-            </td>
-            ${p.colKeys.map(ck => {
-              const v = domColTotals.get(ck) || 0;
-              const ct = p.colTotals.get(ck) || 0;
-              return `<td class="cell ${v?"":"empty"}" data-row="${escapeHTML(dom)}" data-col="${escapeHTML(ck)}" data-domain-row="1" style="${heatStyle(v, max * (state.norm==="count" ? 1.5 : 1.5))}">${fmt(v, domRowTotal, ct, dom, ck)}</td>`;
-            }).join("")}
-            <td class="cell col-total" style="${heatStyle(domRowTotal, max * 1.5)}">${state.norm==="count" ? domRowTotal : ""}</td>
-          </tr>
-        `);
-
-        if (!collapsed) {
-          for (const sc of subs) {
-            const r = p.rows.get(sc) || new Map();
-            const rt = p.rowTotals.get(sc) || 0;
-            const cssV = DOMAIN_VAR[state.subcodeDomain[sc]] || "--ink-3";
-            bodyRows.push(`
-              <tr class="row-subcode" data-row="${escapeHTML(sc)}">
-                <td>
-                  <span class="label-row">
-                    <span class="swatch" style="background: var(${cssV})"></span>
-                    <span>${escapeHTML(sc)}</span>
-                  </span>
-                </td>
-                ${p.colKeys.map(ck => {
-                  const v = r.get(ck) || 0;
-                  const ct = p.colTotals.get(ck) || 0;
-                  return `<td class="cell ${v?"":"empty"}" data-row="${escapeHTML(sc)}" data-col="${escapeHTML(ck)}" style="${heatStyle(state.norm==="pctcol" ? (ct?v/ct*100:0) : state.norm==="pctrow" ? (rt?v/rt*100:0) : v, max)}">${fmt(v, rt, ct, sc, ck)}</td>`;
-                }).join("")}
-                <td class="cell col-total">${state.norm==="count" ? rt : ""}</td>
-              </tr>
-            `);
-          }
-        }
-      }
-    } else {
-      for (const rk of p.rowKeys) {
-        const r = p.rows.get(rk) || new Map();
-        const rt = p.rowTotals.get(rk) || 0;
-        const isDomainRow = state.rowDim === "code";
-        const cssV = isDomainRow ? DOMAIN_VAR[rk] : null;
-        const armCls = armClassForRow(state.rowDim, rk);
-        bodyRows.push(`
-          <tr class="row-subcode${armCls}" data-row="${escapeHTML(rk)}">
-            <td>
-              <span class="label-row">
-                ${cssV ? `<span class="swatch" style="background: var(${cssV})"></span>` : ""}
-                <span>${escapeHTML(valueLabel(state.rowDim, rk))}</span>
-              </span>
-            </td>
-            ${p.colKeys.map(ck => {
-              const v = r.get(ck) || 0;
-              const ct = p.colTotals.get(ck) || 0;
-              return `<td class="cell ${v?"":"empty"}" data-row="${escapeHTML(rk)}" data-col="${escapeHTML(ck)}" style="${heatStyle(state.norm==="pctcol" ? (ct?v/ct*100:0) : state.norm==="pctrow" ? (rt?v/rt*100:0) : v, max)}">${fmt(v, rt, ct, rk, ck)}</td>`;
-            }).join("")}
-            <td class="cell col-total">${state.norm==="count" ? rt : ""}</td>
-          </tr>
-        `);
-      }
+    for (const rk of p.rowKeys) {
+      const r = p.rows.get(rk) || new Map();
+      const rt = p.rowTotals.get(rk) || 0;
+      const isThemeRow = state.rowDim === "theme";
+      const cssV = isThemeRow ? `--${themeMeta(rk).slug}` : null;
+      const armCls = armClassForRow(state.rowDim, rk);
+      const depCls = (isThemeRow && rk === NO_THEME.key) ? " row-deprecated" : "";
+      bodyRows.push(`
+        <tr class="row-label${armCls}${depCls}" data-row="${escapeHTML(rk)}">
+          <td>
+            <span class="label-row">
+              ${cssV ? `<span class="swatch" style="background: var(${cssV})"></span>` : ""}
+              <span>${escapeHTML(valueLabel(state.rowDim, rk))}</span>
+            </span>
+          </td>
+          ${p.colKeys.map(ck => {
+            const v = r.get(ck) || 0;
+            const ct = p.colTotals.get(ck) || 0;
+            return `<td class="cell ${v?"":"empty"}" data-row="${escapeHTML(rk)}" data-col="${escapeHTML(ck)}" style="${heatStyle(state.norm==="pctcol" ? (ct?v/ct*100:0) : state.norm==="pctrow" ? (rt?v/rt*100:0) : v, max)}">${fmt(v, rt, ct, rk, ck)}</td>`;
+          }).join("")}
+          <td class="cell col-total">${state.norm==="count" ? rt : ""}</td>
+        </tr>
+      `);
     }
 
     // Footer: column totals
@@ -1960,21 +1913,24 @@
   // ---------- Drawer body rendering ----------
   function quoteCardHTML(it) {
     return `
-      <article class="drawer-card" data-code="${escapeHTML(it.code || "Outside Framework")}"
+      <article class="drawer-card${isDeprecated(it) ? " deprecated" : ""}" data-theme="${themeMeta(facetValue(it, "theme")).slug}"
                data-quote="${escapeHTML(it.quote || "")}"
                data-note="${escapeHTML(it.note || "")}">
         <div class="head">
-          <div class="domain">${escapeHTML(it.code || "—")}</div>
+          <div class="domain">${escapeHTML(valueLabel("theme", facetValue(it, "theme")))}</div>
           <div class="id">#${it.id}</div>
         </div>
         <p class="quote">${escapeHTML(it.quote || "")}</p>
         ${it.note ? `<div class="note">${escapeHTML(it.note)}</div>` : ""}
         <div class="meta">
-          ${it.subcode ? `<span class="pill subcode">${escapeHTML(it.subcode)}</span>` : ""}
+          ${it.stream ? `<span class="pill stream">${escapeHTML(it.stream)}</span>` : ""}
           <span class="pill arm ${escapeHTML(it.arm || "")}">${escapeHTML(it.arm || "—")}</span>
           <span class="pill">${escapeHTML(it.patient || "—")}</span>
           <span class="pill">${escapeHTML(labelDay(it.day) || "—")}</span>
           <span class="pill">${escapeHTML(it.discipline || "—")}</span>
+          ${it.subtheme ? `<span class="pill">${escapeHTML(it.subtheme)}</span>` : ""}
+          ${it.subcode ? `<span class="pill prov" title="v1 provenance (retired sub-code) — ${escapeHTML(it.code || "")} › ${escapeHTML(it.subcode)}">${escapeHTML(it.subcode)}</span>` : ""}
+          ${isDeprecated(it) ? `<span class="pill dep" title="Out of scope under the v3 question — retained for audit">deprecated</span>` : ""}
         </div>
       </article>
     `;
@@ -2079,21 +2035,15 @@
     btn.setAttribute("aria-pressed", state.pcaContextOn ? "true" : "false");
   }
 
-  function openDrawer(rowKey, colKey, domainRow) {
+  function openDrawer(rowKey, colKey) {
     const drawer = $("#drawer");
     const matched = state.data.filter(it => {
-      if (!inScope(it)) return false;
-      if (it[state.colDim] !== colKey) return false;
-      if (domainRow) {
-        // Domain group row: include all subcodes whose modal domain == rowKey
-        return state.subcodeDomain[it.subcode] === rowKey;
-      }
-      return it[state.rowDim] === rowKey;
+      if (!passesScope(it)) return false;
+      if (facetValue(it, state.colDim) !== colKey) return false;
+      return facetValue(it, state.rowDim) === rowKey;
     });
 
-    const rowLbl = domainRow
-      ? `${escapeHTML(rowKey)} <span style="color:var(--ink-3); font-weight:400; font-size:13px; letter-spacing:.08em;">(domain)</span>`
-      : escapeHTML(valueLabel(state.rowDim, rowKey));
+    const rowLbl = escapeHTML(valueLabel(state.rowDim, rowKey));
     const colLbl = escapeHTML(valueLabel(state.colDim, colKey));
 
     $("#drawerMeta").textContent = `${FACET_LABEL[state.rowDim]} × ${FACET_LABEL[state.colDim]}`;
@@ -2167,15 +2117,15 @@
   }
 
   // ---------- Filter popover ----------
-  // Long facets that should default to closed (sub-code, patient have many values)
-  const POP_DEFAULT_CLOSED = new Set(["subcode", "patient"]);
+  // Long facets that should default to closed (patient has 52 values)
+  const POP_DEFAULT_CLOSED = new Set(["patient"]);
 
   function openFilterPop() {
     const pop = $("#filterPop");
     const counts = scopeAwareCounts();
 
     const sectionsHTML = FACETS.map(f => {
-      const all = new Set(state.data.map(d => d[f.key]).filter(Boolean));
+      const all = new Set(state.data.filter(passesStatus).map(d => facetValue(d, f.key)).filter(Boolean));
       const values = naturalOrder(f.key, all);
       const map = counts[f.key];
       const sel = state.scope[f.key];
@@ -2183,8 +2133,8 @@
         const checked = sel.has(v);
         const n = map.get(v) || 0;
         const lbl = valueLabel(f.key, v);
-        const swatch = (f.coloured && DOMAIN_VAR[v])
-          ? `<span class="swatch" style="background:var(${DOMAIN_VAR[v]})"></span>`
+        const swatch = f.coloured
+          ? `<span class="swatch" style="background:var(--${themeMeta(v).slug})"></span>`
           : "";
         return `
           <label class="pop-item" data-facet="${f.key}" data-val="${escapeHTML(v)}" data-checked="${checked}">
@@ -2249,16 +2199,17 @@
     const out = {};
     for (const f of FACETS) out[f.key] = new Map();
     for (const it of state.data) {
+      if (!passesStatus(it)) continue;
       for (const f of FACETS) {
         // Pass all OTHER scope filters
         let ok = true;
         for (const g of FACETS) {
           if (g.key === f.key) continue;
           const sel = state.scope[g.key];
-          if (sel.size && !sel.has(it[g.key])) { ok = false; break; }
+          if (sel.size && !sel.has(facetValue(it, g.key))) { ok = false; break; }
         }
         if (!ok) continue;
-        const v = it[f.key];
+        const v = facetValue(it, f.key);
         if (v == null) continue;
         out[f.key].set(v, (out[f.key].get(v) || 0) + 1);
       }
@@ -2269,10 +2220,6 @@
   // ---------- E4: Day-trajectory view ----------
   const TRAJ_DAYS = ["DayMinus1", "Day0", "Day1", "Day2"];
 
-  function domainSlug(domain) {
-    return (domain || "OutsideFramework").replace(/[^A-Za-z]/g, "");
-  }
-
   function renderTrajectoryShell(root) {
     root.innerHTML = `
       <div class="traj-legend" id="trajLegend"></div>
@@ -2282,8 +2229,9 @@
     `;
     const showCodes = state.trajMode === "codes" || state.trajMode === "both";
     const showPca   = state.trajMode === "pca"   || state.trajMode === "both";
+    const themeLegend = [...THEMES, ...(state.showDeprecated ? [NO_THEME] : [])];
     const codeItems = showCodes
-      ? DOMAIN_ORDER.map(d => `<span><span class="swatch" style="background:var(${DOMAIN_VAR[d]})"></span>${escapeHTML(d)}</span>`).join("")
+      ? themeLegend.map(t => `<span><span class="swatch" style="background:var(--${t.slug})"></span>${escapeHTML(t.short)}</span>`).join("")
       : "";
     const pcaItems = showPca
       ? `<span><span class="swatch pca"></span>PCA reason ticked</span>
@@ -2337,7 +2285,7 @@
   }
 
   function renderTrajectory(items, tbl) {
-    // Bucket coded quotes by patient → day → Map<subcode, count>
+    // Bucket coded quotes by patient → day → Map<theme, count>
     const buckets = new Map();
     for (const it of items) {
       if (!it.patient || !it.day) continue;
@@ -2345,8 +2293,8 @@
       if (!pMap) { pMap = new Map(); buckets.set(it.patient, pMap); }
       let dMap = pMap.get(it.day);
       if (!dMap) { dMap = new Map(); pMap.set(it.day, dMap); }
-      const sc = it.subcode || "—";
-      dMap.set(sc, (dMap.get(sc) || 0) + 1);
+      const tk = facetValue(it, "theme");
+      dMap.set(tk, (dMap.get(tk) || 0) + 1);
     }
 
     const showCodes = state.trajMode === "codes" || state.trajMode === "both";
@@ -2394,21 +2342,17 @@
           return `<td class="tr-cell empty" data-patient="${escapeHTML(p)}" data-day="${escapeHTML(d)}">&nbsp;</td>`;
         }
 
-        // Code chips (only when showCodes)
+        // Theme chips (only when showCodes)
         let codeChips = "";
         if (showCodes && hasCodes) {
-          const arr = [...dMap.entries()].map(([sc, n]) => ({
-            sc, n, dom: state.subcodeDomain[sc] || "Outside Framework"
-          }));
+          const arr = [...dMap.entries()].map(([tk, n]) => ({ tk, n, meta: themeMeta(tk) }));
           arr.sort((a, b) => {
-            const ai = DOMAIN_ORDER.indexOf(a.dom); const bi = DOMAIN_ORDER.indexOf(b.dom);
-            return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi)
-                || b.n - a.n
-                || a.sc.localeCompare(b.sc);
+            const ai = THEME_ORDER.indexOf(a.tk); const bi = THEME_ORDER.indexOf(b.tk);
+            return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi) || b.n - a.n;
           });
-          codeChips = arr.map(({ sc, n, dom }) => `
-            <span class="tr-chip d-${domainSlug(dom)}" data-subcode="${escapeHTML(sc)}" title="${escapeHTML(sc)} — ${n} coded">
-              ${escapeHTML(sc)}${n > 1 ? `<span class="n">${n}</span>` : ""}
+          codeChips = arr.map(({ tk, n, meta }) => `
+            <span class="tr-chip ${meta.slug}${tk === NO_THEME.key ? " is-deprecated" : ""}" data-theme-key="${escapeHTML(tk)}" title="${escapeHTML(meta.label)} — ${n} coded">
+              ${escapeHTML(meta.short)}${n > 1 ? `<span class="n">${n}</span>` : ""}
             </span>
           `).join("");
         }
@@ -2451,18 +2395,18 @@
     tbl.innerHTML = head + `<tbody>${body}</tbody>`;
   }
 
-  // Open the drawer scoped to (patient, day) — optionally further by subcode
-  function openTrajectoryDrawer(patient, day, subcode) {
+  // Open the drawer scoped to (patient, day) — optionally further by theme
+  function openTrajectoryDrawer(patient, day, themeKey) {
     const matched = state.data.filter(it => {
-      if (!inScope(it)) return false;
+      if (!passesScope(it)) return false;
       if (it.patient !== patient) return false;
       if (it.day !== day) return false;
-      if (subcode && it.subcode !== subcode) return false;
+      if (themeKey && facetValue(it, "theme") !== themeKey) return false;
       return true;
     });
 
-    $("#drawerMeta").textContent = `Patient × Day${subcode ? " × Sub-code" : ""}`;
-    $("#drawerTitle").innerHTML = `${escapeHTML(patient)} <span class="x-mark">×</span> ${escapeHTML(labelDay(day))}${subcode ? ` <span class="x-mark">×</span> ${escapeHTML(subcode)}` : ""}`;
+    $("#drawerMeta").textContent = `Patient × Day${themeKey ? " × Theme" : ""}`;
+    $("#drawerTitle").innerHTML = `${escapeHTML(patient)} <span class="x-mark">×</span> ${escapeHTML(labelDay(day))}${themeKey ? ` <span class="x-mark">×</span> ${escapeHTML(themeMeta(themeKey).short)}` : ""}`;
     $("#drawerSub").textContent = `${matched.length} quote${matched.length===1?"":"s"}`;
     $("#drawerSearch").value = "";
     $("#drawerSearchWrap").classList.remove("has-value");
@@ -2503,13 +2447,14 @@
 
   // ---------- Sync control availability ----------
   function syncControlAvailability() {
-    // groupToggle only makes sense when rowDim=subcode in matrix view
-    const grp = $("#groupToggle");
-    if (grp) {
-      const ok = state.view === "matrix" && state.rowDim === "subcode";
-      grp.classList.toggle("is-disabled", !ok);
-      grp.disabled = !ok;
-    }
+    // Quick-view segment reflects the two framework matrices; neither is pressed
+    // when the user has picked their own row/col pair.
+    const current = `${state.rowDim}|${state.colDim}`;
+    $$("#quickSeg button").forEach(b => {
+      b.setAttribute("aria-pressed", b.dataset.quick === current ? "true" : "false");
+    });
+    // Deprecated (audit) toggle
+    $("#depToggle")?.setAttribute("aria-pressed", state.showDeprecated ? "true" : "false");
     // Row/col dim, sort, norm: hide/grey in trajectory view (they don't apply)
     const trajMode = state.view === "trajectory";
     document.querySelectorAll("#rowDim, #colDim, #normSeg, #sortSeg").forEach(el => {
@@ -2591,8 +2536,9 @@
 
   function exportCSV() {
     const lines = [];
-    const meta = [`# DREAMS code matrix · exported ${todayStamp()}`];
+    const meta = [`# DREAMS theme matrix · exported ${todayStamp()}`];
     meta.push(`# Rows: ${FACET_LABEL[state.rowDim]} · Columns: ${FACET_LABEL[state.colDim]} · Show: ${state.norm}`);
+    meta.push(`# Corpus: ${state.showDeprecated ? "in-scope + deprecated (audit)" : "in-scope only"} · theme labels are working labels, supervisor lock pending`);
     if (activeScope() > 0) {
       const scopeBits = [];
       for (const f of FACETS) if (state.scope[f.key].size) scopeBits.push(`${f.label}=${[...state.scope[f.key]].join("|")}`);
@@ -2601,25 +2547,14 @@
     lines.push(...meta);
 
     if (state.view === "trajectory") {
-      // Patient × Day, cell = comma-separated subcode list
-      const items = state.data.filter(inScope);
-      const buckets = new Map();
-      for (const it of items) {
-        if (!it.patient || !it.day) continue;
-        const k = it.patient + "|" + it.day;
-        let m = buckets.get(k);
-        if (!m) { m = new Map(); buckets.set(k, m); }
-        m.set(it.subcode || "—", (m.get(it.subcode || "—") || 0) + 1);
-      }
+      // Patient × Day, cell = semicolon-separated theme list
+      const items = state.data.filter(passesScope);
+      const buckets = trajectoryBuckets(items);
       const patients = naturalOrder("patient", new Set(items.map(i => i.patient).filter(Boolean)));
       lines.push(["Patient", "Arm", ...TRAJ_DAYS.map(d => labelDay(d))].map(csvEscape).join(","));
       for (const p of patients) {
         const arm = state.patientArm[p] || "";
-        const cells = TRAJ_DAYS.map(d => {
-          const m = buckets.get(p + "|" + d);
-          if (!m) return "";
-          return [...m.entries()].map(([sc, n]) => n > 1 ? `${sc} (${n})` : sc).join("; ");
-        });
+        const cells = TRAJ_DAYS.map(d => trajectoryCellText(buckets, p, d));
         lines.push([p, arm, ...cells].map(csvEscape).join(","));
       }
       downloadBlob(lines.join("\n") + "\n", `dreams-trajectory-${todayStamp()}.csv`, "text/csv");
@@ -2656,12 +2591,37 @@
     return out.join("\n");
   }
 
+  // Shared by both exporters: patient|day → Map<themeKey, count>
+  function trajectoryBuckets(items) {
+    const buckets = new Map();
+    for (const it of items) {
+      if (!it.patient || !it.day) continue;
+      const k = it.patient + "|" + it.day;
+      let m = buckets.get(k);
+      if (!m) { m = new Map(); buckets.set(k, m); }
+      const tk = facetValue(it, "theme");
+      m.set(tk, (m.get(tk) || 0) + 1);
+    }
+    return buckets;
+  }
+
+  function trajectoryCellText(buckets, patient, day) {
+    const m = buckets.get(patient + "|" + day);
+    if (!m) return "";
+    return [...m.entries()]
+      .sort((a, b) => THEME_ORDER.indexOf(a[0]) - THEME_ORDER.indexOf(b[0]))
+      .map(([tk, n]) => n > 1 ? `${themeMeta(tk).short} (${n})` : themeMeta(tk).short)
+      .join("; ");
+  }
+
   function exportMarkdown() {
     const parts = [];
-    parts.push(`# DREAMS code matrix\n_Exported ${todayStamp()}_\n`);
+    parts.push(`# DREAMS theme matrix\n_Exported ${todayStamp()}_\n`);
     parts.push(`- **Rows:** ${FACET_LABEL[state.rowDim]}`);
     parts.push(`- **Columns:** ${FACET_LABEL[state.colDim]}`);
     parts.push(`- **Show:** ${state.norm}`);
+    parts.push(`- **Corpus:** ${state.showDeprecated ? "in-scope + deprecated (audit view)" : "in-scope only"}`);
+    parts.push(`- **Theme labels:** working labels (codebook v2, D14) — supervisor lock pending`);
     if (activeScope() > 0) {
       const scopeBits = [];
       for (const f of FACETS) if (state.scope[f.key].size) scopeBits.push(`${f.label}: ${[...state.scope[f.key]].join(", ")}`);
@@ -2670,24 +2630,13 @@
     parts.push("");
 
     if (state.view === "trajectory") {
-      const items = state.data.filter(inScope);
-      const buckets = new Map();
-      for (const it of items) {
-        if (!it.patient || !it.day) continue;
-        const k = it.patient + "|" + it.day;
-        let m = buckets.get(k);
-        if (!m) { m = new Map(); buckets.set(k, m); }
-        m.set(it.subcode || "—", (m.get(it.subcode || "—") || 0) + 1);
-      }
+      const items = state.data.filter(passesScope);
+      const buckets = trajectoryBuckets(items);
       const patients = naturalOrder("patient", new Set(items.map(i => i.patient).filter(Boolean)));
       const header = ["Patient", "Arm", ...TRAJ_DAYS.map(d => labelDay(d))];
       const rows = patients.map(p => {
         const arm = state.patientArm[p] || "";
-        const cells = TRAJ_DAYS.map(d => {
-          const m = buckets.get(p + "|" + d);
-          if (!m) return "";
-          return [...m.entries()].map(([sc, n]) => n > 1 ? `${sc} (${n})` : sc).join("; ");
-        });
+        const cells = TRAJ_DAYS.map(d => trajectoryCellText(buckets, p, d));
         return [p, arm, ...cells];
       });
       parts.push("## Day-trajectory view\n");
@@ -2756,7 +2705,6 @@
     const [quotes, pca] = await Promise.all([loadData(), loadPcaChecklist()]);
     state.data = quotes;
     buildPcaLookups(pca);
-    buildSubcodeDomainMap();
     buildPatientArmMap();
     renderAll();
 
@@ -2765,24 +2713,43 @@
       state.rowDim = e.target.value;
       // If row matches col, swap col to first different
       if (state.rowDim === state.colDim) {
-        const fallback = state.rowDim === "discipline" ? "code" : "discipline";
+        const fallback = state.rowDim === "arm" ? "theme" : "arm";
         state.colDim = fallback;
         $("#colDim").value = fallback;
       }
-      // groupByDomain only meaningful when row=subcode
-      $("#groupToggle").style.opacity = state.rowDim === "subcode" ? "1" : ".4";
-      $("#groupToggle").disabled = state.rowDim !== "subcode";
-      state.collapsed.clear();
       renderAll();
     });
     $("#colDim").addEventListener("change", (e) => {
       state.colDim = e.target.value;
       if (state.colDim === state.rowDim) {
-        const fallback = state.colDim === "subcode" ? "code" : "subcode";
+        const fallback = state.colDim === "theme" ? "stream" : "theme";
         state.rowDim = fallback;
         $("#rowDim").value = fallback;
       }
       renderAll();
+    });
+
+    // Quick view: the two framework matrices (theme × arm, theme × stream)
+    $("#quickSeg").addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-quick]");
+      if (!b) return;
+      const [row, col] = b.dataset.quick.split("|");
+      state.rowDim = row; state.colDim = col;
+      $("#rowDim").value = row; $("#colDim").value = col;
+      if (state.view !== "matrix") state.view = "matrix";
+      renderAll();
+    });
+
+    // Deprecated (audit) toggle — status flag only, nothing is ever deleted
+    $("#depToggle").addEventListener("click", () => {
+      state.showDeprecated = !state.showDeprecated;
+      if (!state.showDeprecated) {
+        // Drop scope selections that only exist in the audit view
+        state.scope.theme.delete(NO_THEME.key);
+        state.scope.stream.delete(NO_STREAM.key);
+      }
+      renderAll();
+      refreshPopCountsInPlace();
     });
 
     // Norm seg
@@ -2803,32 +2770,14 @@
       renderAll();
     });
 
-    // Group toggle
-    $("#groupToggle").addEventListener("click", () => {
-      state.groupByDomain = !state.groupByDomain;
-      $("#groupToggle").setAttribute("aria-pressed", state.groupByDomain ? "true" : "false");
-      state.collapsed.clear();
-      renderAll();
-    });
-
     // Delegated table click — works for #matrix, split panes, and trajectory
     $("#viewRoot").addEventListener("click", (e) => {
-      // Domain heading: collapse/expand
-      const headingCell = e.target.closest(".row-domain td:first-child");
-      if (headingCell) {
-        const tr = headingCell.closest("tr");
-        const dom = tr.dataset.domain;
-        if (state.collapsed.has(dom)) state.collapsed.delete(dom);
-        else state.collapsed.add(dom);
-        renderAll();
-        return;
-      }
-      // Trajectory chip click: drawer scoped to patient × day × subcode
+      // Trajectory chip click: drawer scoped to patient × day × theme
       const chip = e.target.closest(".tr-chip");
       if (chip) {
         const cell = chip.closest(".tr-cell");
         if (cell) {
-          openTrajectoryDrawer(cell.dataset.patient, cell.dataset.day, chip.dataset.subcode);
+          openTrajectoryDrawer(cell.dataset.patient, cell.dataset.day, chip.dataset.themeKey);
         }
         return;
       }
@@ -2841,10 +2790,7 @@
       // Regular matrix cell click → drawer
       const cell = e.target.closest("td.cell");
       if (cell && !cell.classList.contains("empty") && !cell.classList.contains("col-total")) {
-        const row = cell.dataset.row;
-        const col = cell.dataset.col;
-        const isDomainRow = cell.dataset.domainRow === "1";
-        openDrawer(row, col, isDomainRow);
+        openDrawer(cell.dataset.row, cell.dataset.col);
       }
     });
 
