@@ -547,5 +547,209 @@
    "Purposeless movements": 1,
    "Laboured breathing": 4
   }
+ },
+ {
+  "source_file": "DXM15_PCA_Day_2_Form_1.txt",
+  "patient": "DXM15",
+  "arm": "DXM",
+  "day": "Day_2",
+  "form": 1,
+  "overall_score": 4,
+  "suspected_reasons": [],
+  "behaviours": {
+   "Grimacing": 3,
+   "Groaning": 3,
+   "Shouting": 3,
+   "Touching": 0,
+   "Purposeless movements": 2,
+   "Laboured breathing": 3
+  }
+ },
+ {
+  "source_file": "DXM11_PCA_Day_0_Form_1.txt",
+  "patient": "DXM11",
+  "arm": "DXM",
+  "day": "Day_0",
+  "form": 1,
+  "overall_score": 2,
+  "suspected_reasons": [
+   "Pain",
+   "Confusion/restlessness",
+   "Difficulty breathing"
+  ],
+  "behaviours": {
+   "Grimacing": 1,
+   "Groaning": 1,
+   "Shouting": 0,
+   "Touching": 0,
+   "Purposeless movements": 3,
+   "Laboured breathing": 3
+  }
+ },
+ {
+  "source_file": "MDZ12_PCA_Day_-1_Form_1.txt",
+  "patient": "MDZ12",
+  "arm": "MDZ",
+  "day": "Day_-1",
+  "form": 1,
+  "overall_score": 5,
+  "suspected_reasons": [
+   "Pain",
+   "Difficulty breathing"
+  ],
+  "behaviours": {
+   "Grimacing": 3,
+   "Groaning": 2,
+   "Shouting": 0,
+   "Touching": 0,
+   "Purposeless movements": 3,
+   "Laboured breathing": 4
+  }
+ },
+ {
+  "source_file": "MDZ10_PCA_Day_1_Form_1.txt",
+  "patient": "MDZ10",
+  "arm": "MDZ",
+  "day": "Day_1",
+  "form": 1,
+  "overall_score": 4,
+  "suspected_reasons": [
+   "Confusion"
+  ],
+  "behaviours": {
+   "Grimacing": 0,
+   "Groaning": 2,
+   "Shouting": 0,
+   "Touching": 0,
+   "Purposeless movements": 0,
+   "Laboured breathing": 0
+  }
+ },
+ {
+  "source_file": "DXM26_PCA_Day_2_Form_1.txt",
+  "patient": "DXM26",
+  "arm": "DXM",
+  "day": "Day_2",
+  "form": 1,
+  "overall_score": 0,
+  "suspected_reasons": [],
+  "behaviours": {
+   "Grimacing": 0,
+   "Groaning": 0,
+   "Shouting": 0,
+   "Touching": 0,
+   "Purposeless movements": 0,
+   "Laboured breathing": 0
+  }
+ },
+ {
+  "source_file": "MDZ14_PCA_Day_2_Form_1.txt",
+  "patient": "MDZ14",
+  "arm": "MDZ",
+  "day": "Day_2",
+  "form": 1,
+  "overall_score": 8,
+  "suspected_reasons": [
+   "Difficulty breathing"
+  ],
+  "behaviours": {
+   "Grimacing": 0,
+   "Groaning": 0,
+   "Shouting": 0,
+   "Touching": 0,
+   "Purposeless movements": 0,
+   "Laboured breathing": 4
+  }
+ },
+ {
+  "source_file": "MDZ4_PCA_Day_1_Form_1.txt",
+  "patient": "MDZ4",
+  "arm": "MDZ",
+  "day": "Day_1",
+  "form": 1,
+  "overall_score": 0,
+  "suspected_reasons": [],
+  "behaviours": {
+   "Grimacing": 0,
+   "Groaning": 0,
+   "Shouting": 0,
+   "Touching": 0,
+   "Purposeless movements": 2,
+   "Laboured breathing": 0
+  }
+ },
+ {
+  "source_file": "DXM6_PCA_Day_2_Form_1.txt",
+  "patient": "DXM6",
+  "arm": "DXM",
+  "day": "Day_2",
+  "form": 1,
+  "overall_score": 8,
+  "suspected_reasons": [],
+  "behaviours": {
+   "Grimacing": 3,
+   "Groaning": 3,
+   "Shouting": 0,
+   "Touching": 2,
+   "Purposeless movements": 3,
+   "Laboured breathing": 3
+  }
+ },
+ {
+  "source_file": "MDZ12_PCA_Day_1_Form_2.txt",
+  "patient": "MDZ12",
+  "arm": "MDZ",
+  "day": "Day_1",
+  "form": 2,
+  "overall_score": 6,
+  "suspected_reasons": [
+   "Pain",
+   "Difficulty breathing"
+  ],
+  "behaviours": {
+   "Grimacing": 4,
+   "Groaning": 4,
+   "Shouting": 0,
+   "Touching": 0,
+   "Purposeless movements": 2,
+   "Laboured breathing": 4
+  }
+ },
+ {
+  "source_file": "DXM16_PCA_Day_2_Form_1.txt",
+  "patient": "DXM16",
+  "arm": "DXM",
+  "day": "Day_2",
+  "form": 1,
+  "overall_score": 5,
+  "suspected_reasons": [],
+  "behaviours": {
+   "Grimacing": 0,
+   "Groaning": 0,
+   "Shouting": 0,
+   "Touching": 0,
+   "Purposeless movements": 0,
+   "Laboured breathing": 2
+  }
+ },
+ {
+  "source_file": "MDZ6_PCA_Day_2_Form_1.txt",
+  "patient": "MDZ6",
+  "arm": "MDZ",
+  "day": "Day_2",
+  "form": 1,
+  "overall_score": 5,
+  "suspected_reasons": [
+   "Emotional distress",
+   "Confusion"
+  ],
+  "behaviours": {
+   "Grimacing": 0,
+   "Groaning": 0,
+   "Shouting": 3,
+   "Touching": 0,
+   "Purposeless movements": 2,
+   "Laboured breathing": 0
+  }
  }
 ]
