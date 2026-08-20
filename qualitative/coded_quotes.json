@@ -3132,5 +3132,57 @@
   "stream": "family (PCA)",
   "status": "in_scope",
   "theme_date": "2026-08-20"
+ },
+ {
+  "id": 387,
+  "source_file": "MDZ19_PCA_Day_-1_Form_1.txt",
+  "patient": "MDZ19",
+  "arm": "MDZ",
+  "day": "Day_-1",
+  "discipline": "PCA",
+  "quote": "Pain and agitated.",
+  "theme": "Nature of Distress Observed",
+  "stream": "family (PCA)",
+  "status": "in_scope",
+  "theme_date": "2026-08-20"
+ },
+ {
+  "id": 388,
+  "source_file": "DXM6_PCA_Day_1_Form_1.txt",
+  "patient": "DXM6",
+  "arm": "DXM",
+  "day": "Day_1",
+  "discipline": "PCA",
+  "quote": "When she was being moved in the bed.",
+  "theme": "Nature of Distress Observed",
+  "stream": "family (PCA)",
+  "status": "in_scope",
+  "theme_date": "2026-08-20"
+ },
+ {
+  "id": 389,
+  "source_file": "MDZ9_PCA_Day_0_Form_1.txt",
+  "patient": "MDZ9",
+  "arm": "MDZ",
+  "day": "Day_0",
+  "discipline": "PCA",
+  "quote": "Restless and constantly trying to readjust position in bed.",
+  "theme": "Nature of Distress Observed",
+  "stream": "family (PCA)",
+  "status": "in_scope",
+  "theme_date": "2026-08-20"
+ },
+ {
+  "id": 390,
+  "source_file": "MDZ9_PCA_Day_0_Form_1.txt",
+  "patient": "MDZ9",
+  "arm": "MDZ",
+  "day": "Day_0",
+  "discipline": "PCA",
+  "quote": "Pain in lower left back of lower abdomen. Very laboured breathing at one point in the night.",
+  "theme": "Nature of Distress Observed",
+  "stream": "family (PCA)",
+  "status": "in_scope",
+  "theme_date": "2026-08-20"
  }
 ]

@@ -751,5 +751,101 @@
    "Purposeless movements": 2,
    "Laboured breathing": 0
   }
+ },
+ {
+  "source_file": "MDZ3_PCA_Day_1_Form_1.txt",
+  "patient": "MDZ3",
+  "arm": "MDZ",
+  "day": "Day_1",
+  "form": 1,
+  "overall_score": 0,
+  "suspected_reasons": [
+   "I don't know"
+  ],
+  "behaviours": {
+   "Grimacing": 0,
+   "Groaning": 0,
+   "Shouting": 0,
+   "Touching": 0,
+   "Purposeless movements": 0,
+   "Laboured breathing": 3
+  }
+ },
+ {
+  "source_file": "MDZ19_PCA_Day_-1_Form_1.txt",
+  "patient": "MDZ19",
+  "arm": "MDZ",
+  "day": "Day_-1",
+  "form": 1,
+  "overall_score": 8,
+  "suspected_reasons": [
+   "Pain",
+   "Emotional distress",
+   "Confusion/restlessness"
+  ],
+  "behaviours": {
+   "Grimacing": 0,
+   "Groaning": 3,
+   "Shouting": 2,
+   "Touching": 3,
+   "Purposeless movements": 3,
+   "Laboured breathing": 2
+  }
+ },
+ {
+  "source_file": "DXM6_PCA_Day_1_Form_1.txt",
+  "patient": "DXM6",
+  "arm": "DXM",
+  "day": "Day_1",
+  "form": 1,
+  "overall_score": 1,
+  "suspected_reasons": [],
+  "behaviours": {
+   "Grimacing": 1,
+   "Groaning": 1,
+   "Shouting": 0,
+   "Touching": 0,
+   "Purposeless movements": 0,
+   "Laboured breathing": 2
+  }
+ },
+ {
+  "source_file": "DXM6_PCA_Day_0_Form_1.txt",
+  "patient": "DXM6",
+  "arm": "DXM",
+  "day": "Day_0",
+  "form": 1,
+  "overall_score": 0,
+  "suspected_reasons": [],
+  "behaviours": {
+   "Grimacing": 2,
+   "Groaning": 2,
+   "Shouting": 0,
+   "Touching": 0,
+   "Purposeless movements": 0,
+   "Laboured breathing": 0
+  }
+ },
+ {
+  "source_file": "MDZ9_PCA_Day_0_Form_1.txt",
+  "patient": "MDZ9",
+  "arm": "MDZ",
+  "day": "Day_0",
+  "form": 1,
+  "overall_score": 7,
+  "suspected_reasons": [
+   "Pain",
+   "Difficulty breathing",
+   "Confusion",
+   "Need to urinate"
+  ],
+  "behaviours": {
+   "Grimacing": 2,
+   "Groaning": 2,
+   "Shouting": 0,
+   "Touching": 2,
+   "Purposeless movements": 2,
+   "Laboured breathing": 2
+  }
  }
 ]
