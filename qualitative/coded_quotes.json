@@ -3184,5 +3184,83 @@
   "stream": "family (PCA)",
   "status": "in_scope",
   "theme_date": "2026-08-20"
+ },
+ {
+  "id": 391,
+  "source_file": "DXM17_PCA_Day_1_Form_1.txt",
+  "patient": "DXM17",
+  "arm": "DXM",
+  "day": "Day_1",
+  "discipline": "PCA",
+  "quote": "Pain in lump on left side of neck, pause within breathing from phlegm and throat, gasping inward breaths.",
+  "theme": "Nature of Distress Observed",
+  "stream": "family (PCA)",
+  "status": "in_scope",
+  "theme_date": "2026-08-20"
+ },
+ {
+  "id": 392,
+  "source_file": "DXM10_PCA_Day_-1_Form_1.txt",
+  "patient": "DXM10",
+  "arm": "DXM",
+  "day": "Day_-1",
+  "discipline": "PCA",
+  "quote": "Arm and back pain.",
+  "theme": "Nature of Distress Observed",
+  "stream": "family (PCA)",
+  "status": "in_scope",
+  "theme_date": "2026-08-20"
+ },
+ {
+  "id": 393,
+  "source_file": "DXM15_PCA_Day_1_Form_2.txt",
+  "patient": "DXM15",
+  "arm": "DXM",
+  "day": "Day_1",
+  "discipline": "PCA",
+  "quote": "On four occasions during the day, Dad was agitated and was calling out. His eyes were open.",
+  "theme": "Nature of Distress Observed",
+  "stream": "family (PCA)",
+  "status": "in_scope",
+  "theme_date": "2026-08-20"
+ },
+ {
+  "id": 394,
+  "source_file": "DXM15_PCA_Day_1_Form_2.txt",
+  "patient": "DXM15",
+  "arm": "DXM",
+  "day": "Day_1",
+  "discipline": "PCA",
+  "quote": "Dad opened his eyes a few times as if he could hear us, was mumbling a bit during this period.",
+  "theme": "Rousable or Responsive Communication",
+  "stream": "family (PCA)",
+  "status": "in_scope",
+  "theme_date": "2026-08-20"
+ },
+ {
+  "id": 395,
+  "source_file": "DXM15_PCA_Day_1_Form_2.txt",
+  "patient": "DXM15",
+  "arm": "DXM",
+  "day": "Day_1",
+  "discipline": "PCA",
+  "quote": "opened eyes and yelling out, moaning, this went on for a while. Staff administered medicine to assist rattle and pain. Dad was calling out 'Sit me down', possibly as in feeling dizzy as he was calling out the same thing this morning.",
+  "theme": "Nature of Distress Observed",
+  "stream": "family (PCA)",
+  "status": "in_scope",
+  "theme_date": "2026-08-20"
+ },
+ {
+  "id": 396,
+  "source_file": "DXM15_PCA_Day_1_Form_2.txt",
+  "patient": "DXM15",
+  "arm": "DXM",
+  "day": "Day_1",
+  "discipline": "PCA",
+  "quote": "Mid-afternoon, again had agitation and yelling out a bit.",
+  "theme": "Nature of Distress Observed",
+  "stream": "family (PCA)",
+  "status": "in_scope",
+  "theme_date": "2026-08-20"
  }
 ]

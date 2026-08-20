@@ -847,5 +847,105 @@
    "Purposeless movements": 2,
    "Laboured breathing": 2
   }
+ },
+ {
+  "source_file": "DXM17_PCA_Day_1_Form_1.txt",
+  "patient": "DXM17",
+  "arm": "DXM",
+  "day": "Day_1",
+  "form": 1,
+  "overall_score": 6,
+  "suspected_reasons": [
+   "Pain",
+   "Difficulty breathing",
+   "Confusion/restlessness"
+  ],
+  "behaviours": {
+   "Grimacing": 0,
+   "Groaning": 2,
+   "Shouting": 0,
+   "Touching": 2,
+   "Purposeless movements": 0,
+   "Laboured breathing": 3
+  }
+ },
+ {
+  "source_file": "DXM10_PCA_Day_-1_Form_1.txt",
+  "patient": "DXM10",
+  "arm": "DXM",
+  "day": "Day_-1",
+  "form": 1,
+  "overall_score": 8,
+  "suspected_reasons": [
+   "Pain",
+   "Confusion/restlessness"
+  ],
+  "behaviours": {
+   "Grimacing": 0,
+   "Groaning": 2,
+   "Shouting": 0,
+   "Touching": 3,
+   "Purposeless movements": 2,
+   "Laboured breathing": 0
+  }
+ },
+ {
+  "source_file": "DXM15_PCA_Day_1_Form_2.txt",
+  "patient": "DXM15",
+  "arm": "DXM",
+  "day": "Day_1",
+  "form": 2,
+  "overall_score": 1,
+  "suspected_reasons": [
+   "Emotional distress",
+   "Confusion/restlessness",
+   "I don't know"
+  ],
+  "behaviours": {
+   "Grimacing": 2,
+   "Groaning": 2,
+   "Shouting": 2,
+   "Touching": 0,
+   "Purposeless movements": 0,
+   "Laboured breathing": 0
+  }
+ },
+ {
+  "source_file": "MDZ26_PCA_Day_1_Form_1.txt",
+  "patient": "MDZ26",
+  "arm": "MDZ",
+  "day": "Day_1",
+  "form": 1,
+  "overall_score": 2,
+  "suspected_reasons": [],
+  "behaviours": {
+   "Grimacing": 0,
+   "Groaning": 0,
+   "Shouting": 0,
+   "Touching": 0,
+   "Purposeless movements": -1,
+   "Laboured breathing": 2
+  }
+ },
+ {
+  "source_file": "MDZ19_PCA_Day_-1_Form_2.txt",
+  "patient": "MDZ19",
+  "arm": "MDZ",
+  "day": "Day_-1",
+  "form": 2,
+  "overall_score": 8,
+  "suspected_reasons": [
+   "Pain",
+   "Confusion",
+   "Emotional distress"
+  ],
+  "behaviours": {
+   "Grimacing": 0,
+   "Groaning": 4,
+   "Shouting": 0,
+   "Touching": 4,
+   "Purposeless movements": 4,
+   "Laboured breathing": 2
+  }
  }
 ]
