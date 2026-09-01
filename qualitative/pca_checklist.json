@@ -947,5 +947,173 @@
    "Purposeless movements": 4,
    "Laboured breathing": 2
   }
+ },
+ {
+  "file": "DXM26_PCA_Day_1_Form_2.txt",
+  "patient": "DXM26",
+  "arm": "DXM",
+  "day": "Day_1",
+  "form_number": 2,
+  "date_time": "2023-10-24 09:30-11:30",
+  "overall_score": 0,
+  "behavioural_scores": {
+   "grimacing": 0,
+   "groaning": 0,
+   "shouting": 0,
+   "touching": 0,
+   "purposeless_movements": 0,
+   "laboured_breathing": 0
+  },
+  "suspected_reasons": "None noted",
+  "comments": "None",
+  "coded": false,
+  "skipped": true
+ },
+ {
+  "file": "DXM5_PCA_Day_0_Form_1.txt",
+  "patient": "DXM5",
+  "arm": "DXM",
+  "day": "Day_0",
+  "form_number": 1,
+  "date_time": "2021-08-22 12:00",
+  "overall_score": 1,
+  "behavioural_scores": {
+   "grimacing": 0,
+   "groaning": 0,
+   "shouting": 0,
+   "touching": 2,
+   "purposeless_movements": 2,
+   "laboured_breathing": 2
+  },
+  "suspected_reasons": "I don't know",
+  "comments": "None",
+  "coded": false,
+  "skipped": true
+ },
+ {
+  "file": "DXM14_PCA_Day_1_Form_1.txt",
+  "patient": "DXM14",
+  "arm": "DXM",
+  "day": "Day_1",
+  "form_number": 1,
+  "date_time": "2022-07-07 08:00",
+  "overall_score": 0,
+  "behavioural_scores": {
+   "grimacing": 0,
+   "groaning": 0,
+   "shouting": 0,
+   "touching": 0,
+   "purposeless_movements": 0,
+   "laboured_breathing": 2
+  },
+  "suspected_reasons": "None noted",
+  "comments": "None",
+  "coded": false,
+  "skipped": true
+ },
+ {
+  "file": "MDZ14_PCA_Day_0_Form_2.txt",
+  "patient": "MDZ14",
+  "arm": "MDZ",
+  "day": "Day_0",
+  "form_number": 2,
+  "date_time": "2022-07-19 10:20",
+  "overall_score": 3,
+  "behavioural_scores": {
+   "grimacing": 3,
+   "groaning": 2,
+   "shouting": 0,
+   "touching": 0,
+   "purposeless_movements": 3,
+   "laboured_breathing": 3
+  },
+  "suspected_reasons": "Difficulty breathing, coughing in conjunction with chest and throat",
+  "comments": "Post repositioning and sponging, neck extended, eyebrows rising up and down.",
+  "coded": true,
+  "skipped": false
+ },
+ {
+  "file": "MDZ5_PCA_Day_1_Form_1.txt",
+  "patient": "MDZ5",
+  "arm": "MDZ",
+  "day": "Day_1",
+  "form_number": 1,
+  "date_time": "2021-06-30 12:00",
+  "overall_score": 0,
+  "behavioural_scores": {
+   "grimacing": 0,
+   "groaning": 0,
+   "shouting": 0,
+   "touching": 0,
+   "purposeless_movements": 0,
+   "laboured_breathing": 0
+  },
+  "suspected_reasons": "None noted",
+  "comments": "None",
+  "coded": false,
+  "skipped": true
+ },
+ {
+  "file": "DXM10_PCA_Day_1_Form_1.txt",
+  "patient": "DXM10",
+  "arm": "DXM",
+  "day": "Day_1",
+  "form_number": 2,
+  "date_time": "2022-04-20 12:00",
+  "overall_score": 8,
+  "behavioural_scores": {
+   "grimacing": 0,
+   "groaning": 2,
+   "shouting": 0,
+   "touching": 3,
+   "purposeless_movements": 2,
+   "laboured_breathing": 0
+  },
+  "suspected_reasons": "Pain, confusion/restlessness",
+  "comments": "Pain in back and arm.",
+  "coded": true,
+  "skipped": false
+ },
+ {
+  "file": "DXM26_PCA_Day_2_Form_2.txt",
+  "patient": "DXM26",
+  "arm": "DXM",
+  "day": "Day_2",
+  "form_number": 5,
+  "date_time": "2023-10-25 10:00-19:00",
+  "overall_score": 0,
+  "behavioural_scores": {
+   "grimacing": 0,
+   "groaning": 0,
+   "shouting": 0,
+   "touching": 0,
+   "purposeless_movements": 0,
+   "laboured_breathing": 0
+  },
+  "suspected_reasons": "None noted",
+  "comments": "None",
+  "coded": false,
+  "skipped": true
+ },
+ {
+  "file": "DXM25_PCA_Day_1_Form_1.txt",
+  "patient": "DXM25",
+  "arm": "DXM",
+  "day": "Day_1",
+  "form_number": 1,
+  "date_time": "2023-06-23 17:10",
+  "overall_score": 5,
+  "behavioural_scores": {
+   "grimacing": 1,
+   "groaning": 2,
+   "shouting": 0,
+   "touching": 0,
+   "purposeless_movements": 2,
+   "laboured_breathing": 1
+  },
+  "suspected_reasons": "Pain",
+  "comments": "Mum appears to be in no discomfort at all since 1pm-ish.",
+  "coded": true,
+  "skipped": false
  }
 ]
