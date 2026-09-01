@@ -978,5 +978,80 @@
     "file": "DXM4_PCA_Day_1_Form_1.txt",
     "status": "coded",
     "date": "2026-09-01"
+  },
+  {
+    "file": "DXM21-Other-001-2023-05-10-1447.txt",
+    "status": "coded",
+    "date": "2026-09-01"
+  },
+  {
+    "file": "DXM26-Other-001-2023-10-25-0121.txt",
+    "status": "skipped",
+    "date": "2026-09-01"
+  },
+  {
+    "file": "DXM4-Other-001-2021-07-07-1630.txt",
+    "status": "skipped",
+    "date": "2026-09-01"
+  },
+  {
+    "file": "DXM4-Other-002-2021-07-07-1642.txt",
+    "status": "skipped",
+    "date": "2026-09-01"
+  },
+  {
+    "file": "DXM4-Other-003-2021-07-08-0830.txt",
+    "status": "skipped",
+    "date": "2026-09-01"
+  },
+  {
+    "file": "DXM8-Other-001-2021-12-30-1023.txt",
+    "status": "skipped",
+    "date": "2026-09-01"
+  },
+  {
+    "file": "MDZ18-Other-001-2022-10-14-0547.txt",
+    "status": "skipped",
+    "date": "2026-09-01"
+  },
+  {
+    "file": "MDZ2-Other-001-2021-05-25-1742.txt",
+    "status": "skipped",
+    "date": "2026-09-01"
+  },
+  {
+    "file": "MDZ2-Other-002-2021-05-28-0246.txt",
+    "status": "skipped",
+    "date": "2026-09-01"
+  },
+  {
+    "file": "MDZ4-Other-001-2021-06-23-1337.txt",
+    "status": "skipped",
+    "date": "2026-09-01"
+  },
+  {
+    "file": "MDZ4-Other-002-2021-06-23-1337.txt",
+    "status": "coded",
+    "date": "2026-09-01"
+  },
+  {
+    "file": "MDZ7-Other-002-2021-09-14-0853.txt",
+    "status": "skipped",
+    "date": "2026-09-01"
+  },
+  {
+    "file": "MDZ7-Other-003-2021-09-14-0924.txt",
+    "status": "skipped",
+    "date": "2026-09-01"
+  },
+  {
+    "file": "MDZ7-Other-004-2021-09-14-1625.txt",
+    "status": "coded",
+    "date": "2026-09-01"
+  },
+  {
+    "file": "MDZ7-Other-005-2021-09-15-1326.txt",
+    "status": "coded",
+    "date": "2026-09-01"
   }
 ]

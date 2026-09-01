@@ -3666,5 +3666,70 @@
   "stream": "family (PCA)",
   "status": "in_scope",
   "theme_date": "2026-09-01"
+ },
+ {
+  "id": 428,
+  "source_file": "DXM21-Other-001-2023-05-10-1447.txt",
+  "patient": "DXM21",
+  "arm": "DXM",
+  "day": "Day_-1",
+  "discipline": "Other",
+  "quote": "Pt stated that they were not interested in proceeding with the sunflower poster, DT did explain the DT service available to them throughout their hospital admission. Pt stated that they did do leisure in the past but wasn't interested in doing anything now.",
+  "theme": "Rousable or Responsive Communication",
+  "stream": "staff",
+  "status": "in_scope",
+  "theme_date": "2026-09-01"
+ },
+ {
+  "id": 429,
+  "source_file": "DXM21-Other-001-2023-05-10-1447.txt",
+  "patient": "DXM21",
+  "arm": "DXM",
+  "day": "Day_-1",
+  "discipline": "Other",
+  "quote": "Pt declined to participate in the individual therapy this morning.",
+  "theme": "Rousable or Responsive Communication",
+  "stream": "staff",
+  "status": "in_scope",
+  "theme_date": "2026-09-01"
+ },
+ {
+  "id": 430,
+  "source_file": "MDZ4-Other-002-2021-06-23-1337.txt",
+  "patient": "MDZ4",
+  "arm": "MDZ",
+  "day": "Day_-1",
+  "discipline": "Other",
+  "quote": "Pt's initial presentation was responsive and verbal but confused. At the time the pt was sitting on their chair resting with their eyes opened. DT reintroduced themselves to the pt and asked whether the pt wanted to complete some therapy this morning. Pt suggested to complete further dominoes games as they participated in this last week. Pt had to be prompted and reminded how mnay tiles they were to commence with. Then the pt got confused at how many dots on the tiles for which play they were going to lay down. They were not able to see the number of dots on some of the tiles. So DT - [family member] suggested to lay their tiles face up so that the DT - [family member] could see them and assist the pt to participate in the dominoes games. DT had to remind and prompt at each step with the pt. The conversations were also very confused and words came out jumbled up and not appropriate to the conversation at hand. DT - assisted the pt drink from their cup and placed water into their cup with a spout on it for ease and less spilling. Once the games were completed the pt assisted the DT to clean the tiles and placed a few into the box. The pt's daughter had come to visit so the DT left the room.",
+  "theme": "Rousable or Responsive Communication",
+  "stream": "staff",
+  "status": "in_scope",
+  "theme_date": "2026-09-01"
+ },
+ {
+  "id": 431,
+  "source_file": "MDZ7-Other-004-2021-09-14-1625.txt",
+  "patient": "MDZ7",
+  "arm": "MDZ",
+  "day": "Day_-1",
+  "discipline": "Other",
+  "quote": "Will join into conversation when awake.",
+  "theme": "Rousable or Responsive Communication",
+  "stream": "staff",
+  "status": "in_scope",
+  "theme_date": "2026-09-01"
+ },
+ {
+  "id": 432,
+  "source_file": "MDZ7-Other-005-2021-09-15-1326.txt",
+  "patient": "MDZ7",
+  "arm": "MDZ",
+  "day": "Day_1",
+  "discipline": "Other",
+  "quote": "Pt aware of surroundings. but not verbalizing with staff,",
+  "theme": "Rousable or Responsive Communication",
+  "stream": "staff",
+  "status": "in_scope",
+  "theme_date": "2026-09-01"
  }
 ]
