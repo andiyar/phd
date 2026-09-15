@@ -1221,20 +1221,19 @@
   "day": "Day_2",
   "form_number": 6,
   "date_time": "2023-05-20 09:30",
-  "overall_score": 1,
+  "overall_score": "0/10",
   "behavioural_scores": {
    "grimacing": 2,
-   "groaning": 2,
+   "groaning": 3,
    "shouting": 0,
    "touching": 0,
    "purposeless_movements": 2,
    "laboured_breathing": 2
   },
-  "suspected_reasons": "Not stated",
-  "comments": "INCOMPLETE — back page cut off at scan. Needs re-scan from hospital locked cabinet.",
-  "coded": false,
-  "skipped": false,
-  "flag": "INCOMPLETE — needs re-scan"
+  "suspected_reasons": "Pain",
+  "comments": "Recovered from rescan 2026-09-15. 4 quotes logged (ids 433-436).",
+  "coded": true,
+  "skipped": false
  },
  {
   "file": "DXM19_PCA_Day_1_Form_2.txt",

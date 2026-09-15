@@ -8,8 +8,9 @@ Framework analysis codebook — DREAMS Trial qualitative study.
 **retired from active coding**: they remain on existing rows as provenance (see Appendix A)
 but are not assigned to new quotes.
 
-**Theme labels are working labels** — BT-agreed 23-Jul-2026, pending supervisor lock
-(next meeting 26-Aug-2026).
+**Theme labels are BT's working labels** — BT-agreed 23-Jul-2026. No separate supervisor
+sign-off step exists (an earlier "pending supervisor lock, 26-Aug" note was an AI inference —
+corrected 2-Sep-2026); BT relabels whenever he decides.
 
 **Research question (v3):** *How does proportional sedation at the end of life with
 dexmedetomidine or midazolam impact patient comfort, as explored through clinical
