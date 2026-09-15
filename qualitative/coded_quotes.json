@@ -3965,5 +3965,70 @@
   "stream": "staff",
   "status": "in_scope",
   "theme_date": "2026-09-15"
+ },
+ {
+  "id": 451,
+  "source_file": "MDZ25-Medical-003-2023-07-14-1202.txt",
+  "patient": "MDZ25",
+  "arm": "MDZ",
+  "day": "Day_-1",
+  "discipline": "Medical",
+  "quote": "Pt sleeping - Taking deep breaths. Making mild voices while sleeping.",
+  "theme": "Comfort through Deep Settling",
+  "stream": "staff",
+  "status": "in_scope",
+  "theme_date": "2026-09-15"
+ },
+ {
+  "id": 452,
+  "source_file": "DXM15-Medical-003-2022-07-12-1209.txt",
+  "patient": "DXM15",
+  "arm": "DXM",
+  "day": "Day_2",
+  "discipline": "Medical",
+  "quote": "Diaphoretic and restless ?secondary to missed PO anticholinergics",
+  "theme": "Nature of Observed Distress",
+  "stream": "staff",
+  "status": "in_scope",
+  "theme_date": "2026-09-15"
+ },
+ {
+  "id": 453,
+  "source_file": "DXM18-Medical-003-2022-11-29-1225.txt",
+  "patient": "DXM18",
+  "arm": "DXM",
+  "day": "Day_-1",
+  "discipline": "Medical",
+  "quote": "Minimally conversive but nodding to questions",
+  "theme": "Rousable or Responsive Communication",
+  "stream": "staff",
+  "status": "in_scope",
+  "theme_date": "2026-09-15"
+ },
+ {
+  "id": 454,
+  "source_file": "DXM19-Medical-003-2022-12-20-1418.txt",
+  "patient": "DXM19",
+  "arm": "DXM",
+  "day": "Day_-1",
+  "discipline": "Medical",
+  "quote": "Deteriorating further over past week. Confused with hallucinations at times",
+  "theme": "Nature of Observed Distress",
+  "stream": "staff",
+  "status": "in_scope",
+  "theme_date": "2026-09-15"
+ },
+ {
+  "id": 455,
+  "source_file": "DXM19-Medical-003-2022-12-20-1418.txt",
+  "patient": "DXM19",
+  "arm": "DXM",
+  "day": "Day_-1",
+  "discipline": "Medical",
+  "quote": "Drowsy and out of it",
+  "theme": "Rousable or Responsive Communication",
+  "stream": "staff",
+  "status": "in_scope",
+  "theme_date": "2026-09-15"
  }
 ]

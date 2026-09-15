@@ -1133,5 +1133,40 @@
     "file": "MDZ8-Medical-002-2022-03-15-1358.txt",
     "status": "skipped",
     "date": "2026-09-15"
+  },
+  {
+    "file": "DXM21-Medical-003-2023-05-11-0940.txt",
+    "status": "skipped",
+    "date": "2026-09-15"
+  },
+  {
+    "file": "MDZ25-Medical-003-2023-07-14-1202.txt",
+    "status": "coded",
+    "date": "2026-09-15"
+  },
+  {
+    "file": "DXM15-Medical-003-2022-07-12-1209.txt",
+    "status": "coded",
+    "date": "2026-09-15"
+  },
+  {
+    "file": "DXM18-Medical-003-2022-11-29-1225.txt",
+    "status": "coded",
+    "date": "2026-09-15"
+  },
+  {
+    "file": "DXM19-Medical-003-2022-12-20-1418.txt",
+    "status": "coded",
+    "date": "2026-09-15"
+  },
+  {
+    "file": "MDZ11-Medical-001-2022-05-02-1442.txt",
+    "status": "skipped",
+    "date": "2026-09-15"
+  },
+  {
+    "file": "MDZ8-Medical-005-2022-03-16-0953.txt",
+    "status": "skipped",
+    "date": "2026-09-15"
   }
 ]
