@@ -632,8 +632,9 @@
   },
   {
     "file": "DXM18-Medical-002-2022-11-29-1223.txt",
-    "status": "seen",
-    "date": "2026-08-06"
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
   },
   {
     "file": "DXM9-Nursing-011-2022-02-18-1442.txt",
@@ -642,8 +643,9 @@
   },
   {
     "file": "DXM13-Medical-003-2022-06-18-1336.txt",
-    "status": "seen",
-    "date": "2026-08-06"
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
   },
   {
     "file": "DXM22-Nursing-006-2023-05-15-2001.txt",
@@ -2283,6 +2285,300 @@
   },
   {
     "file": "DXM21-Medical-005-2023-05-11-0955.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM4-Medical-003-2021-07-07-1529.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM9-Medical-010-2022-02-19-0920.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM10-Medical-003-2022-04-19-1344.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM10-Medical-005-2022-04-20-1504.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM10-Medical-006-2022-04-21-0944.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM10-Medical-007-2022-04-21-1134.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM11-Medical-001-2022-05-08-1051.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM11-Medical-002-2022-05-08-1254.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM11-Medical-003-2022-05-08-1257.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM14-Medical-001-2022-07-05-1055.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM9-Medical-003-2022-02-17-1014.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM9-Medical-008-2022-02-18-1207.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM10-Medical-004-2022-04-19-1418.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM11-Medical-007-2022-05-10-1747.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM12-Medical-012-2022-06-17-0959.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM12-Medical-015-2022-06-17-1633.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM13-Medical-002-2022-06-18-1119.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM13-Medical-004-2022-06-19-2142.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM14-Medical-005-2022-07-06-0300.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM14-Medical-006-2022-07-06-1044.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM14-Medical-007-2022-07-08-0856.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM14-Medical-008-2022-07-08-1026.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM15-Medical-005-2022-07-12-1805.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Medical-003-2022-11-04-1312.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Medical-006-2022-11-06-1105.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Medical-007-2022-11-06-1107.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM17-Medical-004-2022-11-30-0937.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM17-Medical-005-2022-11-30-0943.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Medical-002-2022-12-20-1053.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Medical-004-2022-12-21-0949.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Medical-005-2022-12-21-1006.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Medical-006-2022-12-22-1434.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Medical-007-2022-12-22-1556.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Medical-008-2022-12-22-1602.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Medical-002-2023-01-20-1339.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Medical-003-2023-01-21-1208.txt",
+    "status": "coded",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM14-Medical-003-2022-07-05-1418.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM14-Medical-004-2022-07-05-1621.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM15-Medical-001-2022-07-11-1038.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM15-Medical-002-2022-07-11-1218.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM15-Medical-004-2022-07-12-1411.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM17-Medical-002-2022-11-29-1342.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM17-Medical-006-2022-11-30-1612.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM17-Medical-008-2022-12-01-1213.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM18-Medical-004-2022-11-29-1341.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM18-Medical-006-2022-12-01-0831.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM18-Medical-007-2022-12-01-1158.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Medical-010-2022-12-23-0927.txt",
+    "status": "skipped",
+    "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Medical-004-2023-01-21-1217.txt",
     "status": "skipped",
     "date": "2026-10-01",
     "via": "screener"
