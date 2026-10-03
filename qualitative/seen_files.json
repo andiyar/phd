@@ -1224,13 +1224,15 @@
   },
   {
     "file": "MDZ13-Medical-003-2022-07-01-1007.txt",
-    "status": "seen",
-    "date": "2026-09-16"
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
   },
   {
     "file": "MDZ2-Medical-006-2021-05-25-1351.txt",
-    "status": "seen",
-    "date": "2026-09-16"
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
   },
   {
     "file": "DXM26-Medical-009-2023-10-25-1002.txt",
@@ -2581,6 +2583,594 @@
     "file": "DXM20-Medical-004-2023-01-21-1217.txt",
     "status": "skipped",
     "date": "2026-10-01",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ7-Medical-006-2021-09-15-1616.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ8-Medical-001-2022-03-15-1043.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ8-Medical-004-2022-03-16-0951.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ9-Medical-002-2022-03-29-0836.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ9-Medical-006-2022-03-29-1419.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ9-Medical-009-2022-03-30-1557.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ9-Medical-010-2022-03-30-1624.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ9-Medical-011-2022-03-31-0933.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ10-Medical-001-2022-04-18-0926.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ10-Medical-003-2022-04-19-1523.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ11-Medical-004-2022-05-03-1552.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ11-Medical-006-2022-05-04-1444.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ11-Medical-007-2022-05-05-1344.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ12-Medical-003-2022-06-16-1619.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ13-Medical-004-2022-07-01-1012.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ13-Medical-005-2022-07-01-1631.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ14-Medical-003-2022-07-18-1152.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ14-Medical-005-2022-07-20-0922.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ15-Medical-001-2022-07-21-0959.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ15-Medical-005-2022-07-22-1058.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ16-Medical-003-2022-08-06-1108.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ17-Medical-002-2022-09-05-0944.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ18-Medical-001-2022-10-13-1152.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ7-Medical-002-2021-09-14-1017.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ7-Medical-003-2021-09-14-1628.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ7-Medical-004-2021-09-14-1710.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ7-Medical-008-2021-09-16-1601.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ8-Medical-003-2022-03-16-0931.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ8-Medical-007-2022-03-16-1123.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ9-Medical-003-2022-03-29-1106.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ9-Medical-004-2022-03-29-1137.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ9-Medical-007-2022-03-29-1446.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ9-Medical-012-2022-03-31-1052.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ10-Medical-002-2022-04-19-1405.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ11-Medical-005-2022-05-03-1645.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ11-Medical-008-2022-05-05-1624.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ12-Medical-004-2022-06-16-1647.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ12-Medical-005-2022-06-17-0925.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ12-Medical-006-2022-06-17-1622.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ13-Medical-006-2022-07-03-1246.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ14-Medical-002-2022-07-18-1151.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ14-Medical-004-2022-07-19-1400.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ15-Medical-002-2022-07-21-1907.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ15-Medical-008-2022-07-22-1805.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ16-Medical-004-2022-08-07-0839.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ16-Medical-005-2022-08-07-1939.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ17-Medical-003-2022-09-05-2017.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ18-Medical-002-2022-10-14-1137.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ18-Medical-003-2022-10-14-1224.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Medical-005-2023-01-22-1110.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ2-Medical-003-2021-05-25-1222.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ2-Medical-004-2021-05-25-1329.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ2-Medical-009-2021-05-27-1335.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ2-Medical-010-2021-05-27-1340.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ3-Medical-005-2021-06-11-1203.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ3-Medical-006-2021-06-11-1328.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ3-Medical-007-2021-06-12-1246.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ4-Medical-001-2021-06-23-1108.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ4-Medical-003-2021-06-24-1012.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ5-Medical-002-2021-06-29-1321.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ5-Medical-005-2021-07-01-0843.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ6-Medical-004-2021-07-02-1028.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ6-Medical-005-2021-07-03-1054.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ6-Medical-006-2021-07-03-1618.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ6-Medical-007-2021-07-03-2105.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ6-Medical-008-2021-07-04-1035.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ18-Medical-005-2022-10-16-1217.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ19-Medical-001-2022-12-04-1220.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ20-Medical-002-2023-02-26-1031.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ20-Medical-003-2023-02-27-1111.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ21-Medical-003-2023-02-27-1130.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ21-Medical-005-2023-02-27-1611.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ22-Medical-002-2023-05-02-1018.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ23-Medical-002-2023-06-02-1206.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ24-Medical-002-2023-06-13-1043.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ25-Medical-004-2023-07-15-0919.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ25-Medical-005-2023-07-15-0924.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ25-Medical-006-2023-07-16-1017.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ26-Medical-003-2023-08-18-1312.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ26-Medical-004-2023-08-18-1315.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ26-Medical-005-2023-08-18-1334.txt",
+    "status": "coded",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Medical-004-2022-11-05-0939.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Medical-005-2022-11-06-0906.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "DXM26-Medical-008-2023-10-24-1457.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ1-Medical-004-2021-05-13-1252.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ1-Medical-005-2021-05-13-1402.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ2-Medical-002-2021-05-24-1350.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ2-Medical-005-2021-05-25-1350.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ3-Medical-002-2021-06-10-1248.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ3-Medical-004-2021-06-10-1352.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ5-Medical-004-2021-06-29-1607.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ6-Medical-002-2021-07-02-0842.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ18-Medical-006-2022-10-17-0955.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ19-Medical-002-2022-12-04-1931.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ19-Medical-004-2022-12-05-1431.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ21-Medical-006-2023-03-01-1421.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ24-Medical-001-2023-06-12-1952.txt",
+    "status": "skipped",
+    "date": "2026-10-03",
+    "via": "screener"
+  },
+  {
+    "file": "MDZ21-Medical-004-2023-02-27-1609.txt",
+    "status": "coded",
+    "date": "2026-10-03",
     "via": "screener"
   }
 ]
