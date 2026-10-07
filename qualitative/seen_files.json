@@ -627,8 +627,9 @@
   },
   {
     "file": "DXM21-Nursing-005-2023-05-10-2110.txt",
-    "status": "seen",
-    "date": "2026-08-06"
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
   },
   {
     "file": "DXM18-Medical-002-2022-11-29-1223.txt",
@@ -649,13 +650,15 @@
   },
   {
     "file": "DXM22-Nursing-006-2023-05-15-2001.txt",
-    "status": "seen",
-    "date": "2026-08-06"
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
   },
   {
     "file": "DXM22-Nursing-010-2023-05-17-0426.txt",
-    "status": "seen",
-    "date": "2026-08-06"
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
   },
   {
     "file": "MDZ17-Nursing-006-2022-09-05-2044.txt",
@@ -3603,6 +3606,648 @@
     "file": "DXM11-Nursing-029-2022-05-10-0937.txt",
     "status": "skipped",
     "date": "2026-10-06",
+    "via": "screener"
+  },
+  {
+    "file": "DXM12-Nursing-016-2022-06-17-1409.txt",
+    "status": "coded",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM13-Nursing-004-2022-06-17-1915.txt",
+    "status": "coded",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM14-Nursing-005-2022-07-05-2258.txt",
+    "status": "coded",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM14-Nursing-010-2022-07-06-1430.txt",
+    "status": "coded",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM14-Nursing-013-2022-07-08-0447.txt",
+    "status": "coded",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM15-Nursing-002-2022-07-10-1559.txt",
+    "status": "coded",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM15-Nursing-003-2022-07-10-1859.txt",
+    "status": "coded",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM15-Nursing-005-2022-07-11-1404.txt",
+    "status": "coded",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM15-Nursing-008-2022-07-12-1414.txt",
+    "status": "coded",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM15-Nursing-010-2022-07-13-0354.txt",
+    "status": "coded",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Nursing-011-2022-11-05-1234.txt",
+    "status": "coded",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Nursing-012-2022-11-05-1249.txt",
+    "status": "coded",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Nursing-015-2022-11-05-1756.txt",
+    "status": "coded",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Nursing-016-2022-11-05-1813.txt",
+    "status": "coded",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Nursing-018-2022-11-05-2037.txt",
+    "status": "coded",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Nursing-023-2022-11-06-1420.txt",
+    "status": "coded",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM11-Nursing-030-2022-05-10-1440.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM12-Nursing-014-2022-06-16-2027.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM12-Nursing-015-2022-06-17-0329.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM12-Nursing-017-2022-06-17-1541.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM13-Nursing-005-2022-06-18-0314.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM13-Nursing-006-2022-06-18-1257.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM13-Nursing-007-2022-06-18-1906.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM13-Nursing-008-2022-06-19-0320.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM13-Nursing-009-2022-06-19-0525.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM14-Nursing-003-2022-07-05-1406.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM14-Nursing-004-2022-07-05-1847.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM14-Nursing-006-2022-07-06-0013.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM14-Nursing-007-2022-07-06-0104.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM14-Nursing-008-2022-07-06-0229.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM14-Nursing-009-2022-07-06-0408.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM14-Nursing-011-2022-07-06-1816.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM14-Nursing-012-2022-07-07-0232.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM15-Nursing-004-2022-07-11-0220.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM15-Nursing-007-2022-07-12-0316.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Nursing-008-2022-11-04-1349.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Nursing-009-2022-11-04-2059.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Nursing-013-2022-11-05-1552.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Nursing-014-2022-11-05-1655.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Nursing-019-2022-11-06-0602.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Nursing-020-2022-11-06-0632.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Nursing-021-2022-11-06-0656.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Nursing-024-2022-11-06-1934.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM16-Nursing-025-2022-11-07-0133.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM17-Nursing-003-2022-11-29-1409.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM17-Nursing-004-2022-11-29-1918.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM17-Nursing-005-2022-11-30-0416.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM17-Nursing-006-2022-11-30-1200.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM17-Nursing-008-2022-11-30-1346.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM17-Nursing-009-2022-11-30-1830.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM17-Nursing-010-2022-11-30-1843.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM17-Nursing-011-2022-11-30-2050.txt",
+    "status": "skipped",
+    "date": "2026-10-07",
+    "via": "screener"
+  },
+  {
+    "file": "DXM15-Nursing-011-2022-07-13-0444.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM18-Nursing-003-2022-11-28-1816.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Nursing-006-2022-12-20-2106.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Nursing-007-2022-12-21-0128.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Nursing-011-2022-12-22-0416.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Nursing-012-2022-12-22-0508.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Nursing-015-2022-12-23-0014.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Nursing-016-2022-12-23-0320.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Nursing-003-2023-01-20-1343.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Nursing-006-2023-01-21-1136.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Nursing-008-2023-01-21-2038.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Nursing-011-2023-01-22-1119.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Nursing-012-2023-01-22-1333.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Nursing-013-2023-01-22-2046.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Nursing-016-2023-01-23-0631.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Nursing-018-2023-01-23-1155.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Nursing-019-2023-01-23-1621.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Nursing-020-2023-01-23-1915.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Nursing-021-2023-01-23-2059.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Nursing-022-2023-01-23-2110.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM21-Nursing-004-2023-05-10-1347.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM21-Nursing-010-2023-05-11-1420.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM23-Nursing-004-2023-05-17-1344.txt",
+    "status": "coded",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM17-Nursing-002-2022-11-29-1354.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM18-Nursing-002-2022-11-28-1417.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM18-Nursing-004-2022-11-29-0714.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM18-Nursing-005-2022-11-29-0912.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM18-Nursing-006-2022-11-29-1449.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM18-Nursing-007-2022-11-29-2100.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM18-Nursing-009-2022-11-30-1140.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM18-Nursing-013-2022-12-01-0615.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM18-Nursing-014-2022-12-01-0843.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Nursing-002-2022-12-20-0959.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Nursing-003-2022-12-20-1131.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Nursing-008-2022-12-21-0314.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Nursing-009-2022-12-21-1347.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Nursing-010-2022-12-21-2045.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Nursing-014-2022-12-22-2133.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM19-Nursing-017-2022-12-23-0926.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Nursing-002-2023-01-20-1309.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Nursing-004-2023-01-20-1810.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Nursing-005-2023-01-21-0203.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Nursing-007-2023-01-21-1752.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Nursing-014-2023-01-23-0333.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM20-Nursing-023-2023-01-24-0223.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM21-Nursing-003-2023-05-10-1318.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM21-Nursing-006-2023-05-11-0415.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM21-Nursing-007-2023-05-11-0447.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM21-Nursing-008-2023-05-11-0458.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM22-Nursing-008-2023-05-16-1429.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM22-Nursing-009-2023-05-16-1835.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM22-Nursing-011-2023-05-17-0625.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM22-Nursing-012-2023-05-17-0919.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM23-Nursing-005-2023-05-17-1800.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
+    "via": "screener"
+  },
+  {
+    "file": "DXM23-Nursing-009-2023-05-17-2017.txt",
+    "status": "skipped",
+    "date": "2026-10-08",
     "via": "screener"
   }
 ]
